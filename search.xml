@@ -12,11 +12,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2019%2F05%2F07%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[推荐算法]]></title>
     <url>%2F2018%2F12%2F05%2F%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%2F</url>
     <content type="text"><![CDATA[推荐算法 基于内容的推荐算法 根据物品或内容的元数据，发现商品或内容的相关性，然后根据用户之前的喜好记录，推荐相似的物品 如：用户X购买过商品A，而A和B是相似的（iphone和小米手机），就可以把B推荐给X 协同过滤基于物品的协同过滤(Item-based Collaborative Filtering)首先从数据库里获取所有用户对物品的评价，根据评价，计算物品的相似度。然后从剩下的物品中找到和他历史兴趣近似的物品推荐给他。核心是要计算两个物品的相似度。基于用户的协同过滤(Item-based Collaborative Filtering)，基于用户的协同过滤推荐算法先使用统计技术寻找与目标用户有相同喜好的邻居，然后根据目标用户的邻居的喜好产生向目标用户的推荐。基本原理就是利用用户访问行为的相似性来互相推荐用户可能感兴趣的资源，区别： 可以注意到,基于物品的协同过滤和基于内容的推荐，两者的相同点都是要计算两个物品的相似度，但不同点是前者是根据两个物品被越多的人同时喜欢，这两个物品就越相似，而后者要根据物品的内容相似度来做推荐，给物品内容建模的方法很多，最著名的是向量空间模型，要计算两个向量的相似度。由此可以看到两种方法的不同点在于计算两个物品的相似度方法不同，一个根据外界环境计算，一个根据内容计算。 综上： 基于内容的推荐，只考虑了对象的本身性质，将对象按标签形成集合，如果你消费集合中的一个则向你推荐集合中的其他对象； 基于协调过滤，充分利用集体智慧，即在大量的人群的行为和数据中收集答案，以帮助我们对整个人群得到统计意义上的结论，推荐的个性化程度高，基于以下两个出发点： (1)兴趣相近的用户可能会对同样的东西感兴趣； (2)用户可能较偏爱与其已购买的东西相类似的商品。 也就是说考虑进了用户的历史习惯，对象客观上不一定相似，但由于人的行为可以认为其主观上是相似的，就可以产生推荐了。]]></content>
@@ -30,12 +25,17 @@
   <entry>
     <title><![CDATA[first_blog]]></title>
     <url>%2F2018%2F12%2F03%2Ffirst-blog%2F</url>
-    <content type="text"><![CDATA[测试第一遍新建的blog]]></content>
+    <content type="text"><![CDATA[测试第一遍新建的blog mac blog 测试 –by hexo]]></content>
       <categories>
         <category>test</category>
       </categories>
       <tags>
         <tag>blog</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2018%2F12%2F03%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
   </entry>
 </search>
