@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #b34065;
+  background: #d0ff0d;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3251,9 +3251,9 @@ ul.breadcrumb li+li:last-child {
   }
 }
 @font-face {
-  font-family: Monaco;
+  font-family: GoodVibrationsROB;
 }
 .site-title {
-  font-size: 48px;
-  font-family: 'Monaco';
+  font-size: 42px;
+  font-family: 'GoodVibrationsROB';
 }
