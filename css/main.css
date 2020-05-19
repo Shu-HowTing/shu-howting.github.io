@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff0695;
+  background: #6a2022;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3254,6 +3254,6 @@ ul.breadcrumb li+li:last-child {
   font-family: SourceHanSerif-20d324da3921cb8;
 }
 .site-title {
-  font-size: 48px;
+  font-size: 40px;
   font-family: 'SourceHanSerif-20d324da3921cb8';
 }
