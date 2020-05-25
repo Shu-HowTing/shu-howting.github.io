@@ -506,8 +506,7 @@
 
 Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的
 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。
-Spark Streaming：对实时数据流进行处理和控制。Spark Streaming允许程序能够像普通RDD一样处理实时数据
-MLlib：一个常用机器学习算法库，算法被实现为对RDD的Spark操作。这个库包含可扩展的
+Spark Stream
           ...
           <!--noindex-->
           
@@ -692,7 +691,7 @@ MLlib：一个常用机器学习算法库，算法被实现为对RDD的Spark操�
 
 如：用户X购买过商品A，而A和B是相似的（iphone和小米手机），就可以把B推荐给X
 
-协同过滤基于物品的协同过滤(Item-based Collaborative Filtering)首先从数据库里获取所有用户对物品的评价，根据评价，计算物品的相似度。然后从剩下的物品中找到和他历史兴趣近似的物品推荐给他。核心是要计算两个物品的相似度。基于用户的协同过滤(Item-based Collaborative Filtering)，基于用户的协同过滤推荐算法先使用统计技术寻
+协同过滤基于物品的协同过滤(Item-based Collaborative Filtering)首先从数据库里获取所有用户对物品的评价，根据评价，计算物品的相似度。然后从剩下的物品中
           ...
           <!--noindex-->
           
