@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[mysql入门]]></title>
-    <url>%2F2020%2F05%2F25%2Fmysql%2F</url>
-    <content type="text"><![CDATA[数据库中的一些概念1.SQL和NoSQL（关系型和非关系型数据库）介绍 SQL(结构化的查询语言)数据库是过去四十年间存储数据的主要方式。20世纪90年代末随着Web应用和MySQL、PostgreSQL和SQLite等开源数据库的兴起，用户爆炸式的增长。 NoSQL数据库自从20世纪60年代就已经存在了，直到MongoDB, CouchDB, Redis 和 Apache Cassandra等数据库的流行才获取了更多的关注。 关于NoSQL的理解 可以理解为的Not only SQL 也可以理解为non SQL 1.SQL数据库提供关系型的表来存储数据。例如，如果你在维护一个在线的书店，书籍信息应该存放到book的表中： ISBN title author format price 9780992461225 JavaScript: Novice to Ninja Darren Jones ebook 29.00 9780994182654 Jump Start Git Shaumik Daityari ebook 29.00 1每一行是一本不同书籍的一个记录。这样的设计有些死板，你不能使用同一张表来存储不同结构的信息或者在规定插入数字的位置插入字符串. NoSQL数据库采用类JOSN的键值对来存储文档，例如：1234567&#123; ISBN: 9780992461225, title: "JavaScript: Novice to Ninja", author: "Darren Jones", format: "ebook", price: 29.00&#125; 同一类型的文档存储为一个$集合（collection）$，类似于关系型数据库中的表结构。然而，你可以在任意的文档中存储任意的数据，NoSQL数据库不会去进行比较。例如：1234567891011121314&#123; ISBN: 9780992461225, title: &quot;JavaScript: Novice to Ninja&quot;, author: &quot;Darren Jones&quot;, year: 2014, format: &quot;ebook&quot;, price: 29.00, description: &quot;Learn JavaScript from scratch!&quot;, rating: &quot;5/5&quot;, review: [ &#123; name: &quot;A Reader&quot;, text: &quot;The best JavaScript book I&apos;ve ever read.&quot; &#125;, &#123; name: &quot;JS Expert&quot;, text: &quot;Recommended to novice and expert developers alike.&quot; &#125; ]&#125; NoSQL的集合对应sql的表，文档对应sql中的一条数据记录 SQL VS NoSQL 总结 SQL和NoSQL数据库只是用不同的方式来完成相同的事情。我们可能会先选择其中之一然后更换到另一个上，但是在选择之前制定一个计划将会节约许多的时间和金钱。 适合使用SQL开发的项目： 可以预先定义逻辑相关的离散数据的需求 数据一致性是必要的 具有良好的开发者经验和技术支持的标准的成熟技术 适合使用NoSQL开发的项目： 不相关，不确定和逐步发展的数据需求 更简单或者更宽松的能够快速开始编程的项目 速度和可扩展性至关重要的 非关系型数据库的优势 性能NOSQL是基于键值对的，可以想象成表中的主键和值的对应关系，而且不需要经过SQL层的解析，所以性能非常高。 可扩展性同样也是因为基于键值对，数据之间没有耦合性，所以非常容易水平扩展。 关系型数据库的优势： 复杂查询可以用SQL语句方便的在一个表以及多个表之间做非常复杂的数据查询。 事务支持使得对于安全性能很高的数据访问要求得以实现。对于这两类数据库，对方的优势就是自己的弱势，反之亦然。 2.行式存储VS列式存储 首先，行式数据库顾名思义，存储格式是按照‘行’的方式把一行各个字段的数据存在一起，一行一行连续存储的。这样的话，对把一条数据的信息写到数据库中；或者对一条数据中的某些字段进行修改；或者删除整条数据一类的OLTP操作来说既直观也高效。但是，在行式数据库上做一些报表、分析的时候，大家又发现这种存储格式使用效率不高，因为大部分统计分析场景，例如：统计各省份的销售额和利润同比变化；按照部门统计业绩完成情况等等，都是在其中某些字段上的操作，行式数据库不分情况一律按照页面读取数据的方式，在只分析销售额和利润的时候，把每一份合同的其他信息，如客户名称，签约时间，客户经理等等也统统都读了进来，浪费了大量宝贵的I/O。 行式存储 列式数据库的思路原理并不复杂，把行式数据全部拆开，按照列的方式重新组合存储，一列的所有行的数据存放在一起；按照列内数据的特征值（通常像时间、部门代码、销售地区等维度字段的特征值并不多，几个到几百个很常见）进行高效编码，并且在实际存储中以编码形式存储，这样就带来了大比例的压缩。 带来的好处是：原来只分析销售额的查询就只访问销售额字段，即使是所有历史时期的数据，也不存在读多余的无关数据的问题。列式存储 对比 3. OLTP和OLAPOLTP:联机事务处理(On-Line transaction Processing) OLAP:联机分析处理(On-Line Analytical Processing) （1）OLTP是传统的关系型数据库的主要应用，主要是基本的、日常的事务处理，例如银行交易。OLTP系统强调数据库的内存效率，强调内存各种指标的命令率，强调绑定变量，强调并发操作。 （2）OLAP是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并支持提供直观易懂的查询结果，OLAP强调的数据分析，强调SQL执行市场，强调磁盘I/O,强调分区等 最常见的数据库，如MySql、Oracle等，都采用行式存储，比较适合OLTP。 OLAP适合用列式存储]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[RDD入门]]></title>
     <url>%2F2019%2F08%2F29%2Fspark%E5%85%A5%E9%97%A8%2F</url>
     <content type="text"><![CDATA[生态： Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。 Spark Streaming：对实时数据流进行处理和控制。Spark Streaming允许程序能够像普通RDD一样处理实时数据 MLlib：一个常用机器学习算法库，算法被实现为对RDD的Spark操作。这个库包含可扩展的学习算法，比如分类、回归等需要对大量数据集进行迭代的操作。 GraphX：控制图、并行图操作和计算的一组算法和工具的集合。GraphX扩展了RDD API，包含控制图、创建子图、访问路径上所有顶点的操作 架构： Cluster Manager：在standalone模式中即为Master主节点，控制整个集群，监控worker。在YARN模式中为资源管理器 Worker节点：从节点，负责控制计算节点，启动Executor或者Driver。 Driver： 运行Application 的main()函数 Executor：执行器，是为某个Application运行在worker node上的一个进程 术语： Application: Appliction都是指用户编写的Spark应用程序，其中包括一个Driver功能的代码和分布在集群中多个节点上运行的Executor代码 Driver: Spark中的Driver即运行上述Application的main函数并创建SparkContext，创建SparkContext的目的是为了准备Spark应用程序的运行环境，在Spark中有SparkContext负责与ClusterManager通信，进行资源申请、任务的分配和监控等，当Executor部分运行完毕后，Driver同时负责将SparkContext关闭，通常用SparkContext代表Driver Executor: 某个Application运行在worker节点上的一个进程， 该进程负责运行某些Task， 并且负责将数据存到内存或磁盘上，每个Application都有各自独立的一批Executor， 在Spark on Yarn模式下，其进程名称为CoarseGrainedExecutor Backend。一个CoarseGrainedExecutor Backend有且仅有一个Executor对象， 负责将Task包装成taskRunner,并从线程池中抽取一个空闲线程运行Task， 这个每一个oarseGrainedExecutor Backend能并行运行Task的数量取决与分配给它的cpu个数 Cluter Manager：指的是在集群上获取资源的外部服务。目前有三种类型 Standalon : spark原生的资源管理，由Master负责资源的分配 Apache Mesos:与hadoop MR兼容性良好的一种资源调度框架 Hadoop Yarn: 主要是指Yarn中的ResourceManager Worker: 集群中任何可以运行Application代码的节点，在Standalone模式中指的是通过slave文件配置的Worker节点，在Spark on Yarn模式下就是NoteManager节点 Task: 被送到某个Executor上的工作单元，但hadoopMR中的MapTask和ReduceTask概念一样，是运行Application的基本单位，多个Task组成一个Stage，而Task的调度和管理等是由TaskScheduler负责 Job: 包含多个Task组成的并行计算，往往由Spark Action触发生成， 一个Application中往往会产生多个Job Stage: 每个Job会被拆分成多组Task， 作为一个TaskSet， 其名称为Stage，Stage的划分和调度是有DAGScheduler来负责的，Stage有非最终的Stage（Shuffle Map Stage）和最终的Stage（Result Stage）两种，Stage的边界就是发生shuffle的地方]]></content>
@@ -33,21 +21,5 @@
       <tags>
         <tag>推荐算法</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[first_blog]]></title>
-    <url>%2F2018%2F12%2F03%2Ffirst-blog%2F</url>
-    <content type="text"><![CDATA[测试第一遍新建的blog mac blog 测试 –by hexo 哈哈我成功了测试]]></content>
-      <categories>
-        <category>test</category>
-      </categories>
-      <tags>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2018%2F12%2F03%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
   </entry>
 </search>
