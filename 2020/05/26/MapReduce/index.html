@@ -115,19 +115,19 @@
 
 
 
-  <meta name="description" content="Hadoop简介Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： 1.什么是Map/Reduce">
+  <meta name="description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce介绍">
 <meta property="og:url" content="shu-howting.github.io/2020/05/26/MapReduce/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Hadoop简介Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： 1.什么是Map/Reduce">
+<meta property="og:description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
-<meta property="og:updated_time" content="2020-05-26T04:49:14.974Z">
+<meta property="og:updated_time" content="2020-05-26T04:54:57.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce介绍">
-<meta name="twitter:description" content="Hadoop简介Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： 1.什么是Map/Reduce">
+<meta name="twitter:description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
 <meta name="twitter:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
 
 
@@ -433,7 +433,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：12:49:14" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：12:54:57" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
             
 
             
@@ -506,36 +506,19 @@
       
 
       
-        <h3 id="Hadoop简介"><a href="#Hadoop简介" class="headerlink" title="Hadoop简介"></a>Hadoop简介</h3><h5 id="Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map-Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等"><a href="#Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map-Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等" class="headerlink" title="Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等."></a>Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</h5><p>这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop：</p>
-<h4 id="1-什么是Map-Reduce，看下面的各种解释："><a href="#1-什么是Map-Reduce，看下面的各种解释：" class="headerlink" title="1.什么是Map/Reduce，看下面的各种解释："></a>1.什么是Map/Reduce，看下面的各种解释：</h4><ol>
+        <h3 id="Hadoop简介"><a href="#Hadoop简介" class="headerlink" title="Hadoop简介"></a>Hadoop简介</h3><blockquote>
+<p> Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</p>
+</blockquote>
+<p><strong>这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop：</strong></p>
+<h4 id="Map-Reduce："><a href="#Map-Reduce：" class="headerlink" title="Map/Reduce："></a>Map/Reduce：</h4><ol>
 <li><p>MapReduce是hadoop的核心组件之一，hadoop要分布式包括两部分，一是分布式文件系统hdfs,一部是分布式计算框架，就是mapreduce,缺一不可，也就是说，可以通过mapreduce很容易在hadoop平台上进行分布式的计算编程。</p>
 </li>
 <li><p>Mapreduce是一种编程模型，是一种编程方法，抽象理论。</p>
 </li>
 <li><p>下面是一个关于一个程序员是如何个妻子讲解什么是MapReduce？文章很长请耐心的看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">我问妻子：“你真的想要弄懂什么是MapReduce？” 她很坚定的回答说“是的”。 因此我问道：</span><br><span class="line"></span><br><span class="line">我： 你是如何准备洋葱辣椒酱的？（以下并非准确食谱，请勿在家尝试）</span><br><span class="line"></span><br><span class="line">妻子： 我会取一个洋葱，把它切碎，然后拌入盐和水，最后放进混合研磨机里研磨。这样就能得到洋葱辣椒酱了。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">妻子： 但这和MapReduce有什么关系？</span><br><span class="line"></span><br><span class="line">我： 你等一下。让我来编一个完整的情节，这样你肯定可以在15分钟内弄懂MapReduce.</span><br><span class="line"></span><br><span class="line">妻子： 好吧。</span><br><span class="line"></span><br><span class="line">我：现在，假设你想用薄荷、洋葱、番茄、辣椒、大蒜弄一瓶混合辣椒酱。你会怎么做呢？</span><br><span class="line"></span><br><span class="line">妻子： 我会取薄荷叶一撮，洋葱一个，番茄一个，辣椒一根，大蒜一根，切碎后加入适量的盐和水，再放入混合研磨机里研磨，这样你就可以得到一瓶混合辣椒酱了。</span><br><span class="line"></span><br><span class="line">我： 没错，让我们把MapReduce的概念应用到食谱上。Map和Reduce其实是两种操作，我来给你详细讲解下。</span><br><span class="line">Map（映射）: 把洋葱、番茄、辣椒和大蒜切碎，是各自作用在这些物体上的一个Map操作。所以你给Map一个洋葱，Map就会把洋葱切碎。 同样的，你把辣椒，大蒜和番茄一一地拿给Map，你也会得到各种碎块。 所以，当你在切像洋葱这样的蔬菜时，你执行就是一个Map操作。 Map操作适用于每一种蔬菜，它会相应地生产出一种或多种碎块，在我们的例子中生产的是蔬菜块。在Map操作中可能会出现有个洋葱坏掉了的情况，你只要把坏洋葱丢了就行了。所以，如果出现坏洋葱了，Map操作就会过滤掉坏洋葱而不会生产出任何的坏洋葱块。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Reduce（化简）:在这一阶段，你将各种蔬菜碎都放入研磨机里进行研磨，你就可以得到一瓶辣椒酱了。这意味要制成一瓶辣椒酱，你得研磨所有的原料。因此，研磨机通常将map操作的蔬菜碎聚集在了一起。</span><br><span class="line"></span><br><span class="line">妻子： 所以，这就是MapReduce?</span><br><span class="line"></span><br><span class="line">我： 你可以说是，也可以说不是。 其实这只是MapReduce的一部分，MapReduce的强大在于分布式计算。</span><br><span class="line"></span><br><span class="line">妻子： 分布式计算？ 那是什么？请给我解释下吧。</span><br><span class="line"></span><br><span class="line">我： 没问题。</span><br><span class="line"></span><br><span class="line">我： 假设你参加了一个辣椒酱比赛并且你的食谱赢得了最佳辣椒酱奖。得奖之后，辣椒酱食谱大受欢迎，于是你想要开始出售自制品牌的辣椒酱。假设你每天需要生产10000瓶辣椒酱，你会怎么办呢？</span><br><span class="line"></span><br><span class="line">妻子： 我会找一个能为我大量提供原料的供应商。</span><br><span class="line"></span><br><span class="line">我：是的..就是那样的。那你能否独自完成制作呢？也就是说，独自将原料都切碎？ 仅仅一部研磨机又是否能满足需要？而且现在，我们还需要供应不同种类的辣椒酱，像洋葱辣椒酱、青椒辣椒酱、番茄辣椒酱等等。</span><br><span class="line"></span><br><span class="line">妻子： 当然不能了，我会雇佣更多的工人来切蔬菜。我还需要更多的研磨机，这样我就可以更快地生产辣椒酱了。</span><br><span class="line"></span><br><span class="line">我：没错，所以现在你就不得不分配工作了，你将需要几个人一起切蔬菜。每个人都要处理满满一袋的蔬菜，而每一个人都相当于在执行一个简单的Map操作。每一个人都将不断的从袋子里拿出蔬菜来，并且每次只对一种蔬菜进行处理，也就是将它们切碎，直到袋子空了为止。</span><br><span class="line">这样，当所有的工人都切完以后，工作台（每个人工作的地方）上就有了洋葱块、番茄块、和蒜蓉等等。</span><br><span class="line"></span><br><span class="line">妻子：但是我怎么会制造出不同种类的番茄酱呢？</span><br><span class="line"></span><br><span class="line">我：现在你会看到MapReduce遗漏的阶段—搅拌阶段。MapReduce将所有输出的蔬菜碎都搅拌在了一起，这些蔬菜碎都是在以key为基础的 map操作下产生的。搅拌将自动完成，你可以假设key是一种原料的名字，就像洋葱一样。 所以全部的洋葱keys都会搅拌在一起，并转移到研磨洋葱的研磨器里。这样，你就能得到洋葱辣椒酱了。同样地，所有的番茄也会被转移到标记着番茄的研磨器里，并制造出番茄辣椒酱。</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>我问妻子：“你真的想要弄懂什么是MapReduce？” 她很坚定的回答说“是的”。 因此我问道：</p>
-<p>我： 你是如何准备洋葱辣椒酱的？（以下并非准确食谱，请勿在家尝试）</p>
-<p>妻子： 我会取一个洋葱，把它切碎，然后拌入盐和水，最后放进混合研磨机里研磨。这样就能得到洋葱辣椒酱了。</p>
-<p>妻子： 但这和MapReduce有什么关系？</p>
-<p>我： 你等一下。让我来编一个完整的情节，这样你肯定可以在15分钟内弄懂MapReduce.</p>
-<p>妻子： 好吧。</p>
-<p>我：现在，假设你想用薄荷、洋葱、番茄、辣椒、大蒜弄一瓶混合辣椒酱。你会怎么做呢？</p>
-<p>妻子： 我会取薄荷叶一撮，洋葱一个，番茄一个，辣椒一根，大蒜一根，切碎后加入适量的盐和水，再放入混合研磨机里研磨，这样你就可以得到一瓶混合辣椒酱了。</p>
-<p>我： 没错，让我们把MapReduce的概念应用到食谱上。Map和Reduce其实是两种操作，我来给你详细讲解下。<br>Map（映射）: 把洋葱、番茄、辣椒和大蒜切碎，是各自作用在这些物体上的一个Map操作。所以你给Map一个洋葱，Map就会把洋葱切碎。 同样的，你把辣椒，大蒜和番茄一一地拿给Map，你也会得到各种碎块。 所以，当你在切像洋葱这样的蔬菜时，你执行就是一个Map操作。 Map操作适用于每一种蔬菜，它会相应地生产出一种或多种碎块，在我们的例子中生产的是蔬菜块。在Map操作中可能会出现有个洋葱坏掉了的情况，你只要把坏洋葱丢了就行了。所以，如果出现坏洋葱了，Map操作就会过滤掉坏洋葱而不会生产出任何的坏洋葱块。</p>
-<p>Reduce（化简）:在这一阶段，你将各种蔬菜碎都放入研磨机里进行研磨，你就可以得到一瓶辣椒酱了。这意味要制成一瓶辣椒酱，你得研磨所有的原料。因此，研磨机通常将map操作的蔬菜碎聚集在了一起。</p>
-<p>妻子： 所以，这就是MapReduce?</p>
-<p>我： 你可以说是，也可以说不是。 其实这只是MapReduce的一部分，MapReduce的强大在于分布式计算。</p>
-<p>妻子： 分布式计算？ 那是什么？请给我解释下吧。</p>
-<p>我： 没问题。</p>
-<p>我： 假设你参加了一个辣椒酱比赛并且你的食谱赢得了最佳辣椒酱奖。得奖之后，辣椒酱食谱大受欢迎，于是你想要开始出售自制品牌的辣椒酱。假设你每天需要生产10000瓶辣椒酱，你会怎么办呢？</p>
-<p>妻子： 我会找一个能为我大量提供原料的供应商。</p>
-<p>我：是的..就是那样的。那你能否独自完成制作呢？也就是说，独自将原料都切碎？ 仅仅一部研磨机又是否能满足需要？而且现在，我们还需要供应不同种类的辣椒酱，像洋葱辣椒酱、青椒辣椒酱、番茄辣椒酱等等。</p>
-<p>妻子： 当然不能了，我会雇佣更多的工人来切蔬菜。我还需要更多的研磨机，这样我就可以更快地生产辣椒酱了。</p>
-<p>我：没错，所以现在你就不得不分配工作了，你将需要几个人一起切蔬菜。每个人都要处理满满一袋的蔬菜，而每一个人都相当于在执行一个简单的Map操作。每一个人都将不断的从袋子里拿出蔬菜来，并且每次只对一种蔬菜进行处理，也就是将它们切碎，直到袋子空了为止。<br>这样，当所有的工人都切完以后，工作台（每个人工作的地方）上就有了洋葱块、番茄块、和蒜蓉等等。</p>
-<p>妻子：但是我怎么会制造出不同种类的番茄酱呢？</p>
-<p>我：现在你会看到MapReduce遗漏的阶段—搅拌阶段。MapReduce将所有输出的蔬菜碎都搅拌在了一起，这些蔬菜碎都是在以key为基础的 map操作下产生的。搅拌将自动完成，你可以假设key是一种原料的名字，就像洋葱一样。 所以全部的洋葱keys都会搅拌在一起，并转移到研磨洋葱的研磨器里。这样，你就能得到洋葱辣椒酱了。同样地，所有的番茄也会被转移到标记着番茄的研磨器里，并制造出番茄辣椒酱。</p>
 <blockquote>
 <p>上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</p>
 </blockquote>
@@ -545,21 +528,23 @@
 <h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><blockquote>
 <p>我可以写一个小程序，把所有论文按顺序遍历一遍，统计每一个遇到的单词的出现次数，最后就可以知道哪几个单词最热门了。 这种方法在数据集比较小时，是非常有效的，而且实现最简单，用来解决这个问题很合适。 </p>
 </blockquote>
-<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><blockquote>
-<p>  写一个多线程程序，并发遍历论文。<br>　　这个问题理论上是可以高度并发的，因为统计一个文件时不会影响统计另一个文件。当我们的机器是多核或者多处理器，方法二肯定比方法一高效。但是写一个多线程程序要比方法一困难多了，我们必须自己同步共享数据，比如要防止两个线程重复统计文件。 </p>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p><strong>写一个多线程程序，并发遍历论文.</strong></p>
+<blockquote>
+<p>这个问题理论上是可以高度并发的，因为统计一个文件时不会影响统计另一个文件。当我们的机器是多核或者多处理器，方法二肯定比方法一高效。但是写一个多线程程序要比方法一困难多了，我们必须自己同步共享数据，比如要防止两个线程重复统计文件。 </p>
 </blockquote>
-<h5 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h5><blockquote>
+<h4 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h4><blockquote>
 <p>把作业交给多个计算机去完成。<br>我们可以使用方法一的程序，部署到N台机器上去，然后把论文集分成N份，一台机器跑一个作业。这个方法跑<br>得足够快，但是部署起来很麻烦，我们要人工把程序copy到别的机器，要人工把论文集分开，最痛苦的是还要<br>把N个运行结果进行整合（当然我们也可以再写一个程序）。 </p>
 </blockquote>
-<h5 id="方法四："><a href="#方法四：" class="headerlink" title="方法四："></a>方法四：</h5><blockquote>
+<h4 id="方法四："><a href="#方法四：" class="headerlink" title="方法四："></a>方法四：</h4><blockquote>
 <p>让MapReduce来帮帮我们吧！ </p>
 </blockquote>
 <blockquote>
 <p>MapReduce本质上就是方法三，但是如何拆分文件集，如何copy程序，如何整合结果这些都是框架定义好的<br>。我们只要定义好这个任务（用户程序），其它都交给MapReduce。</p>
 </blockquote>
-<h5 id="map函数和reduce函数"><a href="#map函数和reduce函数" class="headerlink" title="map函数和reduce函数　　"></a>map函数和reduce函数　　</h5><h6 id="map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"><a href="#map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。" class="headerlink" title="map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"></a>map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。</h6><h6 id="reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"><a href="#reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。" class="headerlink" title="reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"></a>reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</h6><ul>
-<li>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br>，就产生一个中间键值对&lt;w, 1&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</li>
-</ul>
+<h4 id="map函数和reduce函数"><a href="#map函数和reduce函数" class="headerlink" title="map函数和reduce函数　"></a>map函数和reduce函数　</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。 </span><br><span class="line"></span><br><span class="line">reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br> ，就产生一个中间键值对&lt;w, 1&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</p>
+</blockquote>
 <h4 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png" alt=""></p>
 <p>图1展示了我们的实现中MapReduce操作的整体流程。当用户程序调用MapReduce函数时，会发生下面一系列动作（图1中的标号与下面列表顺序相同）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1. 用户程序中的MapReduce库首先将输入文件切分为M块，每块的大小从16MB到64MB（用户可通过一个可选参数控制此大小）。然后MapReduce库会在</span><br><span class="line">一个集群的若干台机器上启动程序的多个副本。</span><br><span class="line"></span><br><span class="line">2. 程序的各个副本中有一个是特殊的——主节点，其它的则是工作节点。主节点将M个map任务和R个reduce任务分配给空闲的工作节点，每个节点一</span><br><span class="line">项任务。</span><br><span class="line"></span><br><span class="line">3. 被分配map任务的工作节点读取对应的输入区块内容。它从输入数据中解析出key/value对，然后将每个对传递给用户定义的map函数。由map函数</span><br><span class="line">产生的中间key/value对都缓存在内存中。</span><br><span class="line"></span><br><span class="line">4. 缓存的数据对会被周期性的由划分函数分成R块，并写入本地磁盘中。这些缓存对在本地磁盘中的位置会被传回给主节点，主节点负责将这些位置</span><br><span class="line">再传给reduce工作节点。</span><br><span class="line"></span><br><span class="line">5. 当一个reduce工作节点得到了主节点的这些位置通知后，它使用RPC调用去读map工作节点的本地磁盘中的缓存数据。当reduce工作节点读取完了</span><br><span class="line">所有的中间数据，它会将这些数据按中间key排序，这样相同key的数据就被排列在一起了。同一个reduce任务经常会分到有着不同key的数据，因此</span><br><span class="line">这个排序很有必要。如果中间数据数量过多，不能全部载入内存，则会使用外部排序。</span><br><span class="line"></span><br><span class="line">6. reduce工作节点遍历排序好的中间数据，并将遇到的每个中间key和与它关联的一组中间value传递给用户的reduce函数。reduce函数的输出会</span><br><span class="line">写到由reduce划分过程划分出来的最终输出文件的末尾。</span><br><span class="line"></span><br><span class="line">7. 当所有的map和reduce任务都完成后，主节点唤醒用户程序。此时，用户程序中的MapReduce调用返回到用户代码中。</span><br></pre></td></tr></table></figure>
@@ -825,7 +810,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop简介"><span class="nav-number">1.</span> <span class="nav-text">Hadoop简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map-Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等"><span class="nav-number">1.0.1.</span> <span class="nav-text">Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是Map-Reduce，看下面的各种解释："><span class="nav-number">1.1.</span> <span class="nav-text">1.什么是Map/Reduce，看下面的各种解释：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一："><span class="nav-number">1.2.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二："><span class="nav-number">1.3.</span> <span class="nav-text">方法二：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方法三："><span class="nav-number">1.3.1.</span> <span class="nav-text">方法三：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法四："><span class="nav-number">1.3.2.</span> <span class="nav-text">方法四：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#map函数和reduce函数"><span class="nav-number">1.3.3.</span> <span class="nav-text">map函数和reduce函数　　</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行过程"><span class="nav-number">1.4.</span> <span class="nav-text">执行过程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop简介"><span class="nav-number">1.</span> <span class="nav-text">Hadoop简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Map-Reduce："><span class="nav-number">1.1.</span> <span class="nav-text">Map/Reduce：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一："><span class="nav-number">1.2.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二："><span class="nav-number">1.3.</span> <span class="nav-text">方法二：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法三："><span class="nav-number">1.4.</span> <span class="nav-text">方法三：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法四："><span class="nav-number">1.5.</span> <span class="nav-text">方法四：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#map函数和reduce函数"><span class="nav-number">1.6.</span> <span class="nav-text">map函数和reduce函数　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行过程"><span class="nav-number">1.7.</span> <span class="nav-text">执行过程</span></a></li></ol></li></ol></div>
             
 
           </div>
