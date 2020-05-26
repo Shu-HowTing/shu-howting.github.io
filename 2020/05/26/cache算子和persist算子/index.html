@@ -115,27 +115,25 @@
 
 
 
-  <meta name="description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
+  <meta name="description" content="Spark中cache和persist的作用Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MapReduce介绍">
-<meta property="og:url" content="shu-howting.github.io/2020/05/26/MapReduce/index.html">
+<meta property="og:title" content="cache和persist比较">
+<meta property="og:url" content="shu-howting.github.io/2020/05/26/cache算子和persist算子/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
+<meta property="og:description" content="Spark中cache和persist的作用Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
-<meta property="og:updated_time" content="2020-05-26T04:56:42.023Z">
+<meta property="og:updated_time" content="2020-05-26T05:03:41.375Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MapReduce介绍">
-<meta name="twitter:description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
-<meta name="twitter:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
+<meta name="twitter:title" content="cache和persist比较">
+<meta name="twitter:description" content="Spark中cache和persist的作用Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行">
 
 
 
 
 
 
-  <link rel="canonical" href="shu-howting.github.io/2020/05/26/MapReduce/">
+  <link rel="canonical" href="shu-howting.github.io/2020/05/26/cache算子和persist算子/">
 
 
 
@@ -145,7 +143,7 @@
   };
 </script>
 
-  <title>MapReduce介绍 | Infinity</title>
+  <title>cache和persist比较 | Infinity</title>
   
 
 
@@ -391,7 +389,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2020/05/26/MapReduce/">
+    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2020/05/26/cache算子和persist算子/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="White">
@@ -408,7 +406,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MapReduce介绍
+          <h1 class="post-title" itemprop="name headline">cache和persist比较
               
             
           </h1>
@@ -433,7 +431,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：12:56:42" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:58:13 / 修改时间：13:03:41" itemprop="dateCreated datePublished" datetime="2020-05-26T12:58:13+08:00">2020-05-26</time>
             
 
             
@@ -470,8 +468,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/05/26/MapReduce/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/05/26/MapReduce/" itemprop="commentCount"></span>
+                <a href="/2020/05/26/cache算子和persist算子/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/05/26/cache算子和persist算子/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -506,49 +504,47 @@
       
 
       
-        <h3 id="Hadoop简介"><a href="#Hadoop简介" class="headerlink" title="Hadoop简介"></a>Hadoop简介</h3><blockquote>
-<p> Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</p>
-</blockquote>
-<p><strong>这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop：</strong></p>
-<h4 id="Map-Reduce："><a href="#Map-Reduce：" class="headerlink" title="Map/Reduce："></a>Map/Reduce：</h4><ol>
-<li><p>MapReduce是hadoop的核心组件之一，hadoop要分布式包括两部分，一是分布式文件系统hdfs,一部是分布式计算框架，就是mapreduce,缺一不可，也就是说，可以通过mapreduce很容易在hadoop平台上进行分布式的计算编程。</p>
-</li>
-<li><p>Mapreduce是一种编程模型，是一种编程方法，抽象理论。</p>
-</li>
-<li><p>下面是一个关于一个程序员是如何个妻子讲解什么是MapReduce？文章很长请耐心的看。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">我问妻子：“你真的想要弄懂什么是MapReduce？” 她很坚定的回答说“是的”。 因此我问道：</span><br><span class="line"></span><br><span class="line">我： 你是如何准备洋葱辣椒酱的？（以下并非准确食谱，请勿在家尝试）</span><br><span class="line"></span><br><span class="line">妻子： 我会取一个洋葱，把它切碎，然后拌入盐和水，最后放进混合研磨机里研磨。这样就能得到洋葱辣椒酱了。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">妻子： 但这和MapReduce有什么关系？</span><br><span class="line"></span><br><span class="line">我： 你等一下。让我来编一个完整的情节，这样你肯定可以在15分钟内弄懂MapReduce.</span><br><span class="line"></span><br><span class="line">妻子： 好吧。</span><br><span class="line"></span><br><span class="line">我：现在，假设你想用薄荷、洋葱、番茄、辣椒、大蒜弄一瓶混合辣椒酱。你会怎么做呢？</span><br><span class="line"></span><br><span class="line">妻子： 我会取薄荷叶一撮，洋葱一个，番茄一个，辣椒一根，大蒜一根，切碎后加入适量的盐和水，再放入混合研磨机里研磨，这样你就可以得到一瓶混合辣椒酱了。</span><br><span class="line"></span><br><span class="line">我： 没错，让我们把MapReduce的概念应用到食谱上。Map和Reduce其实是两种操作，我来给你详细讲解下。</span><br><span class="line">Map（映射）: 把洋葱、番茄、辣椒和大蒜切碎，是各自作用在这些物体上的一个Map操作。所以你给Map一个洋葱，Map就会把洋葱切碎。 同样的，你把辣椒，大蒜和番茄一一地拿给Map，你也会得到各种碎块。 所以，当你在切像洋葱这样的蔬菜时，你执行就是一个Map操作。 Map操作适用于每一种蔬菜，它会相应地生产出一种或多种碎块，在我们的例子中生产的是蔬菜块。在Map操作中可能会出现有个洋葱坏掉了的情况，你只要把坏洋葱丢了就行了。所以，如果出现坏洋葱了，Map操作就会过滤掉坏洋葱而不会生产出任何的坏洋葱块。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Reduce（化简）:在这一阶段，你将各种蔬菜碎都放入研磨机里进行研磨，你就可以得到一瓶辣椒酱了。这意味要制成一瓶辣椒酱，你得研磨所有的原料。因此，研磨机通常将map操作的蔬菜碎聚集在了一起。</span><br><span class="line"></span><br><span class="line">妻子： 所以，这就是MapReduce?</span><br><span class="line"></span><br><span class="line">我： 你可以说是，也可以说不是。 其实这只是MapReduce的一部分，MapReduce的强大在于分布式计算。</span><br><span class="line"></span><br><span class="line">妻子： 分布式计算？ 那是什么？请给我解释下吧。</span><br><span class="line"></span><br><span class="line">我： 没问题。</span><br><span class="line"></span><br><span class="line">我： 假设你参加了一个辣椒酱比赛并且你的食谱赢得了最佳辣椒酱奖。得奖之后，辣椒酱食谱大受欢迎，于是你想要开始出售自制品牌的辣椒酱。假设你每天需要生产10000瓶辣椒酱，你会怎么办呢？</span><br><span class="line"></span><br><span class="line">妻子： 我会找一个能为我大量提供原料的供应商。</span><br><span class="line"></span><br><span class="line">我：是的..就是那样的。那你能否独自完成制作呢？也就是说，独自将原料都切碎？ 仅仅一部研磨机又是否能满足需要？而且现在，我们还需要供应不同种类的辣椒酱，像洋葱辣椒酱、青椒辣椒酱、番茄辣椒酱等等。</span><br><span class="line"></span><br><span class="line">妻子： 当然不能了，我会雇佣更多的工人来切蔬菜。我还需要更多的研磨机，这样我就可以更快地生产辣椒酱了。</span><br><span class="line"></span><br><span class="line">我：没错，所以现在你就不得不分配工作了，你将需要几个人一起切蔬菜。每个人都要处理满满一袋的蔬菜，而每一个人都相当于在执行一个简单的Map操作。每一个人都将不断的从袋子里拿出蔬菜来，并且每次只对一种蔬菜进行处理，也就是将它们切碎，直到袋子空了为止。</span><br><span class="line">这样，当所有的工人都切完以后，工作台（每个人工作的地方）上就有了洋葱块、番茄块、和蒜蓉等等。</span><br><span class="line"></span><br><span class="line">妻子：但是我怎么会制造出不同种类的番茄酱呢？</span><br><span class="line"></span><br><span class="line">我：现在你会看到MapReduce遗漏的阶段—搅拌阶段。MapReduce将所有输出的蔬菜碎都搅拌在了一起，这些蔬菜碎都是在以key为基础的 map操作下产生的。搅拌将自动完成，你可以假设key是一种原料的名字，就像洋葱一样。 所以全部的洋葱keys都会搅拌在一起，并转移到研磨洋葱的研磨器里。这样，你就能得到洋葱辣椒酱了。同样地，所有的番茄也会被转移到标记着番茄的研磨器里，并制造出番茄辣椒酱。</span><br></pre></td></tr></table></figure>
-</li>
+        <h2 id="Spark中cache和persist的作用"><a href="#Spark中cache和persist的作用" class="headerlink" title="Spark中cache和persist的作用"></a>Spark中cache和persist的作用</h2><p>Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。</p>
+<p>有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行多种操作：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd1 = sc.textFile(<span class="string">"xxx"</span>)</span><br><span class="line">rdd1.collect</span><br><span class="line">rdd1.show</span><br></pre></td></tr></table></figure></p>
+<p>但是Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。对于上面的代码，<code>$sc.textFile(&quot;xxx&quot;)$</code>会执行两次，这种方式的性能是很差的。</p>
+<p>因此对于这种情况，我的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作。</p>
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>如果要对一个RDD进行持久化，只要对这个RDD调用<code>$cache()$</code>和<code>$persist()$</code>即可。<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd1 = sc.textFile(<span class="string">"xxx"</span>).cache</span><br><span class="line">rdd1.collect</span><br><span class="line">rdd1.show</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>cache()方法表示：使用非序列化的方式将RDD中的数据全部尝试持久化到内存中。</li>
 </ol>
-<blockquote>
-<p>上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</p>
-</blockquote>
-<blockquote>
-<p>如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？ </p>
-</blockquote>
-<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><blockquote>
-<p>我可以写一个小程序，把所有论文按顺序遍历一遍，统计每一个遇到的单词的出现次数，最后就可以知道哪几个单词最热门了。 这种方法在数据集比较小时，是非常有效的，而且实现最简单，用来解决这个问题很合适。 </p>
-</blockquote>
-<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p><strong>写一个多线程程序，并发遍历论文.</strong></p>
-<blockquote>
-<p>这个问题理论上是可以高度并发的，因为统计一个文件时不会影响统计另一个文件。当我们的机器是多核或者多处理器，方法二肯定比方法一高效。但是写一个多线程程序要比方法一困难多了，我们必须自己同步共享数据，比如要防止两个线程重复统计文件。 </p>
-</blockquote>
-<h4 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h4><blockquote>
-<p>把作业交给多个计算机去完成。<br>我们可以使用方法一的程序，部署到N台机器上去，然后把论文集分成N份，一台机器跑一个作业。这个方法跑<br>得足够快，但是部署起来很麻烦，我们要人工把程序copy到别的机器，要人工把论文集分开，最痛苦的是还要<br>把N个运行结果进行整合（当然我们也可以再写一个程序）。 </p>
-</blockquote>
-<h4 id="方法四："><a href="#方法四：" class="headerlink" title="方法四："></a>方法四：</h4><blockquote>
-<p>让MapReduce来帮帮我们吧！ </p>
-</blockquote>
-<blockquote>
-<p>MapReduce本质上就是方法三，但是如何拆分文件集，如何copy程序，如何整合结果这些都是框架定义好的<br>。我们只要定义好这个任务（用户程序），其它都交给MapReduce。</p>
-</blockquote>
-<h3 id="map函数和reduce函数"><a href="#map函数和reduce函数" class="headerlink" title="map函数和reduce函数　"></a>map函数和reduce函数　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。 </span><br><span class="line"></span><br><span class="line">reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br> ，就产生一个中间键值对&lt;w, 1&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</p>
-</blockquote>
-<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png" alt=""></p>
-<p>图1展示了我们的实现中MapReduce操作的整体流程。当用户程序调用MapReduce函数时，会发生下面一系列动作（图1中的标号与下面列表顺序相同）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1. 用户程序中的MapReduce库首先将输入文件切分为M块，每块的大小从16MB到64MB（用户可通过一个可选参数控制此大小）。然后MapReduce库会在</span><br><span class="line">一个集群的若干台机器上启动程序的多个副本。</span><br><span class="line"></span><br><span class="line">2. 程序的各个副本中有一个是特殊的——主节点，其它的则是工作节点。主节点将M个map任务和R个reduce任务分配给空闲的工作节点，每个节点一</span><br><span class="line">项任务。</span><br><span class="line"></span><br><span class="line">3. 被分配map任务的工作节点读取对应的输入区块内容。它从输入数据中解析出key/value对，然后将每个对传递给用户定义的map函数。由map函数</span><br><span class="line">产生的中间key/value对都缓存在内存中。</span><br><span class="line"></span><br><span class="line">4. 缓存的数据对会被周期性的由划分函数分成R块，并写入本地磁盘中。这些缓存对在本地磁盘中的位置会被传回给主节点，主节点负责将这些位置</span><br><span class="line">再传给reduce工作节点。</span><br><span class="line"></span><br><span class="line">5. 当一个reduce工作节点得到了主节点的这些位置通知后，它使用RPC调用去读map工作节点的本地磁盘中的缓存数据。当reduce工作节点读取完了</span><br><span class="line">所有的中间数据，它会将这些数据按中间key排序，这样相同key的数据就被排列在一起了。同一个reduce任务经常会分到有着不同key的数据，因此</span><br><span class="line">这个排序很有必要。如果中间数据数量过多，不能全部载入内存，则会使用外部排序。</span><br><span class="line"></span><br><span class="line">6. reduce工作节点遍历排序好的中间数据，并将遇到的每个中间key和与它关联的一组中间value传递给用户的reduce函数。reduce函数的输出会</span><br><span class="line">写到由reduce划分过程划分出来的最终输出文件的末尾。</span><br><span class="line"></span><br><span class="line">7. 当所有的map和reduce任务都完成后，主节点唤醒用户程序。此时，用户程序中的MapReduce调用返回到用户代码中。</span><br></pre></td></tr></table></figure>
-<p>成功完成后，MapReduce执行的输出都在R个输出文件中（每个reduce任务产生一个，文件名由用户指定）。通常用户不需要合并这R个输出文件——他们经常会把这些文件当作另一个MapReduce调用的输入，或是用于另一个可以处理分成多个文件输入的分布式应用。</p>
+<p>此时再对rdd1执行两次算子操作时，只有在第一次算子时，才会将这个rdd1从源头处计算一次。第二次执行算子时，就会直接从内存中提取数据进行计算，不会重复计算一个rdd。<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Persist this RDD with the default storage level (`MEMORY_ONLY`).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cache</span></span>(): <span class="keyword">this</span>.<span class="keyword">type</span> = persist()</span><br></pre></td></tr></table></figure></p>
+<p><strong>通过源码可以看出cache()是persist()的简化方式，调用persist的无参版本，也就是调用persist(StorageLevel.MEMORY_ONLY)，cache只有一个默认的缓存级别MEMORY_ONLY，即将数据持久化到内存中</strong></p>
+<ol start="2">
+<li>persist()方法表示：手动选择持久化级别，并使用指定的方式进行持久化。</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Persist this RDD with the default storage level (`MEMORY_ONLY`).</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">persist</span></span>(): <span class="keyword">this</span>.<span class="keyword">type</span> = persist(<span class="type">StorageLevel</span>.<span class="type">MEMORY_ONLY</span>)</span><br></pre></td></tr></table></figure>
+<p>默认缓存级别是<code>$StorageLevel.MEMORY\_ONLY$</code>.也就是说cache的默认级别就是<code>$MEMORY\_ONLY$</code></p>
+<h4 id="DataFrame的cache和persist的区别"><a href="#DataFrame的cache和persist的区别" class="headerlink" title="DataFrame的cache和persist的区别"></a>DataFrame的cache和persist的区别</h4><p>官网和上的教程说的都是RDD,但是没有讲df的缓存，通过源码发现df和rdd还是不太一样的:<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Persist this Dataset with the default storage level (`MEMORY_AND_DISK`).</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @group basic</span></span><br><span class="line"><span class="comment"> * @since 1.6.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cache</span></span>(): <span class="keyword">this</span>.<span class="keyword">type</span> = persist()</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Persist this Dataset with the default storage level (`MEMORY_AND_DISK`).</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @group basic</span></span><br><span class="line"><span class="comment"> * @since 1.6.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">persist</span></span>(): <span class="keyword">this</span>.<span class="keyword">type</span> = &#123;</span><br><span class="line">  sparkSession.sharedState.cacheManager.cacheQuery(<span class="keyword">this</span>)</span><br><span class="line">  <span class="keyword">this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">persist</span></span>(newLevel: <span class="type">StorageLevel</span>): <span class="keyword">this</span>.<span class="keyword">type</span> = &#123;</span><br><span class="line">  sparkSession.sharedState.cacheManager.cacheQuery(<span class="keyword">this</span>, <span class="type">None</span>, newLevel)</span><br><span class="line">  <span class="keyword">this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cacheQuery</span></span>(</span><br><span class="line">    query: <span class="type">Dataset</span>[_],</span><br><span class="line">    tableName: <span class="type">Option</span>[<span class="type">String</span>] = <span class="type">None</span>,</span><br><span class="line">    storageLevel: <span class="type">StorageLevel</span> = <span class="type">MEMORY_AND_DISK</span>): <span class="type">Unit</span> = writeLock</span><br></pre></td></tr></table></figure></p>
+<p><strong>可以到cache()依然调用的persist()，但是persist调用cacheQuery，而cacheQuery的默认存储级别为MEMORY_AND_DISK，这点和rdd是不一样的。</strong></p>
+<h2 id="RDD的缓存级别"><a href="#RDD的缓存级别" class="headerlink" title="RDD的缓存级别"></a>RDD的缓存级别</h2><p>每个持久化的 RDD 可以使用不同的存储级别进行缓存，例如，持久化到磁盘、已序列化的 Java 对象形式持久化到内存（可以节省空间）、跨节点间复制、以 off-heap 的方式存储在 Tachyon。这些存储级别通过传递一个 StorageLevel 对象给 persist() 方法进行设置。<br>详细的存储级别介绍如下：</p>
+<ul>
+<li>MEMORY_ONLY : 将 RDD 以反序列化 Java 对象的形式存储在 JVM 中。如果内存空间不够，部分数据分区将不再缓存，在每次需要用到这些数据时重新进行计算。这是默认的级别。</li>
+<li>MEMORY_AND_DISK : 将 RDD 以反序列化 Java 对象的形式存储在 JVM 中。如果内存空间不够，将未缓存的数据分区存储到磁盘，在需要使用这些分区时从磁盘读取。</li>
+<li>MEMORY_ONLY_SER : 将 RDD 以序列化的 Java 对象的形式进行存储（每个分区为一个 byte 数组）。这种方式会比反序列化对象的方式节省很多空间，尤其是在使用 fast serializer时会节省更多的空间，但是在读取时会增加 CPU 的计算负担。</li>
+<li>MEMORY_AND_DISK_SER : 类似于 MEMORY_ONLY_SER ，但是溢出的分区会存储到磁盘，而不是在用到它们时重新计算。</li>
+<li>DISK_ONLY : 只在磁盘上缓存 RDD。</li>
+<li>MEMORY_ONLY_2，MEMORY_AND_DISK_2，等等 : 与上面的级别功能相同，只不过每个分区在集群中两个节点上建立副本。</li>
+<li>OFF_HEAP（实验中）: 类似于 MEMORY_ONLY_SER ，但是将数据存储在 off-heap memory，这需要启动 off-heap 内存。</li>
+</ul>
+<p>注意，在 Python 中，缓存的对象总是使用 Pickle 进行序列化，所以在 Python 中不关心你选择的是哪一种序列化级别。python 中的存储级别包括 MEMORY_ONLY，MEMORY_ONLY_2，MEMORY_AND_DISK，MEMORY_AND_DISK_2，DISK_ONLY 和 DISK_ONLY_2 。</p>
+<h2 id="持久化策略的选择"><a href="#持久化策略的选择" class="headerlink" title="持久化策略的选择"></a>持久化策略的选择</h2><ul>
+<li><p>默认情况下，性能最高的当然是MEMORY_ONLY，但前提是你的内存必须足够足够大，可以绰绰有余地存放下整个RDD的所有数据。因为不进行序列化与反序列化操作，就避免了这部分的性能开销；对这个RDD的后续算子操作，都是基于纯内存中的数据的操作，不需要从磁盘文件中读取数据，性能也很高；而且不需要复制一份数据副本，并远程传送到其他节点上。但是这里必须要注意的是，在实际的生产环境中，恐怕能够直接用这种策略的场景还是有限的，如果RDD中数据比较多时（比如几十亿），直接用这种持久化级别，会导致JVM的OOM内存溢出异常。</p>
+</li>
+<li><p>如果使用MEMORY_ONLY级别时发生了内存溢出，那么建议尝试使用MEMORY_ONLY_SER级别。该级别会将RDD数据序列化后再保存在内存中，此时每个partition仅仅是一个字节数组而已，大大减少了对象数量，并降低了内存占用。这种级别比MEMORY_ONLY多出来的性能开销，主要就是序列化与反序列化的开销。但是后续算子可以基于纯内存进行操作，因此性能总体还是比较高的。此外，可能发生的问题同上，如果RDD中的数据量过多的话，还是可能会导致OOM内存溢出的异常。</p>
+</li>
+<li><p>如果纯内存的级别都无法使用，那么建议使用MEMORY_AND_DISK_SER策略，而不是MEMORY_AND_DISK策略。因为既然到了这一步，就说明RDD的数据量很大，内存无法完全放下。序列化后的数据比较少，可以节省内存和磁盘的空间开销。同时该策略会优先尽量尝试将数据缓存在内存中，内存缓存不下才会写入磁盘。</p>
+</li>
+<li><p>通常不建议使用DISK_ONLY和后缀为_2的级别：因为完全基于磁盘文件进行数据的读写，会导致性能急剧降低，有时还不如重新计算一次所有RDD。后缀为_2的级别，必须将所有数据都复制一份副本，并发送到其他节点上，数据复制以及网络传输会导致较大的性能开销，除非是要求作业的高可用性，否则不建议使用。</p>
+</li>
+</ul>
+<h2 id="使用Cache注意下面三点"><a href="#使用Cache注意下面三点" class="headerlink" title="使用Cache注意下面三点"></a>使用Cache注意下面三点</h2><p>（1）cache之后一定不能立即有其它算子，不能直接去接算子。因为在实际工作的时候，cache后有算子的话，它每次都会重新触发这个计算过程。</p>
+<p>（2）cache不是一个action，运行它的时候没有执行一个作业。</p>
+<p>（3）cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的（没有计算）<strong>unpersist时eager级别的。意味着unpersist如果定义在action算子之前，则cache失效</strong></p>
 
       
     </div>
@@ -614,8 +610,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/26/spark2.0的新特性/" rel="next" title="Spark2.0的新特性">
-                <i class="fa fa-chevron-left"></i> Spark2.0的新特性
+              <a href="/2020/05/26/RDD算子总结/" rel="next" title="RDD算子总结">
+                <i class="fa fa-chevron-left"></i> RDD算子总结
               </a>
             
           </div>
@@ -624,8 +620,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/05/26/RDD基础入门/" rel="prev" title="RDD基础入门">
-                RDD基础入门 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/26/spark中的各种概念的理解/" rel="prev" title="Spark中的各种概念">
+                Spark中的各种概念 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -810,7 +806,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop简介"><span class="nav-number">1.</span> <span class="nav-text">Hadoop简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Map-Reduce："><span class="nav-number">1.1.</span> <span class="nav-text">Map/Reduce：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一："><span class="nav-number">1.2.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二："><span class="nav-number">1.3.</span> <span class="nav-text">方法二：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法三："><span class="nav-number">1.4.</span> <span class="nav-text">方法三：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法四："><span class="nav-number">1.5.</span> <span class="nav-text">方法四：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map函数和reduce函数"><span class="nav-number">2.</span> <span class="nav-text">map函数和reduce函数　</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行过程"><span class="nav-number">3.</span> <span class="nav-text">执行过程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark中cache和persist的作用"><span class="nav-number">1.</span> <span class="nav-text">Spark中cache和persist的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化"><span class="nav-number">1.1.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DataFrame的cache和persist的区别"><span class="nav-number">1.1.1.</span> <span class="nav-text">DataFrame的cache和persist的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDD的缓存级别"><span class="nav-number">2.</span> <span class="nav-text">RDD的缓存级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持久化策略的选择"><span class="nav-number">3.</span> <span class="nav-text">持久化策略的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Cache注意下面三点"><span class="nav-number">4.</span> <span class="nav-text">使用Cache注意下面三点</span></a></li></ol></div>
             
 
           </div>
