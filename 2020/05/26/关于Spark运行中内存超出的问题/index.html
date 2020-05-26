@@ -115,18 +115,18 @@
 
 
 
-  <meta name="description" content="Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed byYARN for exceeding memorylimits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大">
+  <meta name="description" content="Container killed by YARN for exceeding memory limits？运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark运行内存超出">
 <meta property="og:url" content="shu-howting.github.io/2020/05/26/关于Spark运行中内存超出的问题/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed byYARN for exceeding memorylimits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大">
+<meta property="og:description" content="Container killed by YARN for exceeding memory limits？运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-26T05:27:05.892Z">
+<meta property="og:updated_time" content="2020-05-26T15:14:21.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark运行内存超出">
-<meta name="twitter:description" content="Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed byYARN for exceeding memorylimits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大">
+<meta name="twitter:description" content="Container killed by YARN for exceeding memory limits？运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以">
 
 
 
@@ -431,7 +431,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:59:34 / 修改时间：13:27:05" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:34+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:59:34 / 修改时间：23:14:21" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:34+08:00">2020-05-26</time>
             
 
             
@@ -504,16 +504,16 @@
       
 
       
-        <h2 id="Container-killed-by-YARN-for-exceeding-memory-limits？"><a href="#Container-killed-by-YARN-for-exceeding-memory-limits？" class="headerlink" title="Container killed by YARN for exceeding memory limits？"></a>Container killed by YARN for exceeding memory limits？</h2><blockquote>
-<p>运行spark脚本时，经常会碰到Container killed by<br>YARN for exceeding memory<br>limits的错误，导致程序运行失败。</p>
-<p>这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 3<br>84M).</p>
+        <blockquote>
+<h2 id="Container-killed-by-YARN-for-exceeding-memory-limits？"><a href="#Container-killed-by-YARN-for-exceeding-memory-limits？" class="headerlink" title="Container killed by YARN for exceeding memory limits？"></a>Container killed by YARN for exceeding memory limits？</h2><p>运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。</p>
+<p>这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，<br>即max(executor_memory*.1, 384M). </p>
+</blockquote>
 <h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><ul>
 <li>提高内存开销</li>
 <li>减少执行程序内核的数量</li>
 <li>增加分区数量</li>
 <li>提高驱动程序和执行程序内存</li>
 </ul>
-</blockquote>
 <h4 id="提高内存开销"><a href="#提高内存开销" class="headerlink" title="提高内存开销"></a>提高内存开销</h4><blockquote>
 <p>即直接指定堆外内存的大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.conf.set(&quot;spark.yarn.executor.memoryOverhead&quot;, &quot;4g&quot;)</span><br></pre></td></tr></table></figure></p>
 </blockquote>

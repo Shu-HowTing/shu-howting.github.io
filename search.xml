@@ -14,7 +14,7 @@
   <entry>
     <title><![CDATA[Spark运行内存超出]]></title>
     <url>%2F2020%2F05%2F26%2F%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed byYARN for exceeding memorylimits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M). 解决办法 提高内存开销 减少执行程序内核的数量 增加分区数量 提高驱动程序和执行程序内存 提高内存开销 即直接指定堆外内存的大小1spark.conf.set(&quot;spark.yarn.executor.memoryOverhead&quot;, &quot;4g&quot;) 减少执行程序内核的数量 这可减少执行程序可以执行的最大任务数量，从而减少所需的内存量。 增加分区数量 要增加分区数量，请为原始弹性分布式数据集增加 spark.default.parallelism 的值，或执行.repartition() 操作。增加分区数量可减少每个分区所需的内存量。 提高驱动程序和执行程序内存 即通过增大executor.memory的值来增大堆外内存,但是可以看到，由于乘了10%，所以提升其实很有限。]]></content>
+    <content type="text"><![CDATA[Container killed by YARN for exceeding memory limits？运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M). 解决办法 提高内存开销 减少执行程序内核的数量 增加分区数量 提高驱动程序和执行程序内存 提高内存开销 即直接指定堆外内存的大小1spark.conf.set(&quot;spark.yarn.executor.memoryOverhead&quot;, &quot;4g&quot;) 减少执行程序内核的数量 这可减少执行程序可以执行的最大任务数量，从而减少所需的内存量。 增加分区数量 要增加分区数量，请为原始弹性分布式数据集增加 spark.default.parallelism 的值，或执行.repartition() 操作。增加分区数量可减少每个分区所需的内存量。 提高驱动程序和执行程序内存 即通过增大executor.memory的值来增大堆外内存,但是可以看到，由于乘了10%，所以提升其实很有限。]]></content>
       <categories>
         <category>Spark</category>
       </categories>
