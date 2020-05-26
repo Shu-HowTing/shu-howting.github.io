@@ -115,23 +115,25 @@
 
 
 
-  <meta name="description" content="Stay foolish, Stay hungry!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Infinity">
-<meta property="og:url" content="shu-howting.github.io/archives/2018/index.html">
+  <meta name="description" content="Spark2.0Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。 Spark2.0中引入了$SparkSession$的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。 SparkSession在Spark的早期版本，Spa">
+<meta name="keywords" content="Spark技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark2.0的新特性">
+<meta property="og:url" content="shu-howting.github.io/2020/05/26/spark2.0的新特性/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Stay foolish, Stay hungry!">
+<meta property="og:description" content="Spark2.0Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。 Spark2.0中引入了$SparkSession$的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。 SparkSession在Spark的早期版本，Spa">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-05-25T17:41:23.025Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Infinity">
-<meta name="twitter:description" content="Stay foolish, Stay hungry!">
+<meta name="twitter:title" content="Spark2.0的新特性">
+<meta name="twitter:description" content="Spark2.0Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。 Spark2.0中引入了$SparkSession$的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。 SparkSession在Spark的早期版本，Spa">
 
 
 
 
 
 
-  <link rel="canonical" href="shu-howting.github.io/archives/2018/">
+  <link rel="canonical" href="shu-howting.github.io/2020/05/26/spark2.0的新特性/">
 
 
 
@@ -141,7 +143,7 @@
   };
 </script>
 
-  <title>归档 | Infinity</title>
+  <title>Spark2.0的新特性 | Infinity</title>
   
 
 
@@ -190,7 +192,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/Shu-HowTing"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -279,7 +281,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -367,104 +369,254 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 5 篇日志。 继续努力。
-      </span>
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
-
-        
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2020/05/26/spark2.0的新特性/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="White">
+      <meta itemprop="description" content="Stay foolish, Stay hungry!">
+      <meta itemprop="image" content="/images/football.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Infinity">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/12/05/推荐算法/" itemprop="url">
-              
-                <span itemprop="name">推荐算法</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Spark2.0的新特性
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-05T00:00:00+08:00" content="2018-12-05">
-          12-05
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
+              
+                
+              
+
+              <time title="创建时间：2020-05-26 01:41:23" itemprop="dateCreated datePublished" datetime="2020-05-26T01:41:23+08:00">2020-05-26</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/26/spark2.0的新特性/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/05/26/spark2.0的新特性/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h1 id="Spark2-0"><a href="#Spark2-0" class="headerlink" title="Spark2.0"></a>Spark2.0</h1><p>Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。</p>
+<p>Spark2.0中引入了<code>$SparkSession$</code>的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。</p>
+<h2 id="SparkSession"><a href="#SparkSession" class="headerlink" title="SparkSession"></a>SparkSession</h2><p>在Spark的早期版本，SparkContext是进入Spark的切入点。我们都知道RDD是Spark中重要的API，然而它的创建和操作得使用sparkContext提供的API；对于RDD之外的其他东西，我们需要使用其他的Context。比如对于流处理来说，我们得使用StreamingContext；对于SQL得使用sqlContext；而对于hive得使用HiveContext。然而DataSet和Dataframe提供的API逐渐称为新的标准API，我们需要一个切入点来构建它们，所以在 Spark 2.0中我们引入了一个新的切入点(entry point)：SparkSession</p>
+<p>　SparkSession实质上是SQLContext和HiveContext的组合（未来可能还会加上StreamingContext），所以在SQLContext和HiveContext上可用的API在SparkSession上同样是可以使用的。SparkSession内部封装了sparkContext，所以计算实际上是由sparkContext完成的。</p>
+<p><strong>之前的写法：</strong><br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext, SparkConf</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SQLContext</span><br><span class="line"></span><br><span class="line">conf = SparkConf().setMaster(<span class="string">"local[*]"</span>).setAppName(<span class="string">"PySparkShell"</span>)</span><br><span class="line">sc = SparkContext(conf=conf)</span><br><span class="line">sqlContest = SQLContext(sc)</span><br><span class="line">spark = SQLContext(sc)</span><br><span class="line">spark.sql(select **)</span><br><span class="line">···</span><br></pre></td></tr></table></figure></p>
+<p><strong>现在的写法</strong><br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</span><br><span class="line">spark = SparkSession </span><br><span class="line">        .builder </span><br><span class="line">        .appName(<span class="string">"Python Spark SQL basic example"</span>)</span><br><span class="line">        .config(<span class="string">"spark.some.config.option"</span>,<span class="string">"some-value"</span>) </span><br><span class="line">        .enableHiveSupport()</span><br><span class="line">        .getOrCreate()</span><br><span class="line">df1 = spark.sql(select **)    </span><br><span class="line"></span><br><span class="line">df2 = spark.read.csv(<span class="string">'./python/test_support/sql/ages.csv'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 通过spark创建sc</span></span><br><span class="line">sc = spark.sparkContext</span><br><span class="line">rdd1 = sc.parallelize([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br></pre></td></tr></table></figure></p>
+<h4 id="其中："><a href="#其中：" class="headerlink" title="其中："></a>其中：</h4><ul>
+<li>在pyspark sql中换行要  \</li>
+<li>.getOrCreate() 指的是如果当前存在一个SparkSession就直接获取，否则新建。</li>
+<li>.enableHiveSupport() 使我们可以从读取或写入数据到hive。<br>.enableHiveSupport 函数的调用使得SparkSession支持hive，类似于HiveContext</li>
+</ul>
+
+      
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>支持一下^-^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="White 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="White 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spark技术/" rel="tag"># Spark技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/29/spark入门/" rel="next" title="Spark生态介绍">
+                <i class="fa fa-chevron-left"></i> Spark生态介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/26/MapReduce/" rel="prev" title="RDD入门">
+                RDD入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -485,8 +637,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -601,6 +762,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark2-0"><span class="nav-number">1.</span> <span class="nav-text">Spark2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SparkSession"><span class="nav-number">1.1.</span> <span class="nav-text">SparkSession</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#其中："><span class="nav-number">1.1.0.1.</span> <span class="nav-text">其中：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -756,6 +933,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
 
   
 
