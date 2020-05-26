@@ -115,19 +115,19 @@
 
 
 
-  <meta name="description" content="简介repartition(numPartitions:Int)$$和$$coalesce(numPartitions:Int，shuffle:Boolean=false) 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的状况，">
+  <meta name="description" content="简介$repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$  作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
 <meta property="og:title" content="repartition和coalesce区别">
 <meta property="og:url" content="shu-howting.github.io/2020/05/26/repartition和coalesce区别/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="简介repartition(numPartitions:Int)$$和$$coalesce(numPartitions:Int，shuffle:Boolean=false) 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的状况，">
+<meta property="og:description" content="简介$repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$  作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1gajo18ko6wj30uf0chabb.jpg">
-<meta property="og:updated_time" content="2020-05-26T05:26:38.067Z">
+<meta property="og:updated_time" content="2020-05-26T10:01:03.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="repartition和coalesce区别">
-<meta name="twitter:description" content="简介repartition(numPartitions:Int)$$和$$coalesce(numPartitions:Int，shuffle:Boolean=false) 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的状况，">
+<meta name="twitter:description" content="简介$repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$  作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的">
 <meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1gajo18ko6wj30uf0chabb.jpg">
 
 
@@ -433,7 +433,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:59:42 / 修改时间：13:26:38" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:42+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:59:42 / 修改时间：18:01:03" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:42+08:00">2020-05-26</time>
             
 
             
@@ -506,7 +506,8 @@
       
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><script type="math/tex; mode=display">repartition(numPartitions:Int)$$和$$coalesce(numPartitions:Int，shuffle:Boolean=false)</script><ul>
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>$repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$</p>
+<ul>
 <li>作用：对RDD的分区进行<strong>重新划分</strong>，repartition内部调用了coalesce，参数<script type="math/tex">shuffle=true</script><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><h4 id="例：RDD有N个分区，需要重新划分成M个分区"><a href="#例：RDD有N个分区，需要重新划分成M个分区" class="headerlink" title="例：RDD有N个分区，需要重新划分成M个分区"></a>例：RDD有N个分区，需要重新划分成M个分区</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">N小于M</span><br><span class="line">一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将shuffle设置为true。</span><br><span class="line"></span><br><span class="line">N大于M且和M相差不多</span><br><span class="line">假如N是1000，M是100)那么就可以将N个分区中的若干个分区合并成一个新的分区，最终合并为M个分区，这时可以将shuff设置为false，在shuffl为false的情况下，如果M&gt;N时，coalesce为无效的，不进行shuffle过程，父RDD和子RDD之间是窄依赖关系。</span><br><span class="line"></span><br><span class="line">N大于M且和M相差悬殊</span><br><span class="line">这时如果将shuffle设置为false，父子RDD是窄依赖关系，他们在同一个Stage中，就可能造成Spark程序的并行度不够，从而影响性能，如果在M为1的时候，为了使coalesce之前的操作有更好的并行度，可以讲shuffle设置为true。</span><br></pre></td></tr></table></figure>
 </li>
 </ul>

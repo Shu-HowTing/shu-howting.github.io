@@ -115,18 +115,18 @@
 
 
 
-  <meta name="description" content="RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。\如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。\如：count 、collect、top、  take、  re">
+  <meta name="description" content="RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。如：count 、collect、top、  take、  redu">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RDD算子总结">
 <meta property="og:url" content="shu-howting.github.io/2020/05/26/RDD算子总结/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。\如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。\如：count 、collect、top、  take、  re">
+<meta property="og:description" content="RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。如：count 、collect、top、  take、  redu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-26T05:24:00.476Z">
+<meta property="og:updated_time" content="2020-05-26T10:04:29.286Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RDD算子总结">
-<meta name="twitter:description" content="RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。\如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。\如：count 、collect、top、  take、  re">
+<meta name="twitter:description" content="RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。如：count 、collect、top、  take、  redu">
 
 
 
@@ -431,7 +431,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:58:01 / 修改时间：13:24:00" itemprop="dateCreated datePublished" datetime="2020-05-26T12:58:01+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:58:01 / 修改时间：18:04:29" itemprop="dateCreated datePublished" datetime="2020-05-26T12:58:01+08:00">2020-05-26</time>
             
 
             
@@ -504,8 +504,8 @@
       
 
       
-        <h2 id="RDD算子总结"><a href="#RDD算子总结" class="headerlink" title="RDD算子总结"></a>RDD算子总结</h2><h3 id="从功能上分："><a href="#从功能上分：" class="headerlink" title="从功能上分："></a>从功能上分：</h3><p><strong>转换算子(transformer)：</strong> lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。\<br>如：<script type="math/tex">map 、flatmap、filter、   union、  join、  ruduceByKey、 cache</script></p>
-<p><strong>行动算子(action)：</strong> 触发任务执行，产生job，返回值不再是rdd。\<br>如：<script type="math/tex">count 、collect、top、  take、  reduce</script></p>
+        <h2 id="RDD算子总结"><a href="#RDD算子总结" class="headerlink" title="RDD算子总结"></a>RDD算子总结</h2><h3 id="从功能上分："><a href="#从功能上分：" class="headerlink" title="从功能上分："></a>从功能上分：</h3><p><strong>转换算子(transformer)：</strong> lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。<br>如：<script type="math/tex">map 、flatmap、filter、   union、  join、  ruduceByKey、 cache</script></p>
+<p><strong>行动算子(action)：</strong> 触发任务执行，产生job，返回值不再是rdd。<br>如：<script type="math/tex">count 、collect、top、  take、  reduce</script></p>
 <h3 id="从作用上分："><a href="#从作用上分：" class="headerlink" title="从作用上分："></a>从作用上分：</h3><p><strong>通用的：</strong> map、 flatMap、 distinct、 union</p>
 <p><strong>作用于RDD[K,V]：</strong> mapValues、 reduceByKey、 groupByKey、  sortByKey、 </p>
 <h3 id="转换算子是否有shuffle"><a href="#转换算子是否有shuffle" class="headerlink" title="转换算子是否有shuffle"></a>转换算子是否有shuffle</h3><p><strong>shuffle类:</strong> reduceByKey、 groupByKey、 groupBy、 join、 distinct、 repartition</p>

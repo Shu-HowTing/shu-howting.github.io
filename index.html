@@ -433,7 +433,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:59:42 / 修改时间：13:26:38" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:42+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:59:42 / 修改时间：18:01:03" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:42+08:00">2020-05-26</time>
             
 
             
@@ -501,8 +501,9 @@
       
         
           
-          简介repartition(numPartitions:Int)$$和$$coalesce(numPartitions:Int，shuffle:Boolean=false)
-作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的状况，
+          简介$repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$
+
+作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数shuffle=true分析例：RDD有N个分区，需要重新划分成M个分区12345678N小于M一般情况下N个分区有数据分布不均匀的
           ...
           <!--noindex-->
           
@@ -792,7 +793,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:59:29 / 修改时间：17:55:16" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:29+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:59:29 / 修改时间：18:00:39" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:29+08:00">2020-05-26</time>
             
 
             
@@ -861,7 +862,7 @@
         
           
           Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！
-并行度 = executor\_number * executor\_cores理解：sparkApplication的划分：    job --&gt; stage --&gt; task一般
+并行度 = executor\_number * executor\_cores理解：sparkApplication的划分：    $job —&gt; stage —&gt; task$一般
           ...
           <!--noindex-->
           
@@ -1331,7 +1332,7 @@ Task：task是最小的基本的计算单位
                 
               
 
-              <time title="创建时间：2020-05-26 12:58:01 / 修改时间：13:24:00" itemprop="dateCreated datePublished" datetime="2020-05-26T12:58:01+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:58:01 / 修改时间：18:04:29" itemprop="dateCreated datePublished" datetime="2020-05-26T12:58:01+08:00">2020-05-26</time>
             
 
             
@@ -1399,8 +1400,8 @@ Task：task是最小的基本的计算单位
       
         
           
-          RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。\如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache
-行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。\如：count 、collect、top、  take、  re
+          RDD算子总结从功能上分：转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。如：map 、flatmap、filter、   union、  join、  ruduceByKey、 cache
+行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。如：count 、collect、top、  take、  redu
           ...
           <!--noindex-->
           
