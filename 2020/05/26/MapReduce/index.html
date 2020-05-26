@@ -118,15 +118,15 @@
   <meta name="description" content="Hadoop简介Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： 1.什么是Map/Reduce">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RDD入门">
+<meta property="og:title" content="MapReduce介绍">
 <meta property="og:url" content="shu-howting.github.io/2020/05/26/MapReduce/index.html">
 <meta property="og:site_name" content="Infinity">
 <meta property="og:description" content="Hadoop简介Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： 1.什么是Map/Reduce">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
-<meta property="og:updated_time" content="2020-05-25T17:42:59.267Z">
+<meta property="og:updated_time" content="2020-05-26T04:49:14.974Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RDD入门">
+<meta name="twitter:title" content="MapReduce介绍">
 <meta name="twitter:description" content="Hadoop简介Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： 1.什么是Map/Reduce">
 <meta name="twitter:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
 
@@ -145,7 +145,7 @@
   };
 </script>
 
-  <title>RDD入门 | Infinity</title>
+  <title>MapReduce介绍 | Infinity</title>
   
 
 
@@ -408,7 +408,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">RDD入门
+          <h1 class="post-title" itemprop="name headline">MapReduce介绍
               
             
           </h1>
@@ -433,7 +433,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：01:42:59" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：12:49:14" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
             
 
             
@@ -536,10 +536,16 @@
 <p>我：没错，所以现在你就不得不分配工作了，你将需要几个人一起切蔬菜。每个人都要处理满满一袋的蔬菜，而每一个人都相当于在执行一个简单的Map操作。每一个人都将不断的从袋子里拿出蔬菜来，并且每次只对一种蔬菜进行处理，也就是将它们切碎，直到袋子空了为止。<br>这样，当所有的工人都切完以后，工作台（每个人工作的地方）上就有了洋葱块、番茄块、和蒜蓉等等。</p>
 <p>妻子：但是我怎么会制造出不同种类的番茄酱呢？</p>
 <p>我：现在你会看到MapReduce遗漏的阶段—搅拌阶段。MapReduce将所有输出的蔬菜碎都搅拌在了一起，这些蔬菜碎都是在以key为基础的 map操作下产生的。搅拌将自动完成，你可以假设key是一种原料的名字，就像洋葱一样。 所以全部的洋葱keys都会搅拌在一起，并转移到研磨洋葱的研磨器里。这样，你就能得到洋葱辣椒酱了。同样地，所有的番茄也会被转移到标记着番茄的研磨器里，并制造出番茄辣椒酱。</p>
-<h4 id="上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。"><a href="#上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。" class="headerlink" title="上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。"></a>上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</h4><h6 id="如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？"><a href="#如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？" class="headerlink" title="如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？"></a>如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？</h6><h4 id="方法一："><a href="#方法一：" class="headerlink" title="　　方法一："></a>　　方法一：</h4><blockquote>
+<blockquote>
+<p>上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</p>
+</blockquote>
+<blockquote>
+<p>如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？ </p>
+</blockquote>
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><blockquote>
 <p>我可以写一个小程序，把所有论文按顺序遍历一遍，统计每一个遇到的单词的出现次数，最后就可以知道哪几个单词最热门了。 这种方法在数据集比较小时，是非常有效的，而且实现最简单，用来解决这个问题很合适。 </p>
 </blockquote>
-<h4 id="方法二："><a href="#方法二：" class="headerlink" title="　方法二："></a>　方法二：</h4><blockquote>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><blockquote>
 <p>  写一个多线程程序，并发遍历论文。<br>　　这个问题理论上是可以高度并发的，因为统计一个文件时不会影响统计另一个文件。当我们的机器是多核或者多处理器，方法二肯定比方法一高效。但是写一个多线程程序要比方法一困难多了，我们必须自己同步共享数据，比如要防止两个线程重复统计文件。 </p>
 </blockquote>
 <h5 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h5><blockquote>
@@ -552,7 +558,7 @@
 <p>MapReduce本质上就是方法三，但是如何拆分文件集，如何copy程序，如何整合结果这些都是框架定义好的<br>。我们只要定义好这个任务（用户程序），其它都交给MapReduce。</p>
 </blockquote>
 <h5 id="map函数和reduce函数"><a href="#map函数和reduce函数" class="headerlink" title="map函数和reduce函数　　"></a>map函数和reduce函数　　</h5><h6 id="map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"><a href="#map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。" class="headerlink" title="map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"></a>map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。</h6><h6 id="reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"><a href="#reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。" class="headerlink" title="reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"></a>reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</h6><ul>
-<li>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br>，就产生一个中间键值对&lt;w,<br>“1”&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</li>
+<li>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br>，就产生一个中间键值对&lt;w, 1&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</li>
 </ul>
 <h4 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png" alt=""></p>
 <p>图1展示了我们的实现中MapReduce操作的整体流程。当用户程序调用MapReduce函数时，会发生下面一系列动作（图1中的标号与下面列表顺序相同）：</p>
@@ -819,7 +825,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop简介"><span class="nav-number">1.</span> <span class="nav-text">Hadoop简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map-Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等"><span class="nav-number">1.0.1.</span> <span class="nav-text">Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是Map-Reduce，看下面的各种解释："><span class="nav-number">1.1.</span> <span class="nav-text">1.什么是Map/Reduce，看下面的各种解释：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。"><span class="nav-number">1.2.</span> <span class="nav-text">上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？</span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一："><span class="nav-number">1.3.</span> <span class="nav-text">　　方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二："><span class="nav-number">1.4.</span> <span class="nav-text">　方法二：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方法三："><span class="nav-number">1.4.1.</span> <span class="nav-text">方法三：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法四："><span class="nav-number">1.4.2.</span> <span class="nav-text">方法四：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#map函数和reduce函数"><span class="nav-number">1.4.3.</span> <span class="nav-text">map函数和reduce函数　　</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行过程"><span class="nav-number">1.5.</span> <span class="nav-text">执行过程</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop简介"><span class="nav-number">1.</span> <span class="nav-text">Hadoop简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map-Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等"><span class="nav-number">1.0.1.</span> <span class="nav-text">Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是Map-Reduce，看下面的各种解释："><span class="nav-number">1.1.</span> <span class="nav-text">1.什么是Map/Reduce，看下面的各种解释：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一："><span class="nav-number">1.2.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二："><span class="nav-number">1.3.</span> <span class="nav-text">方法二：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方法三："><span class="nav-number">1.3.1.</span> <span class="nav-text">方法三：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法四："><span class="nav-number">1.3.2.</span> <span class="nav-text">方法四：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#map函数和reduce函数"><span class="nav-number">1.3.3.</span> <span class="nav-text">map函数和reduce函数　　</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#map函数：-接受一个键值对（key-value-pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#reduce函数：-接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行过程"><span class="nav-number">1.4.</span> <span class="nav-text">执行过程</span></a></li></ol></div>
             
 
           </div>
