@@ -115,18 +115,18 @@
 
 
 
-  <meta name="description" content="Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ $并行度 = executor\_number * executor\_cores$ 理解：sparkApplication的划分：    $job --&amp;gt; stage --&amp;gt; ta">
+  <meta name="description" content="Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ 并行度 = executor\_number * executor\_cores理解：sparkApplication的划分： $$job --&amp;gt; stage --&amp;gt; task$$">
 <meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark并行度理解">
 <meta property="og:url" content="shu-howting.github.io/2020/05/26/Spark性能调优：合理设置并行度/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ $并行度 = executor\_number * executor\_cores$ 理解：sparkApplication的划分：    $job --&amp;gt; stage --&amp;gt; ta">
+<meta property="og:description" content="Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ 并行度 = executor\_number * executor\_cores理解：sparkApplication的划分： $$job --&amp;gt; stage --&amp;gt; task$$">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-26T05:06:11.281Z">
+<meta property="og:updated_time" content="2020-05-26T05:26:25.878Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark并行度理解">
-<meta name="twitter:description" content="Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ $并行度 = executor\_number * executor\_cores$ 理解：sparkApplication的划分：    $job --&amp;gt; stage --&amp;gt; ta">
+<meta name="twitter:description" content="Spark性能调优：合理设置并行度1. Spark的并行度指的是什么？并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ 并行度 = executor\_number * executor\_cores理解：sparkApplication的划分： $$job --&amp;gt; stage --&amp;gt; task$$">
 
 
 
@@ -431,7 +431,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:59:29 / 修改时间：13:06:11" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:29+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 12:59:29 / 修改时间：13:26:25" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:29+08:00">2020-05-26</time>
             
 
             
@@ -505,8 +505,9 @@
 
       
         <h2 id="Spark性能调优：合理设置并行度"><a href="#Spark性能调优：合理设置并行度" class="headerlink" title="Spark性能调优：合理设置并行度"></a>Spark性能调优：合理设置并行度</h2><h3 id="1-Spark的并行度指的是什么？"><a href="#1-Spark的并行度指的是什么？" class="headerlink" title="1. Spark的并行度指的是什么？"></a>1. Spark的并行度指的是什么？</h3><p>并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！</p>
-<p><code>$并行度 = executor\_number * executor\_cores$</code></p>
-<p><strong>理解：</strong><br>sparkApplication的划分：<br>    <code>$job --&gt; stage --&gt; task$</code><br>一般每个task一次处理一个分区。</p>
+<script type="math/tex; mode=display">并行度 = executor\_number * executor\_cores</script><p><strong>理解：</strong><br>sparkApplication的划分：</p>
+<pre><code>$$job --&gt; stage --&gt; task$$
+</code></pre><p>一般每个task一次处理一个分区。</p>
 <p><strong>可以将task理解为比赛中的跑道：每轮比赛中，每个跑道上都会有一位运动员(分区，即处理的数据)，并行度就是跑道的数量，一轮比赛就可以理解为一个stage。</strong></p>
 <h3 id="2-如果不调节并行度，导致并行度过低会怎么样？"><a href="#2-如果不调节并行度，导致并行度过低会怎么样？" class="headerlink" title="2.如果不调节并行度，导致并行度过低会怎么样？"></a>2.如果不调节并行度，导致并行度过低会怎么样？</h3><p>假设现在已经在spark-submit脚本里面，给我们的spark作业分配了足够多的资源，比如有50个 executor，每个executor 有10G内存，每个 executor 有3个cpu core，基本已经达到了集群或者yarn队列的资源上限。</p>
 <p>如果 task 没有设置，或者设置的很少，比如就设置了100个 task。现在50个 executor，每个executor 有3个cpu core，也就是说，你的Application任何一个 stage 运行的时候都有总数在150个 cpu core，可以并行运行。但是你现在只有100个task，平均分配一下，每个executor 分配到2个task，那么同时在运行的task只有100个，每个executor只会并行运行2个task，每个executor剩下的一个 cpu core 就浪费掉了。</p>
@@ -1327,6 +1328,43 @@
   
 
   
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
+  
+
 
   
   

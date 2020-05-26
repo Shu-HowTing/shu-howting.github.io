@@ -124,7 +124,7 @@
 <meta property="og:description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png">
-<meta property="og:updated_time" content="2020-05-26T04:56:42.023Z">
+<meta property="og:updated_time" content="2020-05-26T05:27:15.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce介绍">
 <meta name="twitter:description" content="Hadoop简介  Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.  这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce：">
@@ -433,7 +433,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：12:56:42" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
+              <time title="创建时间：2020-05-26 01:42:11 / 修改时间：13:27:15" itemprop="dateCreated datePublished" datetime="2020-05-26T01:42:11+08:00">2020-05-26</time>
             
 
             
@@ -521,8 +521,6 @@
 </ol>
 <blockquote>
 <p>上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</p>
-</blockquote>
-<blockquote>
 <p>如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？ </p>
 </blockquote>
 <h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><blockquote>
@@ -537,13 +535,11 @@
 </blockquote>
 <h4 id="方法四："><a href="#方法四：" class="headerlink" title="方法四："></a>方法四：</h4><blockquote>
 <p>让MapReduce来帮帮我们吧！ </p>
-</blockquote>
-<blockquote>
 <p>MapReduce本质上就是方法三，但是如何拆分文件集，如何copy程序，如何整合结果这些都是框架定义好的<br>。我们只要定义好这个任务（用户程序），其它都交给MapReduce。</p>
 </blockquote>
 <h3 id="map函数和reduce函数"><a href="#map函数和reduce函数" class="headerlink" title="map函数和reduce函数　"></a>map函数和reduce函数　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。 </span><br><span class="line"></span><br><span class="line">reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br> ，就产生一个中间键值对&lt;w, 1&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</p>
+<p>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w<br> ，就产生一个中间键值对<w, 1="">，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对<br>传给reduce函数，这样reduce函数接受的键就是单词w，值是一串”1”（最基本的实现是这样，但可以优化）<br>，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</w,></p>
 </blockquote>
 <h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png" alt=""></p>
 <p>图1展示了我们的实现中MapReduce操作的整体流程。当用户程序调用MapReduce函数时，会发生下面一系列动作（图1中的标号与下面列表顺序相同）：</p>
@@ -1358,6 +1354,43 @@
   
 
   
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
+  
+
 
   
   
