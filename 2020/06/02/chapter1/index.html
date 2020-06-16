@@ -115,23 +115,25 @@
 
 
 
-  <meta name="description" content="Stay foolish, Stay hungry!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Infinity">
-<meta property="og:url" content="shu-howting.github.io/archives/index.html">
+  <meta name="description" content="Chapter1: 使用函数构建抽象高阶函数作为一般方法的函数 sum_naturals() 1234567&amp;gt;&amp;gt;&amp;gt; def sum_naturals(n):        total, k = 0, 1        while k &amp;lt;= n:            total, k = total + k, k + 1        return total&amp;gt;&amp;gt">
+<meta name="keywords" content="SICP,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用函数构建抽象">
+<meta property="og:url" content="shu-howting.github.io/2020/06/02/chapter1/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Stay foolish, Stay hungry!">
+<meta property="og:description" content="Chapter1: 使用函数构建抽象高阶函数作为一般方法的函数 sum_naturals() 1234567&amp;gt;&amp;gt;&amp;gt; def sum_naturals(n):        total, k = 0, 1        while k &amp;lt;= n:            total, k = total + k, k + 1        return total&amp;gt;&amp;gt">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-06-16T11:58:42.720Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Infinity">
-<meta name="twitter:description" content="Stay foolish, Stay hungry!">
+<meta name="twitter:title" content="使用函数构建抽象">
+<meta name="twitter:description" content="Chapter1: 使用函数构建抽象高阶函数作为一般方法的函数 sum_naturals() 1234567&amp;gt;&amp;gt;&amp;gt; def sum_naturals(n):        total, k = 0, 1        while k &amp;lt;= n:            total, k = total + k, k + 1        return total&amp;gt;&amp;gt">
 
 
 
 
 
 
-  <link rel="canonical" href="shu-howting.github.io/archives/">
+  <link rel="canonical" href="shu-howting.github.io/2020/06/02/chapter1/">
 
 
 
@@ -141,7 +143,7 @@
   };
 </script>
 
-  <title>归档 | Infinity</title>
+  <title>使用函数构建抽象 | Infinity</title>
   
 
 
@@ -190,7 +192,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/Shu-HowTing"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -279,7 +281,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -367,423 +369,312 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2020/06/02/chapter1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="White">
+      <meta itemprop="description" content="Stay foolish, Stay hungry!">
+      <meta itemprop="image" content="/images/football.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Infinity">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">使用函数构建抽象
+              
+            
+          </h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-02 00:15:49" itemprop="dateCreated datePublished" datetime="2020-06-02T00:15:49+08:00">2020-06-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-16 19:58:42" itemprop="dateModified" datetime="2020-06-16T19:58:42+08:00">2020-06-16</time>
+              
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 13 篇日志。 继续努力。
-      </span>
-      
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a></span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/06/02/chapter1/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/06/02/chapter1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/09/事务的ACID特性/" itemprop="url">
-              
-                <span itemprop="name">事务的的四大特性</span>
-              
-            </a>
-        
-      </h2>
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-06-09T00:00:00+08:00" content="2020-06-09">
-          06-09
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/02/chapter1/" itemprop="url">
-              
-                <span itemprop="name">使用函数构建抽象</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-06-02T00:15:49+08:00" content="2020-06-02">
-          06-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/repartition和coalesce区别/" itemprop="url">
-              
-                <span itemprop="name">repartition和coalesce区别</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:59:42+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/关于Spark运行中内存超出的问题/" itemprop="url">
-              
-                <span itemprop="name">Spark运行内存超出</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:59:34+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="Chapter1-使用函数构建抽象"><a href="#Chapter1-使用函数构建抽象" class="headerlink" title="Chapter1: 使用函数构建抽象"></a>Chapter1: 使用函数构建抽象</h1><h2 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h2><h3 id="作为一般方法的函数"><a href="#作为一般方法的函数" class="headerlink" title="作为一般方法的函数"></a>作为一般方法的函数</h3><ul>
+<li><p>sum_naturals()</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">sum_naturals</span><span class="params">(n)</span>:</span></span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + k, k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_naturals(<span class="number">100</span>)</span><br><span class="line"><span class="number">5050</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sum_cube()</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">sum_cubes</span><span class="params">(n)</span>:</span></span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + pow(k, <span class="number">3</span>), k + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_cubes(<span class="number">100</span>)</span><br><span class="line"><span class="number">25502500</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sum_pi()</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\pi=\frac{8}{1 \cdot 3}+\frac{8}{5 \cdot 7}+\frac{8}{9 \cdot 11}+\dots</script><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">pi_sum</span><span class="params">(n)</span>:</span></span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + <span class="number">8</span> / (k * (k + <span class="number">2</span>)), k + <span class="number">4</span></span><br><span class="line">        <span class="keyword">return</span> total</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi_sum(<span class="number">100</span>)</span><br><span class="line"><span class="number">3.121594652591009</span></span><br></pre></td></tr></table></figure>
+<p><code>这三个函数在背后都具有相同模式。它们大部分相同，只是名字、用于计算被加项的k的函数，以及提供k的下一个值的函数不同。我们可以通过向相同的模板中填充槽位来生成每个函数：</code></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> &lt;<span class="title">name</span>&gt;<span class="params">(n)</span>:</span></span><br><span class="line">    total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">        total, k = total + &lt;term&gt;(k), &lt;next&gt;(k)</span><br><span class="line">    <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于以上三个函数我们可以<strong>抽象</strong>成以下函数:</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">summation</span><span class="params">(n, term, next)</span>:</span></span><br><span class="line">        total, k = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> k &lt;= n:</span><br><span class="line">            total, k = total + term(k), next(k)</span><br><span class="line">        <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>要注意summation接受上界n，以及函数term和next作为参数。我们可以像任何函数那样使用summation，它简洁地表达了求和。</p>
+<ul>
+<li>sum_cube()<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">cube</span><span class="params">(k)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> pow(k, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">successor</span><span class="params">(k)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> k + <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">sum_cubes</span><span class="params">(n)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> summation(n, cube, successor)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sum_cubes(<span class="number">3</span>)</span><br><span class="line">    <span class="number">36</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>sum_pi()</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pi_term</span><span class="params">(k)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">8</span> / (k * (k + <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pi_next</span><span class="params">(k)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> k+<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum_pi</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> summation(n, pi, next)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi_sum(<span class="number">1e6</span>)</span><br><span class="line">    <span class="number">3.1415906535898936</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>计算黄金分割比(gold ratio)</p>
+<script type="math/tex; mode=display">\phi = 1 + \frac{1}{\phi}</script><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">golden_update</span><span class="params">(guess)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>/guess + <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">golden_test</span><span class="params">(guess)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> near(guess, square, successor)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>iter_improve(golden_update, golden_test)</span><br><span class="line"><span class="number">1.6180371352785146</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Lambda-表达式"><a href="#Lambda-表达式" class="headerlink" title="$Lambda$ 表达式"></a>$Lambda$ 表达式</h3><blockquote>
+<p>Python 中，我们可以使用 Lambda 表达式凭空创建函数，它会求值为匿名函数。Lambda 表达式是函数体具有单个返回表达式的函数，不允许出现赋值和控制语句。<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   lambda            <span class="keyword">x</span>            :          f(g(<span class="keyword">x</span>))</span><br><span class="line"><span class="string">"A function that    takes x    and returns     f(g(x))"</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>	<span class="function"><span class="keyword">def</span> <span class="title">compose1</span><span class="params">(f, g)</span>:</span></span><br><span class="line"><span class="number">2</span>	    <span class="keyword">return</span> <span class="keyword">lambda</span> x: f(g(x))</span><br><span class="line"><span class="number">3</span>	</span><br><span class="line"><span class="number">4</span>	f = compose1(<span class="keyword">lambda</span> x: x * x,</span><br><span class="line"><span class="number">5</span>	             <span class="keyword">lambda</span> y: y + <span class="number">1</span>)</span><br><span class="line"><span class="number">6</span>	result = f(<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="抽象和一等函数"><a href="#抽象和一等函数" class="headerlink" title="抽象和一等函数"></a>抽象和一等函数</h3><blockquote>
+<p>作为程序员，我们应该留意识别程序中低级抽象的机会，在它们之上构建，并泛化它们来创建更加强大的抽象。这并不是说，一个人应该总是尽可能以最抽象的方式来编程；专家级程序员知道如何选择合适于他们任务的抽象级别。但是能够基于这些抽象来思考，以便我们在新的上下文中能使用它们十分重要。高阶函数的重要性是，它允许我们更加明显地将这些抽象表达为编程语言中的元素，使它们能够处理其它的计算元素。</p>
+</blockquote>
+<p>通常，编程语言会限制操作计算元素的途径。带有最少限制的元素被称为具有一等地位。一些一等元素的“权利和特权”是：</p>
+<blockquote>
+<ul>
+<li>它们可以绑定到名称。</li>
+<li>它们可以作为参数向函数传递。</li>
+<li>它们可以作为函数的返回值返回。</li>
+<li>它们可以包含在数据结构中。</li>
+<li>Python 总是给予函数一等地位，所产生的表现力的收益是巨大的。另一方面，控制结构不能做到：你不能像使用sum那样将if传给一个函数。</li>
+</ul>
+</blockquote>
+<h4 id="补充阅读"><a href="#补充阅读" class="headerlink" title="补充阅读"></a>补充阅读</h4><p><a href="https://foofish.net/function-is-first-class-object.html" target="_blank" rel="noopener">如何正确理解Python函数是第一类对象</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/Spark性能调优：合理设置并行度/" itemprop="url">
-              
-                <span itemprop="name">Spark并行度理解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:59:29+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/spark中的各种概念的理解/" itemprop="url">
-              
-                <span itemprop="name">Spark中的各种概念</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:59:02+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/cache算子和persist算子/" itemprop="url">
-              
-                <span itemprop="name">cache和persist比较</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:58:13+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/RDD算子总结/" itemprop="url">
-              
-                <span itemprop="name">RDD算子总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:58:01+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/RDD基础入门/" itemprop="url">
-              
-                <span itemprop="name">RDD基础入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T12:38:23+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/26/MapReduce/" itemprop="url">
-              
-                <span itemprop="name">MapReduce介绍</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-05-26T01:42:11+08:00" content="2020-05-26">
-          05-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>支持一下^-^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="White 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="White 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SICP/" rel="tag"># SICP</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/26/repartition和coalesce区别/" rel="next" title="repartition和coalesce区别">
+                <i class="fa fa-chevron-left"></i> repartition和coalesce区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/09/事务的ACID特性/" rel="prev" title="事务的的四大特性">
+                事务的的四大特性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
+  </article>
 
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -804,8 +695,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -932,6 +832,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter1-使用函数构建抽象"><span class="nav-number">1.</span> <span class="nav-text">Chapter1: 使用函数构建抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#高阶函数"><span class="nav-number">1.1.</span> <span class="nav-text">高阶函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作为一般方法的函数"><span class="nav-number">1.1.1.</span> <span class="nav-text">作为一般方法的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda-表达式"><span class="nav-number">1.1.2.</span> <span class="nav-text">$Lambda$ 表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象和一等函数"><span class="nav-number">1.1.3.</span> <span class="nav-text">抽象和一等函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#补充阅读"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">补充阅读</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1087,6 +1003,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
 
   
 
@@ -1475,6 +1395,36 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
