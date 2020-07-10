@@ -549,7 +549,7 @@
 <p>RDD的转化操作都是多心求值的，这意味着在被调用行动操作之前Spark不会开始计算。</p>
 <p>惰性求值意味着我们对RDD调用转化操作（例如map()）时，操作不会立即执行，相反，Spark会在内部记录下所要求执行的操作的相关信息。<strong>我们不应该把RDD看作放着特定数据的数据集，而最好把每个RDD看作我们通过转化操作构建出来的、记录如何计算数据的指令列表</strong>。把数据读到RDD的操作也是惰性的，因此，当我们调用sc.textFile()时，数据并没有读取进来，而是在必要时才会读取。</p>
 </blockquote>
-<h4 id="3、函数传递"><a href="#3、函数传递" class="headerlink" title="3、函数传递"></a>3、函数传递</h4><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用lambda方法传递</span></span><br><span class="line"><span class="built_in">word</span> = rdd.<span class="built_in">filter</span>(lambda s: <span class="string">"error"</span> <span class="keyword">in</span> s)</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义一个函数然后传递</span></span><br><span class="line">def containsError(s):</span><br><span class="line">    <span class="literal">return</span> <span class="string">"error"</span> <span class="keyword">in</span> s</span><br><span class="line"><span class="built_in">word</span> = rdd.<span class="built_in">filter</span>(containsError)</span><br></pre></td></tr></table></figure>
+<h4 id="3、函数传递"><a href="#3、函数传递" class="headerlink" title="3、函数传递"></a>3、函数传递</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用lambda方法传递</span></span><br><span class="line">word = rdd.filter(<span class="keyword">lambda</span> s: <span class="string">"error"</span> <span class="keyword">in</span> s)</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义一个函数然后传递</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">containsError</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"error"</span> <span class="keyword">in</span> s</span><br><span class="line">word = rdd.filter(containsError)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>传递函数时要小心，python会在不经意间把函数所在的对象也序列化传出，有时如果传递的类里包含了python不知道如何序列化输出的对象，也可能导致程序失败。</p>
 <p>如下是一个错误的函数传递示例；</p>
@@ -558,7 +558,7 @@
 <blockquote>
 <p>正确做法:</p>
 </blockquote>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WordFunctions</span>(<span class="title">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getMatchesNoReference</span><span class="params">(<span class="keyword">self</span>, rdd)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="comment"># 安全：只把需要的字段提取到局部变量中</span></span><br><span class="line">        query = <span class="keyword">self</span>.query</span><br><span class="line">        <span class="keyword">return</span> rdd.filter(lambda <span class="symbol">x:</span> query <span class="keyword">in</span> x)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WordFunctions</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getMatchesNoReference</span><span class="params">(self, rdd)</span>:</span></span><br><span class="line">        <span class="comment"># 安全：只把需要的字段提取到局部变量中</span></span><br><span class="line">        query = self.query</span><br><span class="line">        <span class="keyword">return</span> rdd.filter(<span class="keyword">lambda</span> x: query <span class="keyword">in</span> x)</span><br></pre></td></tr></table></figure>
 <h4 id="4、RDD操作"><a href="#4、RDD操作" class="headerlink" title="4、RDD操作"></a>4、RDD操作</h4><blockquote>
 <p>常见的转化操作</p>
 </blockquote>
@@ -735,7 +735,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
