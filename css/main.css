@@ -507,7 +507,7 @@ pre,
   margin: 20px 0;
   padding: 0;
   font-size: 14px;
-  color: #657a81;
+  color: #4c7481;
   background: #2d2d2d;
   line-height: 1.6;
 }
@@ -529,7 +529,7 @@ pre {
 }
 pre code {
   padding: 0;
-  color: #657a81;
+  color: #4c7481;
   background: none;
   text-shadow: none;
 }
@@ -552,7 +552,7 @@ pre code {
 }
 .highlight figcaption {
   font-size: 1em;
-  color: #657a81;
+  color: #4c7481;
   line-height: 1em;
   margin-bottom: 1em;
   margin: 0em;
@@ -570,10 +570,10 @@ pre code {
 }
 .highlight figcaption a {
   float: right;
-  color: #657a81;
+  color: #4c7481;
 }
 .highlight figcaption a:hover {
-  border-bottom-color: #657a81;
+  border-bottom-color: #4c7481;
 }
 .highlight .gutter pre {
   padding-left: 10px;
@@ -636,7 +636,7 @@ pre .literal,
 pre .params,
 pre .constant,
 pre .command {
-  color: #657a81;
+  color: #7e98a1;
 }
 pre .ruby .class .title,
 pre .css .rules .attribute,
@@ -653,7 +653,7 @@ pre .formula {
 }
 pre .title,
 pre .css .hexcolor {
-  color: #657a81;
+  color: #6c7c81;
 }
 pre .function,
 pre .python .decorator,
@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #aab9cc;
+  background: #1c78ff;
 }
 .links-of-blogroll {
   font-size: 13px;
