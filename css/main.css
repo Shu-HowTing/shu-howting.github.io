@@ -506,7 +506,7 @@ pre,
   overflow: auto;
   margin: 20px 0;
   padding: 0;
-  font-size: 15px;
+  font-size: 14px;
   color: #ccc;
   background: #2d2d2d;
   line-height: 1.6;
@@ -522,7 +522,7 @@ code {
   color: #555;
   background: #eee;
   border-radius: 3px;
-  font-size: 15px;
+  font-size: 14px;
 }
 pre {
   padding: 10px;
@@ -1146,7 +1146,7 @@ pre .javascript .function {
   line-height: 36px;
   font-size: 20px;
   font-weight: normal;
-  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Monaco', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 .site-subtitle {
   margin-top: 10px;
@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #46ffe0;
+  background: #ff624d;
 }
 .links-of-blogroll {
   font-size: 13px;
