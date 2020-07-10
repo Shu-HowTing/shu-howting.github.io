@@ -610,7 +610,7 @@ pre .addition {
   background: #800000;
 }
 pre .meta {
-  color: #b58900;
+  color: #997399;
 }
 pre .comment {
   color: #93a1a1;
@@ -667,7 +667,7 @@ pre .coffeescript .title {
 }
 pre .keyword,
 pre .javascript .function {
-  color: #b58900;
+  color: #997399;
 }
 .posts-expand .post-body img.full-image {
   border: none;
@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #7f67ff;
+  background: #aab9cc;
 }
 .links-of-blogroll {
   font-size: 13px;
