@@ -515,7 +515,7 @@
 <li>提高驱动程序和执行程序内存</li>
 </ul>
 <h4 id="提高内存开销"><a href="#提高内存开销" class="headerlink" title="提高内存开销"></a>提高内存开销</h4><blockquote>
-<p>即直接指定堆外内存的大小<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">spark</span><span class="selector-class">.conf</span><span class="selector-class">.set</span>("<span class="selector-tag">spark</span><span class="selector-class">.yarn</span><span class="selector-class">.executor</span><span class="selector-class">.memoryOverhead</span>", "4<span class="selector-tag">g</span>")</span><br></pre></td></tr></table></figure></p>
+<p>即直接指定堆外内存的大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.conf.set(&quot;spark.yarn.executor.memoryOverhead&quot;, &quot;4g&quot;)</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <h4 id="减少执行程序内核的数量"><a href="#减少执行程序内核的数量" class="headerlink" title="减少执行程序内核的数量"></a>减少执行程序内核的数量</h4><blockquote>
 <p>这可减少执行程序可以执行的最大任务数量，从而减少所需的内存量。</p>
@@ -679,7 +679,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -729,7 +729,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
