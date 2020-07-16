@@ -1795,6 +1795,26 @@ pre .javascript .function {
   color: #345;
   border-bottom: none;
 }
+.post-bodypa {
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1pxsolid #0593d3;
+}
+.post-bodypa:hover {
+  color: #fc6423;
+  border-bottom: none;
+  border-bottom: 1pxsolid #fc6423;
+}
+.post-bodylia {
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1pxsolid #0593d3;
+}
+.post-bodylia:hover {
+  color: #fc6423;
+  border-bottom: none;
+  border-bottom: 1pxsolid #fc6423;
+}
 .sidebar {
   position: fixed;
   right: 0;
@@ -1966,7 +1986,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff603d;
+  background: #f911d2;
 }
 .links-of-blogroll {
   font-size: 13px;
