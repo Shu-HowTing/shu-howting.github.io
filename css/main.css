@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffeb58;
+  background: #c9ffe0;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3268,10 +3268,10 @@ ul.breadcrumb li+li:last-child {
   border-bottom: 1px solid #e35a20;
 }
 ::selection {
-  background: #5c696d;
+  background: #000;
   color: #7f5a5a;
 }
 ::-moz-selection {
-  background: #5c696d;
+  background: #000;
   color: #7f5a5a;
 }
