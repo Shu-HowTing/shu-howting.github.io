@@ -1201,8 +1201,8 @@ pre .javascript .function {
 }
 .menu {
   margin-top: 20px;
-  padding-left: 0;
-  text-align: center;
+  padding-left: 10px;
+  text-align: cent10r;
 }
 .menu .menu-item {
   display: inline-block;
@@ -1217,7 +1217,7 @@ pre .javascript .function {
 .menu .menu-item a,
 .menu .menu-item span.exturl {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   line-height: inherit;
   border-bottom: 1px solid transparent;
   transition-property: border-color;
@@ -1966,7 +1966,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #08cbfe;
+  background: #03a770;
 }
 .links-of-blogroll {
   font-size: 13px;
