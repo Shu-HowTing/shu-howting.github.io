@@ -115,17 +115,18 @@
 
 
 
-  <meta name="description" content="-— title: $Spark$解析$DataFrame$中的$json\ string$字段 tags: Spark技术 categories: Spark mathjax: true -— How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json">
+  <meta name="description" content="How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。  数据准备12345# Sample Data Framejstr1 = u&apos;&amp;#123;&quot;hea">
+<meta name="keywords" content="Spark技术">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Infinity">
+<meta property="og:title" content="$Spark$解析$DataFrame$中的$json\ string$字段">
 <meta property="og:url" content="shu-howting.github.io/2020/08/03/How to parse a column of json string in Pyspark/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="-— title: $Spark$解析$DataFrame$中的$json\ string$字段 tags: Spark技术 categories: Spark mathjax: true -— How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json">
+<meta property="og:description" content="How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。  数据准备12345# Sample Data Framejstr1 = u&apos;&amp;#123;&quot;hea">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-08-05T03:34:31.969Z">
+<meta property="og:updated_time" content="2020-08-05T03:40:18.881Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Infinity">
-<meta name="twitter:description" content="-— title: $Spark$解析$DataFrame$中的$json\ string$字段 tags: Spark技术 categories: Spark mathjax: true -— How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json">
+<meta name="twitter:title" content="$Spark$解析$DataFrame$中的$json\ string$字段">
+<meta name="twitter:description" content="How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。  数据准备12345# Sample Data Framejstr1 = u&apos;&amp;#123;&quot;hea">
 
 
 
@@ -142,7 +143,7 @@
   };
 </script>
 
-  <title> | Infinity</title>
+  <title>$Spark$解析$DataFrame$中的$json\ string$字段 | Infinity</title>
   
 
 
@@ -405,7 +406,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">$Spark$解析$DataFrame$中的$json\ string$字段
               
             
           </h1>
@@ -447,11 +448,29 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-08-05 11:34:31" itemprop="dateModified" datetime="2020-08-05T11:34:31+08:00">2020-08-05</time>
+                <time title="修改时间：2020-08-05 11:40:18" itemprop="dateModified" datetime="2020-08-05T11:40:18+08:00">2020-08-05</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -497,13 +516,7 @@
       
 
       
-        <p>-—</p>
-<p>title: $Spark$解析$DataFrame$中的$json\ string$字段</p>
-<p>tags: Spark技术</p>
-<p>categories: Spark</p>
-<p>mathjax: true</p>
-<p>-—</p>
-<h2 id="How-to-parse-a-column-of-json-string-in-Pyspark"><a href="#How-to-parse-a-column-of-json-string-in-Pyspark" class="headerlink" title="How to parse a column of json string in Pyspark"></a>How to parse a column of json string in Pyspark</h2><blockquote>
+        <h2 id="How-to-parse-a-column-of-json-string-in-Pyspark"><a href="#How-to-parse-a-column-of-json-string-in-Pyspark" class="headerlink" title="How to parse a column of json string in Pyspark"></a>How to parse a column of json string in Pyspark</h2><blockquote>
 <p>在用$spark.sql(\ )$从Table读入数据时，<code>DataFrame</code>的列有时是这样一种类型：<code>json</code>形式的<code>string</code>。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。</p>
 </blockquote>
 <h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Sample Data Frame</span></span><br><span class="line">jstr1 = <span class="string">u'&#123;"header":&#123;"id":12345,"foo":"bar"&#125;,"body":&#123;"id":111000,"name":"foobar","sub_json":&#123;"id":54321,"sub_sub_json":&#123;"col1":20,"col2":"somethong"&#125;&#125;&#125;&#125;'</span></span><br><span class="line">jstr2 = <span class="string">u'&#123;"header":&#123;"id":12346,"foo":"baz"&#125;,"body":&#123;"id":111002,"name":"barfoo","sub_json":&#123;"id":23456,"sub_sub_json":&#123;"col1":30,"col2":"something else"&#125;&#125;&#125;&#125;'</span></span><br><span class="line">jstr3 = <span class="string">u'&#123;"header":&#123;"id":43256,"foo":"foobaz"&#125;,"body":&#123;"id":20192,"name":"bazbar","sub_json":&#123;"id":39283,"sub_sub_json":&#123;"col1":50,"col2":"another thing"&#125;&#125;&#125;&#125;'</span></span><br><span class="line">df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)])</span><br></pre></td></tr></table></figure>
@@ -570,6 +583,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Spark技术/" rel="tag"># Spark技术</a>
+          
+        </div>
+      
 
       
       
@@ -579,8 +598,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/25/Java学习笔记 --（二）/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2020/07/17/Java学习笔记 --（一）/" rel="next" title="Java学习笔记 --（一）">
+                <i class="fa fa-chevron-left"></i> Java学习笔记 --（一）
               </a>
             
           </div>
@@ -663,7 +682,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1350,6 +1369,36 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
