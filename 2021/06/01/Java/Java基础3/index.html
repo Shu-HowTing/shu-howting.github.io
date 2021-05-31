@@ -115,27 +115,22 @@
 
 
 
-  <meta name="description" content="Spark中的各种概念的理解Application：通俗讲，用户每次提交的所有的代码为一个application。 Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（action）为一个job Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分 Task：task是最小的基本的计算单位">
-<meta name="keywords" content="Spark技术">
+  <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark中的各种概念">
-<meta property="og:url" content="shu-howting.github.io/2020/05/26/Spark/spark中的各种概念的理解/index.html">
+<meta property="og:title" content="Java基础3">
+<meta property="og:url" content="shu-howting.github.io/2021/06/01/Java/Java基础3/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="Spark中的各种概念的理解Application：通俗讲，用户每次提交的所有的代码为一个application。 Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（action）为一个job Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分 Task：task是最小的基本的计算单位">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/29/mLRiZt.jpg">
-<meta property="og:updated_time" content="2020-05-26T05:06:05.028Z">
+<meta property="og:updated_time" content="2021-05-31T18:00:50.535Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark中的各种概念">
-<meta name="twitter:description" content="Spark中的各种概念的理解Application：通俗讲，用户每次提交的所有的代码为一个application。 Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（action）为一个job Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分 Task：task是最小的基本的计算单位">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/08/29/mLRiZt.jpg">
+<meta name="twitter:title" content="Java基础3">
 
 
 
 
 
 
-  <link rel="canonical" href="shu-howting.github.io/2020/05/26/Spark/spark中的各种概念的理解/">
+  <link rel="canonical" href="shu-howting.github.io/2021/06/01/Java/Java基础3/">
 
 
 
@@ -145,7 +140,7 @@
   };
 </script>
 
-  <title>Spark中的各种概念 | Infinity</title>
+  <title>Java基础3 | Infinity</title>
   
 
 
@@ -391,7 +386,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2020/05/26/Spark/spark中的各种概念的理解/">
+    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2021/06/01/Java/Java基础3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="White">
@@ -408,7 +403,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark中的各种概念
+          <h1 class="post-title" itemprop="name headline">Java基础3
               
             
           </h1>
@@ -433,7 +428,7 @@
                 
               
 
-              <time title="创建时间：2020-05-26 12:59:02 / 修改时间：13:06:05" itemprop="dateCreated datePublished" datetime="2020-05-26T12:59:02+08:00">2020-05-26</time>
+              <time title="创建时间：2021-06-01 01:59:13 / 修改时间：02:00:50" itemprop="dateCreated datePublished" datetime="2021-06-01T01:59:13+08:00">2021-06-01</time>
             
 
             
@@ -455,7 +450,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
 
                 
                 
@@ -470,8 +465,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/05/26/Spark/spark中的各种概念的理解/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/05/26/Spark/spark中的各种概念的理解/" itemprop="commentCount"></span>
+                <a href="/2021/06/01/Java/Java基础3/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/06/01/Java/Java基础3/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -506,28 +501,7 @@
       
 
       
-        <h2 id="Spark中的各种概念的理解"><a href="#Spark中的各种概念的理解" class="headerlink" title="Spark中的各种概念的理解"></a>Spark中的各种概念的理解</h2><p>Application：通俗讲，用户每次提交的所有的代码为一个application。</p>
-<p>Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（<strong>action</strong>）为一个job</p>
-<p>Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分</p>
-<p>Task：task是最小的基本的计算单位。一般是一个RDD的一个分区（partition）为一个task，大约是128M</p>
-<p>并行度：是指指令并行执行的最大条数。在指令流水中，同时执行多条指令称为指令并行。</p>
-<p>理论上：每一个stage下有多少的分区，就有多少的task，task的数量就是我们任务的最大的并行度。</p>
-<p>（一般情况下，我们一个task运行的时候，使用一个cores）</p>
-<p>实际上：最大的并行度，取决于我们的application任务运行时使用的executor拥有的cores的数量。</p>
-<p><a href="http://litaotao.github.io/spark-questions-concepts?s=inner" target="_blank" rel="noopener">spark 基本概念解析</a></p>
-<h3 id="Spark运行流程"><a href="#Spark运行流程" class="headerlink" title="Spark运行流程"></a>Spark运行流程</h3><ol>
-<li>Application 首先被 Driver 构建 DAG 图并分解成 Stage。</li>
-<li>然后 Driver 向 Cluster Manager 申请资源。</li>
-<li>Cluster Manager 向某些 Work Node 发送征召信号。</li>
-<li>被征召的 Work Node 启动 Executor 进程响应征召，并向 Driver 申请任务。</li>
-<li>Driver 分配 Task 给 Work Node。</li>
-<li>Executor 以 Stage 为单位执行 Task，期间 Driver 进行监控。</li>
-<li>Driver 收到 Executor 任务完成的信号后向 Cluster Manager 发送注销信号。</li>
-<li>Cluster Manager 向 Work Node 发送释放资源信号。</li>
-<li>Work Node 对应 Executor 停止运行。</li>
-</ol>
-<p><img src="https://s2.ax1x.com/2019/08/29/mLRiZt.jpg" alt="image"></p>
-
+        <h3 id=""><a href="#" class="headerlink" title=" "></a> </h3>
       
     </div>
 
@@ -579,7 +553,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Spark技术/" rel="tag"># Spark技术</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -592,8 +566,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/26/Spark/cache算子和persist算子/" rel="next" title="cache和persist比较">
-                <i class="fa fa-chevron-left"></i> cache和persist比较
+              <a href="/2020/08/14/MySQL/MySql的join实现/" rel="next" title="MySql的join实现">
+                <i class="fa fa-chevron-left"></i> MySql的join实现
               </a>
             
           </div>
@@ -601,10 +575,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/26/Spark/Spark性能调优：合理设置并行度/" rel="prev" title="Spark并行度理解">
-                Spark并行度理解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -816,7 +786,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark中的各种概念的理解"><span class="nav-number">1.</span> <span class="nav-text">Spark中的各种概念的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark运行流程"><span class="nav-number">1.1.</span> <span class="nav-text">Spark运行流程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"> </span></a></li></ol></div>
             
 
           </div>
@@ -1369,6 +1339,36 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
