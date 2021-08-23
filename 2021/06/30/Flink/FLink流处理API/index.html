@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-mac-osx.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/football.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Flink 流处理API 1. Environment1.1 getExecutionEnvironment 创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境">
+<meta name="keywords" content="Flink">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink流处理API">
+<meta property="og:url" content="shu-howting.github.io/2021/06/30/Flink/FLink流处理API/index.html">
+<meta property="og:site_name" content="Infinity">
+<meta property="og:description" content="Flink 流处理API 1. Environment1.1 getExecutionEnvironment 创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-flow.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/Flink-map.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink_filter.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-keyBy.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-split.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-select.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-connect.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-CoMap.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-union.png">
+<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-transform.png">
+<meta property="og:updated_time" content="2021-07-02T08:50:52.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flink流处理API">
+<meta name="twitter:description" content="Flink 流处理API 1. Environment1.1 getExecutionEnvironment 创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境">
+<meta name="twitter:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-flow.png">
+
+
+
+
+
+
+  <link rel="canonical" href="shu-howting.github.io/2021/06/30/Flink/FLink流处理API/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Flink流处理API | Infinity</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Shu-HowTing"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Infinity</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Me/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+<link href="http://cdn.repository.webfont.com/webfonts/nomal/138424/47755/5ec41771f629d80d3cebdfa6.css" rel="stylesheet" type="text/css">
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2021/06/30/Flink/FLink流处理API/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="White">
+      <meta itemprop="description" content="Stay foolish, Stay hungry!">
+      <meta itemprop="image" content="/images/football.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Infinity">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Flink流处理API
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-06-30 07:57:22" itemprop="dateCreated datePublished" datetime="2021-06-30T07:57:22+08:00">2021-06-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-07-02 16:50:52" itemprop="dateModified" datetime="2021-07-02T16:50:52+08:00">2021-07-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/06/30/Flink/FLink流处理API/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/06/30/Flink/FLink流处理API/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Flink-流处理API"><a href="#Flink-流处理API" class="headerlink" title="Flink 流处理API"></a>Flink 流处理API</h2><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-flow.png" alt="image-20210630103508004"></p>
+<h3 id="1-Environment"><a href="#1-Environment" class="headerlink" title="1. Environment"></a>1. Environment</h3><h4 id="1-1-getExecutionEnvironment"><a href="#1-1-getExecutionEnvironment" class="headerlink" title="1.1 getExecutionEnvironment"></a>1.1 getExecutionEnvironment</h4><blockquote>
+<p>创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境的方式。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-createLocalEnvironment"><a href="#1-2-createLocalEnvironment" class="headerlink" title="1.2 createLocalEnvironment"></a>1.2 createLocalEnvironment</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LocalStreamEnvironment env = StreamExecutionEnvironment.createLocalEnvironment(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-createRemoteEnvironment"><a href="#1-3-createRemoteEnvironment" class="headerlink" title="1.3 createRemoteEnvironment"></a>1.3 createRemoteEnvironment</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment(<span class="string">"jobmanage-hostname"</span>, <span class="number">6123</span>,<span class="string">"YOURPATH//WordCount.jar"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="2-Source"><a href="#2-Source" class="headerlink" title="2. Source"></a>2. Source</h3><h4 id="2-1-集合"><a href="#2-1-集合" class="headerlink" title="2.1 集合"></a>2.1 集合</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">env.setParallelism(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从集合里读取数据</span></span><br><span class="line">DataStreamSource&lt;SensorReading&gt; dataStream = env.fromCollection(Arrays.asList(</span><br><span class="line">    <span class="keyword">new</span> SensorReading(<span class="string">"sensor_1"</span>, <span class="number">1547718199L</span>, <span class="number">35.8</span>),</span><br><span class="line">    <span class="keyword">new</span> SensorReading(<span class="string">"sensor_6"</span>, <span class="number">1547718201L</span>, <span class="number">15.4</span>),</span><br><span class="line">    <span class="keyword">new</span> SensorReading(<span class="string">"sensor_7"</span>, <span class="number">1547718202L</span>, <span class="number">6.7</span>),</span><br><span class="line">    <span class="keyword">new</span> SensorReading(<span class="string">"sensor_10"</span>, <span class="number">1547718205L</span>, <span class="number">38.1</span>)));</span><br><span class="line"></span><br><span class="line">DataStreamSource&lt;Integer&gt; integerDataStreamSource = env.fromElements(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印输出</span></span><br><span class="line">dataStream.print(<span class="string">"data"</span>);</span><br><span class="line">integerDataStreamSource.print(<span class="string">"int"</span>);</span><br><span class="line"></span><br><span class="line">env.execute();</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-文件"><a href="#2-2-文件" class="headerlink" title="2.2 文件"></a>2.2 文件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">"src/main/resources/sensor.txt"</span>;</span><br><span class="line"></span><br><span class="line">DataStreamSource&lt;String&gt; dataStream = env.readTextFile(path);</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-kafka消息队列"><a href="#2-3-kafka消息队列" class="headerlink" title="2.3 kafka消息队列"></a>2.3 kafka消息队列</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">properties.setProperty(<span class="string">"bootstrap.servers"</span>, <span class="string">"localhost:9092"</span>);</span><br><span class="line">properties.setProperty(<span class="string">"group.id"</span>, <span class="string">"consumer-group"</span>);</span><br><span class="line">properties.setProperty(<span class="string">"key.deserializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringDeserializer"</span>);</span><br><span class="line">properties.setProperty(<span class="string">"value.deserializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringDeserializer"</span>);</span><br><span class="line">properties.setProperty(<span class="string">"auto.offset.reset"</span>, <span class="string">"latest"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//从kafka读取文件</span></span><br><span class="line">DataStreamSource&lt;String&gt; sensor = env.addSource(<span class="keyword">new</span> FlinkKafkaConsumer011&lt;String&gt;(<span class="string">"sensor"</span>, <span class="keyword">new</span> SimpleStringSchema(), 			</span><br><span class="line">                                                                                  properties));</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-自定义Source"><a href="#2-4-自定义Source" class="headerlink" title="2.4 自定义Source"></a>2.4 自定义Source</h4><blockquote>
+<p>除了以上的source数据来源，我们还可以自定义source。需要做的，只是传入一个SourceFunction就可以。具体调用如下：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataStreamSource&lt;SensorReading&gt; dataStream = env.addSource(<span class="keyword">new</span> MySourceFucntion());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们希望可以随机生成传感器数据，MySensorSource具体的代码实现如下：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MySourceFucntion</span> <span class="keyword">implements</span> <span class="title">SourceFunction</span>&lt;<span class="title">SensorReading</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> running = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(SourceContext&lt;SensorReading&gt; ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        HashMap&lt;String, Double&gt; sensorTempMap = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 设置10个传感器的初始温度</span></span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            sensorTempMap.put(<span class="string">"sensor_"</span> + (i+<span class="number">1</span>), <span class="number">60</span> + random.nextGaussian() * <span class="number">20</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(running)&#123;</span><br><span class="line">            <span class="keyword">for</span> (String sensorId : sensorTempMap.keySet() ) &#123;</span><br><span class="line">                <span class="comment">// 在当前温度基础上随机波动</span></span><br><span class="line">                <span class="keyword">double</span> newTemp = sensorTempMap.get(sensorId) + random.nextGaussian();</span><br><span class="line">                sensorTempMap.put(sensorId, newTemp);</span><br><span class="line">                ctx.collect(<span class="keyword">new</span> SensorReading(sensorId, System.currentTimeMillis(), newTemp));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 控制输出频率</span></span><br><span class="line">            Thread.sleep(<span class="number">1000L</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        running = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-Transform"><a href="#3-Transform" class="headerlink" title="3. Transform"></a>3. Transform</h3><h4 id="3-1-map"><a href="#3-1-map" class="headerlink" title="3.1 map"></a>3.1 map</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/Flink-map.png" alt="image-20210630084715606"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DataStreamSource&lt;String&gt; inputStream = env.readTextFile(path);</span><br><span class="line">...</span><br><span class="line">DataStream&lt;Integer&gt; mapStram = inputStream.map(<span class="keyword">new</span> MapFunction&lt;String, Integer&gt;() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Integer <span class="title">map</span><span class="params">(String value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> value.length();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-flatMap"><a href="#3-2-flatMap" class="headerlink" title="3.2 flatMap"></a>3.2 flatMap</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. flatmap，按逗号分字段</span></span><br><span class="line">DataStream&lt;String&gt; flatMapStream = inputStream.flatMap(<span class="keyword">new</span> FlatMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMap</span><span class="params">(String value, Collector&lt;String&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String[] fields = value.split(<span class="string">","</span>);</span><br><span class="line">        <span class="keyword">for</span>( String field: fields )</span><br><span class="line">            out.collect(field);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="3-3-filter"><a href="#3-3-filter" class="headerlink" title="3.3 filter"></a>3.3 filter</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink_filter.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;String&gt; filterStream = inputStream.filter(line -&gt; line.startsWith(<span class="string">"sensor_1"</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="3-4-keyBy"><a href="#3-4-keyBy" class="headerlink" title="3.4 keyBy"></a>3.4 keyBy</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-keyBy.png" alt="image-20210630084918876"></p>
+<blockquote>
+<p> <strong>DataStream</strong>→<strong>KeyedStream</strong>：逻辑地将一个流拆分成不相交的分区，每个分区包含具有相同key的元素，在内部以hash的形式实现的.</p>
+</blockquote>
+<h4 id="3-5-滚动聚合算子-Rolling-Aggregation"><a href="#3-5-滚动聚合算子-Rolling-Aggregation" class="headerlink" title="3.5 滚动聚合算子(Rolling Aggregation)"></a>3.5 滚动聚合算子(Rolling Aggregation)</h4><p>​    这些算子可以针对$KeyedStream$的每一个支流做聚合。</p>
+<ul>
+<li>sum()</li>
+<li>min()</li>
+<li>max()</li>
+<li>minBy()</li>
+<li>Maxby()</li>
+</ul>
+<h4 id="3-6-Reduce"><a href="#3-6-Reduce" class="headerlink" title="3.6 Reduce"></a>3.6 Reduce</h4><blockquote>
+<p><strong>KeyedStream</strong> →<strong>DataStream</strong>：一个分组数据流的聚合操作，合并当前的元素和上次聚合的结果，产生一个新的值，返回的流中包含每一次聚合的结果，而不是只返回最后一次聚合的最终结果。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">DataStreamSource&lt;String&gt; inputStream = env.readTextFile(path);</span><br><span class="line"></span><br><span class="line">        DataStream&lt;SensorReading&gt; mapStream = inputStream.map(line -&gt; &#123;</span><br><span class="line">            String[] fields = line.split(<span class="string">","</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(fields[<span class="number">0</span>], Long.parseLong(fields[<span class="number">1</span>]), Double.parseDouble(fields[<span class="number">2</span>]));</span><br><span class="line">        &#125;);</span><br><span class="line">        KeyedStream&lt;SensorReading, Tuple&gt; keyedStream = mapStream.keyBy(<span class="string">"id"</span>);</span><br><span class="line"></span><br><span class="line">        SingleOutputStreamOperator&lt;SensorReading&gt; reduceStream = keyedStream.reduce(<span class="keyword">new</span> ReduceFunction&lt;SensorReading&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> SensorReading <span class="title">reduce</span><span class="params">(SensorReading value1, SensorReading value2)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(value1.getId(), value2.getTimestamp(),</span><br><span class="line">                        Math.max(value1.getTemperature(), value2.getTemperature()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//SensorReading&#123;id='sensor_1', timestamp=1547718207, temperature=36.3&#125;</span></span><br><span class="line">        <span class="comment">//SensorReading&#123;id='sensor_1', timestamp=1547718209, temperature=36.3&#125;</span></span><br><span class="line">        reduceStream.print();</span><br><span class="line">        env.execute();</span><br></pre></td></tr></table></figure>
+<h4 id="3-7-Split-Select"><a href="#3-7-Split-Select" class="headerlink" title="3.7 Split/Select"></a>3.7 Split/Select</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-split.png" alt="image-20210630100205168"></p>
+<p><strong>DataStream</strong> → <strong>SplitStream</strong>：根据某些特征把一个$DataStream$拆分成两个或者多个$DataStream$.</p>
+<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-select.png" alt="image-20210630100619233"></p>
+<p><strong>SplitStream</strong>→<strong>DataStream</strong>：从一个SplitStream中获取一个或者多个DataStream.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传感器数据按照温度高低（以 30 度为界），拆分 成两个流 。</span></span><br><span class="line">DataStreamSource&lt;String&gt; inputStream = env.readTextFile(path);</span><br><span class="line"></span><br><span class="line">DataStream&lt;SensorReading&gt; dataStream = inputStream.map(line -&gt; &#123;</span><br><span class="line">    String[] fields = line.split(<span class="string">","</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(fields[<span class="number">0</span>], Long.parseLong(fields[<span class="number">1</span>]), Double.parseDouble(fields[<span class="number">2</span>]));</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 分流，按照温度值30度为界分为两条流</span></span><br><span class="line">SplitStream&lt;SensorReading&gt; splitStream = dataStream.split(<span class="keyword">new</span> OutputSelector&lt;SensorReading&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;String&gt; <span class="title">select</span><span class="params">(SensorReading value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (value.getTemperature() &gt; <span class="number">30</span>) ? Collections.singletonList(<span class="string">"high"</span>) : Collections.singletonList(<span class="string">"low"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">DataStream&lt;SensorReading&gt; highStream = splitStream.select(<span class="string">"high"</span>);</span><br><span class="line">DataStream&lt;SensorReading&gt; lowStream = splitStream.select(<span class="string">"low"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="3-8-Connect和CoMap"><a href="#3-8-Connect和CoMap" class="headerlink" title="3.8 Connect和CoMap"></a>3.8 Connect和CoMap</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-connect.png" alt="image-20210630102511107"></p>
+<blockquote>
+<p><strong>DataStream,DataStream</strong> → <strong>ConnectedStreams</strong>：连接两个保持他们类型的数据流，两个数据流被Connect之后，只是被放在了一个同一个流中，内部依然保持各自的数据和形式不发生任何变化，两个流相互独立。</p>
+</blockquote>
+<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-CoMap.png" alt="image-20210630102609192"></p>
+<blockquote>
+<p><strong>ConnectedStreams → DataStream</strong>：作用于$ConnectedStreams$上，功能与map和flatMap一样，对ConnectedStreams中的每一个Stream分别进行map和flatMap处理</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 合流 connect，将高温流转换成二元组类型，与低温流连接合并之后，输出状态信息</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Double&gt;&gt; warningStream = highStream.map(<span class="keyword">new</span> MapFunction&lt;SensorReading, Tuple2&lt;String, Double&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Tuple2&lt;String, Double&gt; <span class="title">map</span><span class="params">(SensorReading value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Tuple2&lt;&gt;(value.getId(), value.getTemperature());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">ConnectedStreams&lt;Tuple2&lt;String, Double&gt;, SensorReading&gt; connectedStreams = warningStream.connect(lowStream);</span><br><span class="line"></span><br><span class="line">SingleOutputStreamOperator&lt;Object&gt; resultStream = connectedStreams.map(<span class="keyword">new</span> CoMapFunction&lt;Tuple2&lt;String, Double&gt;, SensorReading, 		Object&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> Object <span class="title">map1</span><span class="params">(Tuple2&lt;String, Double&gt; value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> Tuple3&lt;&gt;(value.f0, value.f1, <span class="string">"high temperature warning"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> Object <span class="title">map2</span><span class="params">(SensorReading value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> Tuple2&lt;&gt;(value.getId(), <span class="string">"normal"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="3-9-Union"><a href="#3-9-Union" class="headerlink" title="3.9 Union"></a>3.9 Union</h4><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-union.png" alt="image-20210630103112209"></p>
+<blockquote>
+<p><strong>DataStream</strong> → <strong>DataStream</strong>：对两个或者两个以上的$DataStream$进行union操作，产生一个包含所有$DataStream$元素的新$DataStream$。</p>
+<ul>
+<li><p>Union之前两个流的类型必须是一样，Connect可以不一样，在之后的coMap中再去调整成为一样的。</p>
+</li>
+<li><p>Connect只能操作两个流，Union可以操作多个</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">highStream.union(lowStream, allStream);</span><br></pre></td></tr></table></figure>
+<h3 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h3><p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/flink-transform.png" alt="image-20210630152106049" style="zoom:40%;"></p>
+<p>是问我打啊</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>支持一下^-^</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="White 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="White 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Flink/" rel="tag"># Flink</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/20/Java/JavaCollectionFramwork/" rel="next" title="Java集合框架(JCF)">
+                <i class="fa fa-chevron-left"></i> Java集合框架(JCF)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/26/Kafka/Kafka概述/" rel="prev" title="Kafka概述">
+                Kafka概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/football.png" alt="White">
+            
+              <p class="site-author-name" itemprop="name">White</p>
+              <p class="site-description motion-element" itemprop="description">Stay foolish, Stay hungry!</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Shu-HowTing" title="GitHub &rarr; https://github.com/Shu-HowTing" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:15262691505.com" title="E-Mail &rarr; mailto:15262691505.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/ding-shu-hao/activities" title="知乎 &rarr; https://www.zhihu.com/people/ding-shu-hao/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-流处理API"><span class="nav-number">1.</span> <span class="nav-text">Flink 流处理API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Environment"><span class="nav-number">1.1.</span> <span class="nav-text">1. Environment</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-getExecutionEnvironment"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 getExecutionEnvironment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-createLocalEnvironment"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 createLocalEnvironment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-createRemoteEnvironment"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 createRemoteEnvironment</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Source"><span class="nav-number">1.2.</span> <span class="nav-text">2. Source</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-集合"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-文件"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-kafka消息队列"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 kafka消息队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-自定义Source"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 自定义Source</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Transform"><span class="nav-number">1.3.</span> <span class="nav-text">3. Transform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-map"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-flatMap"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 flatMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-filter"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 filter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-keyBy"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 keyBy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-滚动聚合算子-Rolling-Aggregation"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 滚动聚合算子(Rolling Aggregation)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-Reduce"><span class="nav-number">1.3.6.</span> <span class="nav-text">3.6 Reduce</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-Split-Select"><span class="nav-number">1.3.7.</span> <span class="nav-text">3.7 Split/Select</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-Connect和CoMap"><span class="nav-number">1.3.8.</span> <span class="nav-text">3.8 Connect和CoMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-Union"><span class="nav-number">1.3.9.</span> <span class="nav-text">3.9 Union</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总览"><span class="nav-number">1.4.</span> <span class="nav-text">总览</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">White</span>
+
+  
+
+  
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.6.0</div>
+-->
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'a9K9R4szwMwuJhTQrc6Hvv99-gzGzoHsz',
+        appKey: 'AOvq5301fzGSgiMhY1qJRb2f',
+        placeholder: 'Just write your comments',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
