@@ -115,31 +115,23 @@
 
 
 
-  <meta name="description" content="InnoDB中一颗B+ Tree能存储多少条数据磁盘的结构 在回答这个问题之前，我们先来复习一下计算机机械磁盘的结构，如下图：   磁头（head）：主要就是读取磁盘表面磁方向和改变其方向，每个盘面有一个磁头，它极其贴近地悬浮在盘面上，但是绝对不与盘面接触，否则会损坏磁头和盘面； 磁道（track）：磁道是单个盘面上的同心圆，当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆">
-<meta name="keywords" content="MySql,B+ Tree">
-<meta property="og:type" content="article">
-<meta property="og:title" content="一颗B+ Tree能存储多少条数据">
-<meta property="og:url" content="shu-howting.github.io/2020/07/12/MySQL/InnoDB引擎的一颗B+ Tree能存储多少条数据/index.html">
+  <meta name="description" content="Stay foolish, Stay hungry!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Infinity">
+<meta property="og:url" content="shu-howting.github.io/tags/XGBoost/index.html">
 <meta property="og:site_name" content="Infinity">
-<meta property="og:description" content="InnoDB中一颗B+ Tree能存储多少条数据磁盘的结构 在回答这个问题之前，我们先来复习一下计算机机械磁盘的结构，如下图：   磁头（head）：主要就是读取磁盘表面磁方向和改变其方向，每个盘面有一个磁头，它极其贴近地悬浮在盘面上，但是绝对不与盘面接触，否则会损坏磁头和盘面； 磁道（track）：磁道是单个盘面上的同心圆，当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆">
+<meta property="og:description" content="Stay foolish, Stay hungry!">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/disk1.jpg">
-<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/disk2.jpg">
-<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/innodb.png">
-<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/扇区.png">
-<meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/BTree.png">
-<meta property="og:updated_time" content="2021-08-23T08:31:32.721Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一颗B+ Tree能存储多少条数据">
-<meta name="twitter:description" content="InnoDB中一颗B+ Tree能存储多少条数据磁盘的结构 在回答这个问题之前，我们先来复习一下计算机机械磁盘的结构，如下图：   磁头（head）：主要就是读取磁盘表面磁方向和改变其方向，每个盘面有一个磁头，它极其贴近地悬浮在盘面上，但是绝对不与盘面接触，否则会损坏磁头和盘面； 磁道（track）：磁道是单个盘面上的同心圆，当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆">
-<meta name="twitter:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/disk1.jpg">
+<meta name="twitter:title" content="Infinity">
+<meta name="twitter:description" content="Stay foolish, Stay hungry!">
 
 
 
 
 
 
-  <link rel="canonical" href="shu-howting.github.io/2020/07/12/MySQL/InnoDB引擎的一颗B+ Tree能存储多少条数据/">
+  <link rel="canonical" href="shu-howting.github.io/tags/XGBoost/">
 
 
 
@@ -149,7 +141,7 @@
   };
 </script>
 
-  <title>一颗B+ Tree能存储多少条数据 | Infinity</title>
+  <title>标签: XGBoost | Infinity</title>
   
 
 
@@ -198,7 +190,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
     <a href="https://github.com/Shu-HowTing"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -253,7 +245,7 @@
         
         
           
-          <li class="menu-item menu-item-tags">
+          <li class="menu-item menu-item-tags menu-item-active">
 
     
     
@@ -375,318 +367,82 @@
           
             
 
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
           
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>XGBoost<small>标签</small>
+        </h1>
+      </div>
 
-  
-  
-  
-
-  
+      
+        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="shu-howting.github.io/2020/07/12/MySQL/InnoDB引擎的一颗B+ Tree能存储多少条数据/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="White">
-      <meta itemprop="description" content="Stay foolish, Stay hungry!">
-      <meta itemprop="image" content="/images/football.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Infinity">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2021/09/01/MachineLearning/XGBoost的原理分析以及实践/" itemprop="url">
+              
+                <span itemprop="name">XGBoost的原理分析以及实践</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">一颗B+ Tree能存储多少条数据
-              
-            
-          </h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-12 19:12:25" itemprop="dateCreated datePublished" datetime="2020-07-12T19:12:25+08:00">2020-07-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2021-08-23 16:31:32" itemprop="dateModified" datetime="2021-08-23T16:31:32+08:00">2021-08-23</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/MySql/" itemprop="url" rel="index"><span itemprop="name">MySql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/07/12/MySQL/InnoDB引擎的一颗B+ Tree能存储多少条数据/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/07/12/MySQL/InnoDB引擎的一颗B+ Tree能存储多少条数据/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="post-meta-item-icon">
-            <i class="fa fa-eye"></i>
-             阅读次数： 
-            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
-            </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h1 id="InnoDB中一颗B-Tree能存储多少条数据"><a href="#InnoDB中一颗B-Tree能存储多少条数据" class="headerlink" title="InnoDB中一颗B+ Tree能存储多少条数据"></a>InnoDB中一颗B+ Tree能存储多少条数据</h1><h2 id="磁盘的结构"><a href="#磁盘的结构" class="headerlink" title="磁盘的结构"></a>磁盘的结构</h2><blockquote>
-<p>在回答这个问题之前，我们先来复习一下计算机机械磁盘的结构，如下图：</p>
-</blockquote>
-<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/disk1.jpg" style="zoom:60%;"></p>
-<p><strong>磁头（head）</strong>：主要就是读取磁盘表面磁方向和改变其方向，每个盘面有一个磁头，它极其贴近地悬浮在盘面上，但是绝对不与盘面接触，否则会损坏磁头和盘面；</p>
-<p><strong>磁道（track）</strong>：磁道是单个盘面上的同心圆，当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆形轨迹，这些圆形轨迹就叫做磁道，一个盘面上的磁道可以有成千上万个。相邻磁道之间并不是紧挨着的，这是因为磁化单元相隔太近时磁性会产生相互影响，同时也为磁头的读写带来困难。</p>
-<p><strong>柱面（cylinder）</strong>：在有多个盘片构成的盘组中，由不同盘片的面，但处于同一半径圆的多个磁道组成的一个圆柱面。</p>
-<p><strong>扇区（sector）</strong>：磁盘上的每个磁道被等分为若干个弧段，这些弧段便是硬盘的扇区$Sector$。硬盘的第一个扇区，叫做引导扇区。扇区是被间隙$gap$分割的圆的片段，间隙未被磁化成0或者1。注意，扇区是读写磁盘最基本的单位，如果一个扇区因为某种原因被破坏，那么整个扇区的数据都会受影响。一个机械硬盘扇区的容量一般为512字节</p>
-<p><strong>单盘面结构图：</strong></p>
-<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/disk2.jpg" alt=""></p>
-<h3 id="磁盘容量"><a href="#磁盘容量" class="headerlink" title="磁盘容量"></a>磁盘容量</h3><blockquote>
-<p>Megatron747磁盘是一个典型的vintage-2008的大容量驱动器，它具有以下特性：8个圆盘，16个盘面，每个盘面有65536个磁道，每个磁道（平均）有256个扇区，每个扇区可以存储4096个字节（byte）</p>
-</blockquote>
-<p><strong>那整个磁盘容量的算法是：</strong></p>
-<blockquote>
-<p>16个盘面，乘以65536个磁道，乘以256个扇区，再乘以4096字节，即16<em>65536</em>256*4096=2^40 byte，也就是1TB的容量。</p>
-</blockquote>
-<h2 id="InnoDB存储引擎"><a href="#InnoDB存储引擎" class="headerlink" title="InnoDB存储引擎"></a>InnoDB存储引擎</h2><blockquote>
-<p>在计算机中，磁盘存储数据最小单元是扇区，一个扇区的大小是512字节，而文件系统（例如XFS/EXT4）的最小单元是块，一个块的大小是4k，而对于InnoDB存储引擎也有自己的最小储存单元，页（Page），一个页的大小是16K。</p>
-</blockquote>
-<p>InnoDB的所有数据文件（后缀为ibd的文件），大小始终都是16384（16k）的整数倍。</p>
-<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/innodb.png" style="zoom:100%;"></p>
-<blockquote>
-<p>磁盘扇区、文件系统、InnoDB存储引擎都有各自的最小存储单元。</p>
-</blockquote>
-<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/扇区.png" style="zoom:60%;"></p>
-<p>​       考虑到磁盘IO是非常高昂的操作，计算机操作系统做了一些优化，当一次IO时，不光把当前磁盘地址的数据，而是把相邻的数据也都读取到内存缓冲区内，因为局部预读性原理告诉我们，当计算机访问一个地址的数据的时候，与其相邻的数据也会很快被访问到。每一次IO读取的数据我们称之为一页(page)。具体一页有多大数据跟操作系统有关，一般为4k或8k，也就是我们读取一页内的数据时候，实际上才发生了一次IO，这个理论对于索引的数据结构设计非常有帮助。</p>
-<p><strong>事实1： 不同容量的存储器，访问速度差异悬殊。</strong></p>
-<blockquote>
-<ul>
-<li>磁盘(ms级别) &lt;&lt; 内存(ns级别)， 100000倍</li>
-<li>若内存访问需要1s，则一次外存访问需要一天</li>
-<li>为了避免1次外存访问，宁愿访问内存100次…所以将<code>最常用</code>的数据存储在最快的存储器中</li>
-</ul>
-</blockquote>
-<p><strong>事实2 ： 从磁盘中读 1 B，与读写 1KB 的时间成本几乎一样</strong></p>
-<blockquote>
-<p>从以上数据中可以总结出一个道理，索引查询的数据主要受限于硬盘的I/O速度，查询I/O次数越少，速度越快。</p>
-</blockquote>
-<h3 id="B-Tree"><a href="#B-Tree" class="headerlink" title="$B+\ Tree$"></a>$B+\ Tree$</h3><blockquote>
-<p>在InnoDB存储引擎中，每一个page对应B+ Tree的一个节点(Node)</p>
-</blockquote>
-<p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/BTree.png" alt=""></p>
-<p><strong>根节点：</strong>InnoDB树的根节点由索引字段值和指针组成</p>
-<p><strong>叶节点：</strong>InnoDB的叶节点由索引字段值和对应的完整记录(row)组成</p>
-<p>一般来说，B+ Tree的高度为3</p>
-<blockquote>
-<p> 现在，我们回到最开始的问题：一颗InnoDB的B+树大概存储多少条数据？</p>
-</blockquote>
-<p>假设索引为主键索引，主键ID为bigint类型，长度为8字节，而指针大小在InnoDB源码中设置为6字节，这样一共14字节。</p>
-<p>这样根节点大约可以存放的指针个数约为：$16384/14=1170$。即意味着内部节点一共有大约1170个。</p>
-<p>对于每一个内部节点来说(上图第二层)，大约含有$16384/14=1170$个指针，意味着每一个内部节点对应大约1170个叶子节点。则一共有大约$1170*1170$个叶子节点</p>
-<p>叶子节点，假设一条数据的大小为$1K$， 则每个叶子节点大约存放$16k / 1k =16$条数据。</p>
-<p>至此，我们可以算出颗InnoDB的B+树大约能存数据为：</p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1170</span>*<span class="number">1170</span>*<span class="number">16</span>=<span class="number">21902400</span></span><br></pre></td></tr></table></figure>
-<p><strong>答案为：两千多万条！</strong></p>
-<p>也就是说，对于一个B+ Tree，从两千万条的数据中查找一条数据，只需要进行3次$I/O$.效率极大的得到了提升！！</p>
-
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>支持一下^-^</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="White 微信支付">
-        <p>微信支付</p>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2021-09-01T00:00:00+08:00" content="2021-09-01">
+          09-01
+        </time>
       </div>
-    
 
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="White 支付宝">
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/MySql/" rel="tag"># MySql</a>
-          
-            <a href="/tags/B-Tree/" rel="tag"># B+ Tree</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/07/10/Spark/PySpark 在遇到map类型的列的一些处理/" rel="next" title="$PySpark$在遇到$map$类型的列的一些处理">
-                <i class="fa fa-chevron-left"></i> $PySpark$在遇到$map$类型的列的一些处理
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/07/16/Statistics/Beta分布和Thompson采样/" rel="prev" title="Beta分布和Thompson采样">
-                Beta分布和Thompson采样 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
+      
+    </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
 
         </div>
         
@@ -707,17 +463,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -868,22 +615,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#InnoDB中一颗B-Tree能存储多少条数据"><span class="nav-number">1.</span> <span class="nav-text">InnoDB中一颗B+ Tree能存储多少条数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘的结构"><span class="nav-number">1.1.</span> <span class="nav-text">磁盘的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘容量"><span class="nav-number">1.1.1.</span> <span class="nav-text">磁盘容量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB存储引擎"><span class="nav-number">1.2.</span> <span class="nav-text">InnoDB存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Tree"><span class="nav-number">1.2.1.</span> <span class="nav-text">$B+\ Tree$</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -1039,10 +770,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
-
-
 
   
 
@@ -1431,36 +1158,6 @@
   
   
 
-  
-    
-      <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<style>
-.MathJax_Display {
-    overflow: auto hidden;
-}
-</style>
-
-    
   
 
 
