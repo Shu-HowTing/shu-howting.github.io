@@ -131,7 +131,7 @@
 <meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/xgboost6.png">
 <meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/xgboost3.png">
 <meta property="og:image" content="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/xgboost4.png">
-<meta property="og:updated_time" content="2021-09-02T16:10:02.785Z">
+<meta property="og:updated_time" content="2021-09-06T13:12:45.367Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XGBoost的原理分析以及实践">
 <meta name="twitter:description" content="XGBoost的原理分析以及实践原理任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$：  Obj(\Theta)=L(\Theta)+\Omega(\Theta)在这里，当我选择树模型为基学习器时，我们需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值（xg">
@@ -457,7 +457,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-09-03 00:10:02" itemprop="dateModified" datetime="2021-09-03T00:10:02+08:00">2021-09-03</time>
+                <time title="修改时间：2021-09-06 21:12:45" itemprop="dateModified" datetime="2021-09-06T21:12:45+08:00">2021-09-06</time>
               
             
           </span>
@@ -871,7 +871,7 @@ p_{1}=\frac{1}{1+e^{-(0-0.04)}}=0.490001</script><p>有了这个之后，我们�
 <p>拟合完后第二颗树如下图:</p>
 <p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/xgboost2.png" alt="这里写图片描述"></p>
 <p>后面的所有过程都是重复这个过程，这里就不再啰嗦了。</p>
-<h3 id="其他细节"><a href="#其他细节" class="headerlink" title="其他细节"></a>其他细节</h3><p><strong>参数$min_child_weight$</strong></p>
+<h3 id="其他细节"><a href="#其他细节" class="headerlink" title="其他细节"></a>其他细节</h3><p>参数: $min_child_weight$</p>
 <p><img src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/xgboost6.png" alt="image-20210902234114987" style="zoom:60%;"></p>
 <p>根据官网的解释，$sum\ of\ instance\ weight(hessian)$也就是对应这个：</p>
 <script type="math/tex; mode=display">
@@ -1757,7 +1757,7 @@ H_{j}=\sum_{i \in I_{j}} h_{i}</script><p>也就是说，在进行分裂时，�
         }
     });
 </script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/node-main.min.js"></script>
 
 <style>
 .MathJax_Display {
