@@ -562,7 +562,7 @@ f(x)=\left
 \{\begin{array}{ll}
 0.8 & x <10 \\
 0.4 & x >=10
-\end{array}\right.</script><p>就说可以有如下映射的关系$f<em>K(x)=w</em>{q(x)}$。其中$q(x)$为叶子节点的编号（从左往右编，1，2，3···)。$w$是叶子节点的取值。也就说对于任意一个样本$x$,其最后会落在树的某个叶子节点上，其值为$w_{q(x)}$</p>
+\end{array}\right.</script><p>就说可以有如下映射的关系$f_K(x)=w_{q(x)}$。其中$q(x)$为叶子节点的编号（从左往右编，1，2，3···)。$w$是叶子节点的取值。也就说对于任意一个样本$x$,其最后会落在树的某个叶子节点上，其值为$w_{q(x)}$</p>
 <p>既然一棵树可以用叶子节点来表达，上面的正则项，我们可以对叶子节点值进行惩罚(正则)，比如取L2正则，以及我们控制一下叶子节点的个数T，那么正则项有：</p>
 <script type="math/tex; mode=display">
 \Omega\left(f_{K}\right)=\frac{1}{2} \lambda \sum_{j}^{T}\left\|w_{j}\right\|_{2}+\gamma T</script><blockquote>
@@ -722,7 +722,7 @@ h_{i}=\sigma (\hat {y_i}) *\left(1-\sigma (\hat {y_i})\right)</script><h4 id="�
 <blockquote>
 <p>这里和GBDT一样，应该说和所有的Boosting算法一样，都需要一个初始值。而在xgboost里面，对于分类任务只需要初始化为(0,1)中的任意一个数都可以。具体来说就是参数base_score。（其默认值是0.5)</p>
 </blockquote>
-<p>这里我们也设base<em>score=0.5(即$\hat{y}</em>{i}^{0}= 0$)。然后我们就可以计算每个样本的一阶导数值和二阶导数值了</p>
+<p>这里我们也设base_score=0.5(即$\hat{y}_{i}^{0}= 0$)。然后我们就可以计算每个样本的一阶导数值和二阶导数值了</p>
 <script type="math/tex; mode=display">
 \begin{array}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline  { ID } & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
@@ -1757,7 +1757,7 @@ H_{j}=\sum_{i \in I_{j}} h_{i}</script><p>也就是说，在进行分裂时，�
         }
     });
 </script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <style>
 .MathJax_Display {
