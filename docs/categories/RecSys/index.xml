@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on White</title>
-    <link>https://whiteding.fun/post/</link>
-    <description>Recent content in Posts on White</description>
+    <title>RecSys on White</title>
+    <link>https://whiteding.fun/categories/RecSys/</link>
+    <description>Recent content in RecSys on White</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 03 Jul 2024 14:52:21 +0800</lastBuildDate><atom:link href="https://whiteding.fun/post/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Second</title>
-      <link>https://whiteding.fun/post/second/</link>
-      <pubDate>Wed, 03 Jul 2024 14:52:21 +0800</pubDate>
-      
-      <guid>https://whiteding.fun/post/second/</guid>
-      <description>Hello Hugo aaa bbb ccc </description>
-    </item>
-    
+    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/categories/RecSys/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>推荐算法中的序列特征模型</title>
       <link>https://whiteding.fun/post/seq-rec-model/</link>
