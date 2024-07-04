@@ -1,4 +1,4 @@
-baseURL = 'http://example.org/'
+baseURL = "https://whiteding.fun/"
 # languageCode = 'en-us'
 languageCode = "zh-CN"
 title = "White"
