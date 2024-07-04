@@ -1,0 +1,30 @@
+{{ with .Site.Params.waline }}
+<div class="post bg-white">
+    <!-- utteranc -->
+    <!-- {{ if .Site.Params.utteranc.enable }}
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "{{ .Site.Params.utteranc.repo }}"
+            issue-term="{{ .Site.Params.utteranc.issueTerm }}"
+            theme="{{ .Site.Params.utteranc.theme }}"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    {{ end }} -->
+
+    <!--waline-->
+    {{ if .Site.Params.waline.enable }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          Waline.init({
+            el: '#waline',
+            serverURL: '{{ .Site.Params.waline.serverURL }}',
+            locale: '{{ .Site.Params.waline.locale }}',
+            placeholder: '{{ .Site.Params.waline.placeholder }}'
+          });
+        });
+    </script>
+    {{ end }}
+</div>
+{{- end }}

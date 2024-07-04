@@ -1,0 +1,17 @@
+{{ with .Site.Params.avatar }}
+<div class="avatar-widget">
+    <img src="img/avatar1.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        {{ range . }}
+        <li>
+            <a class="info-icon" href="{{ .url}}" title="{{ .title }}" target="_blank" style="margin-inline:5px">
+                <i class="{{ .icon }}" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+

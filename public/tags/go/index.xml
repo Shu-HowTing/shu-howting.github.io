@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go on White</title>
+    <link>http://example.org/tags/go/</link>
+    <description>Recent content in go on White</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 03 Jul 2024 14:52:21 +0800</lastBuildDate><atom:link href="http://example.org/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Second</title>
+      <link>http://example.org/post/second/</link>
+      <pubDate>Wed, 03 Jul 2024 14:52:21 +0800</pubDate>
+      
+      <guid>http://example.org/post/second/</guid>
+      <description>Hello Hugo aaa bbb ccc </description>
+    </item>
+    
+    <item>
+      <title>sdsdsadd</title>
+      <link>http://example.org/post/first_blog/</link>
+      <pubDate>Sun, 25 Oct 2015 08:36:54 -0700</pubDate>
+      
+      <guid>http://example.org/post/first_blog/</guid>
+      <description>Hello Hugo1 aaa bbb ccc Hello Hugo21 互联网还真是只有7秒记忆呢。因为个人博客网站面临过几波洗劫，一个是1x年的时候的博客网站备案审核制度，最严的时候是不允许个人开设博客网站的，当时就倒掉了一大批。残存的那部分，如果被网警扫到敏感字，直接就被墙了。另外，当时https没有普及，甚至有传言上面不允许使用https，甚至后来还爆发过根证书滥发的问题，这个就按下不表了。有些文章部分没有问题，但是在评论中出现了敏感词，也一样中招</description>
+    </item>
+    
+  </channel>
+</rss>

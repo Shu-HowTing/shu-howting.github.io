@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on White</title>
+    <link>http://example.org/tags/</link>
+    <description>Recent content in Tags on White</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 03 Jul 2024 14:52:21 +0800</lastBuildDate><atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>benchmark</title>
+      <link>http://example.org/tags/benchmark/</link>
+      <pubDate>Wed, 03 Jul 2024 14:52:21 +0800</pubDate>
+      
+      <guid>http://example.org/tags/benchmark/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>etcd</title>
+      <link>http://example.org/tags/etcd/</link>
+      <pubDate>Wed, 03 Jul 2024 14:52:21 +0800</pubDate>
+      
+      <guid>http://example.org/tags/etcd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go</title>
+      <link>http://example.org/tags/go/</link>
+      <pubDate>Wed, 03 Jul 2024 14:52:21 +0800</pubDate>
+      
+      <guid>http://example.org/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>raft</title>
+      <link>http://example.org/tags/raft/</link>
+      <pubDate>Wed, 03 Jul 2024 14:52:21 +0800</pubDate>
+      
+      <guid>http://example.org/tags/raft/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
