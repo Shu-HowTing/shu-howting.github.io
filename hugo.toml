@@ -3,6 +3,7 @@ baseURL = "https://whiteding.fun/"
 languageCode = "zh-CN"
 title = "White"
 theme = "maupassant"
+publishDir = "docs"        # 修改静态代码文件夹为docs目录
 
 # googleAnalytics = ""  # UA-XXXXXXXX-X/G-XXXXXXXXXX
 
