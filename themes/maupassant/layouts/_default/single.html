@@ -23,10 +23,10 @@
         <div class="post-content">
             {{ .Content }}
         </div>
+        {{ partial "comments" . }}
 
         {{ partial "copyright" .}}
-
-        {{ partial "related" . }}
+        <!-- {{ partial "related" . }} -->
 
         <div class="post-meta meta-tags">
             {{ if and (isset .Params "tags") .Params.tags }}
@@ -40,6 +40,5 @@
             {{ end }}
         </div>
     </article>
-    {{ partial "comments" . }}
 </div>
 {{ end }}
