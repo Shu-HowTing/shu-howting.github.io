@@ -74,7 +74,7 @@ summaryLength = 200
 [[params.links]]
   title = "Android"
   name = "Android Gradle权威指南"
-  url = "http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e"
+  url = ""
 
 # 右边栏个人联系方式
 [[params.avatar]]
