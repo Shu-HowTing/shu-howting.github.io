@@ -4,7 +4,7 @@
     <ul class="widget-list">
         {{ range . }}
         <li>
-            <a target="_blank" href="{{ .url }}" title="{{ .title }}">{{ .name }}</a>
+            <a target="_blank" href="{{ .url }}" title="{{ .title }}"> <i class="{{ .icon }}"></i> {{ .name }}</a>
         </li>
         {{ end }}
     </ul>
