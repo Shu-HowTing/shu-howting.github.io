@@ -61,7 +61,7 @@ summaryLength = 200
 
   [[menu.main]]
     identifier = "about"
-    name = "<i class='fas fa-user'></i>关于"
+    name = "<i class='fas fa-user'></i> 关于"
     url = "/about/"
     weight = 5
 

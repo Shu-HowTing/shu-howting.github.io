@@ -68,7 +68,7 @@
 body {
     background-color:#FFF;
     color:#444;
-    font-size: 15px;
+    font-size: 14px;
     /**
     font-family:"TIBch", "Classic Grotesque W01", "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif;
     **/
@@ -304,8 +304,9 @@ textarea {
     margin:0px;
     color:#555;
     text-align:left;
-    /**font:bold 25px/1.1 "ff-tisa-web-pro", Cambria, "Times New Roman", Georgia, Times, sans-serif;**/
-    font-size: 2.0em;
+    font-family: "Microsoft YaHei";
+    /* font:bold 25px/1.1 "ff-tisa-web-pro", Cambria, "Times New Roman", Georgia, Times, sans-serif; */
+    font-size: 1.8em;
     font-weight: bold;
 }
 .post-title a, .keyword {
@@ -383,9 +384,9 @@ textarea {
 }
 .post-content {
     font-size: 1em;
-    line-height: 1.7;
-    color:#444;
-    padding-top:27px;
+    line-height: 1.6;
+    color:rgb(92, 91, 91);
+    padding-top: 20px;
 }
 .post-content h2,.post-content h3,.post-content h4,.post-content h5,.post-content h6 {
     color: #ba3925;
