@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RecSys on White</title>
-    <link>https://whiteding.fun/categories/RecSys/</link>
-    <description>Recent content in RecSys on White</description>
+    <title>推荐 on White</title>
+    <link>https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/</link>
+    <description>Recent content in 推荐 on White</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/categories/RecSys/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>当推荐遇到大模型</title>
       <link>https://whiteding.fun/post/seq_llm_model/</link>

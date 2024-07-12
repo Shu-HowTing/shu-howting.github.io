@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>大模型 on White</title>
+    <link>https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/</link>
+    <description>Recent content in 大模型 on White</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>当推荐遇到大模型</title>
+      <link>https://whiteding.fun/post/seq_llm_model/</link>
+      <pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/seq_llm_model/</guid>
+      <description>自从大语言模型爆火之后，大家对大语言模型（LLM）如何成功应用在推荐系统进行了不少尝试。本文是对目前一些业界工作的调研和总结。 大模型应用范式 经典的推荐架构基本遵循以下范式： 目前, LLM 在推荐系统中的主流应用可以分为两种范式: 一个是作为经典推荐系统的辅助部分，即 LLM+RS。 一个是 LLM 单独作为一个完整的推荐系统，即 LLM AS RS。 本文接下来将分别介绍这两种应用方式。 2.1 LLM+RS 传统推荐系统经过多年发展，从召回、排序、重</description>
+    </item>
+    
+  </channel>
+</rss>

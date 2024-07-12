@@ -2,43 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://whiteding.fun/tags/benchmark/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/tags/etcd/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/tags/go/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
+    <loc>https://whiteding.fun/categories/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://whiteding.fun/post/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/tags/raft/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/post/second/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/tags/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/</loc>
-    <lastmod>2024-07-03T14:52:21+08:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/categories/</loc>
-    <lastmod>2022-02-08T00:00:00+00:00</lastmod>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://whiteding.fun/categories/RecSys/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://whiteding.fun/tags/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://whiteding.fun/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://whiteding.fun/post/seq_llm_model/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/</loc>
     <lastmod>2022-02-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2022-02-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/post/seq-rec-model/</loc>
-    <lastmod>2022-02-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://whiteding.fun/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://whiteding.fun/post/seq_rec_model/</loc>
     <lastmod>2022-02-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://whiteding.fun/about/</loc>

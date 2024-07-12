@@ -72,11 +72,11 @@ summaryLength = 200
   icon = "far fa-comment"
   url = "https://www.zhihu.com/people/ding-shu-hao"
 
-[[params.links]]
-  title = "blog"
-  name = "知乎"
-  icon = "far fa-comment"
-  url = "https://www.zhihu.com/people/ding-shu-hao"
+# [[params.links]]
+#   title = "blog"
+#   name = "知乎"
+#   icon = "far fa-comment"
+#   url = "https://www.zhihu.com/people/ding-shu-hao"
 
 # 右边栏头像下方个人联系方式
 [[params.avatar]]
