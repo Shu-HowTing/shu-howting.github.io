@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>White</title>
+    <link>https://whiteding.fun/</link>
+    <description>Recent content on White</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>当推荐遇到大模型</title>
+      <link>https://whiteding.fun/post/recsys/llm/</link>
+      <pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/post/recsys/llm/</guid>
+      <description>自从大语言模型爆火之后，大家对大语言模型（LLM）如何成功应用在推荐系统进行了不少尝试。本文是对目前一些业界工作的调研和总结。 大模型应用范式 经典的推荐架构基本遵循以下范式： 目前, LLM 在推荐系统中的主流应用可以分为两种范式: 一个是作为经典推荐系统的辅助部分，即 LLM+RS。 一个是 LLM 单独作为一个完整的推荐系统，即 LLM AS RS。 本文接下来将分别介绍这两种应用方式。 LLM+RS 传统推荐系统经过多年发展，从召回、排序、重排</description>
+    </item>
+    <item>
+      <title>推荐算法中的序列特征模型</title>
+      <link>https://whiteding.fun/post/recsys/seq_feat/</link>
+      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/post/recsys/seq_feat/</guid>
+      <description>在推荐领域中，行为序列特征是一种极为重要的特征。近年来，出现了很多有关行为序列特征建模的论文，研究如何将行为序列特征应用到推荐场景中，以更好挖掘用户的历史兴趣。本文将带大家梳理介绍这些论文中提出的方法。 序列特征 序列特征通常表现为时间上的跨度，具有很强的时间先后关系。如何在行为序列中挖掘用户兴趣的多样性以及实效性，是序列特模型研究的重点。 序列特征模型 按时间来看，推荐算法中的序列特征模型经历了$Poo</description>
+    </item>
+    <item>
+      <title>Beta分布和Thompson采样</title>
+      <link>https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/</link>
+      <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/</guid>
+      <description>$Beta$分布 $Beta$分布是一个定义在[0,1]区间上的连续概率分布族，它有两个正值参数，称为形状参数，一般用$\alpha$和$\beta$表示 $Beta$分布的概率密度为： $$ f(x ; \alpha, \beta)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\int_{0}^{1} u^{\alpha-1}(1-u)^{\beta-1} d u}=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha-1}(1-x)^{\beta-1}=\frac{1}{B(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1} $$ 随机变量$X$服从参数为$\alpha, \beta$的$beta$分布，一般记作： $$ X \sim \operatorname {Beta} (\alpha, \beta) $$ $Beta$分布的期望： $$ \frac{\alpha}{\alpha + \beta} $$ $Beta$分布的方差： $$ \frac{\alpha \beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)} $$ $Beta$分布的概率密度图</description>
+    </item>
+    <item>
+      <title>XGBoost的原理分析以及实践</title>
+      <link>https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</guid>
+      <description>XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当我选择树模型为基学习器时，我们需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值（xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半</description>
+    </item>
+    <item>
+      <title>About Me</title>
+      <link>https://whiteding.fun/about/</link>
+      <pubDate>Tue, 10 Mar 2015 00:13:27 +0000</pubDate>
+      <guid>https://whiteding.fun/about/</guid>
+      <description>性别：男 职业：数据分析 研究方向：推荐系统、深度学习 兴趣爱好：足球、电影、健身 邮件：white_ding@163.com 人生信条：不讲究，不将就!</description>
+    </item>
+    <item>
+      <title>归档</title>
+      <link>https://whiteding.fun/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/archives/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>搜索</title>
+      <link>https://whiteding.fun/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/search/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
