@@ -42,15 +42,15 @@ summaryLength = 200
 ## 配置头部跳转按钮
 [menu]
   [[menu.main]]
-    identifier = "tags"
-    name = "<i class='fas fa-tag'></i> 标签"
-    url = "/tags/"
-    weight = 2
-
-  [[menu.main]]
     identifier = "categories"
     name = "<i class='fas fa-th'></i> 分类"
     url = "/categories/"
+    weight = 2
+
+  [[menu.main]]
+    identifier = "tags"
+    name = "<i class='fas fa-tag'></i> 标签"
+    url = "/tags/"
     weight = 3
 
   [[menu.main]]
@@ -125,10 +125,23 @@ summaryLength = 200
     name = "知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议"
     link = "https://creativecommons.org/licenses/by-nc-nd/4.0/"
 
-## 配置代码高亮
+# ## 配置代码高亮
 [markup]
   [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    lineNoStart = 1
     lineNos = true
-    style = "monokai"
+    lineNumbersInTable = false
+    noClasses = true
+    style = "github"
+    tabWidth = 4
 
+  
+  # 文章toc的层级目录
+  [markup.tableOfContents]
+    endLevel = 4
+    ordered = false
+    startLevel = 2
 

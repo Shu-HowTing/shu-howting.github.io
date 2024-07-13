@@ -177,9 +177,9 @@ textarea {
     border-bottom-color:transparent;
 }
 #header {
-    padding: 58px 0 0;
+    padding: 42px 0 0;
     text-align: left;
-    /* border-bottom: 1px solid #ddd; */
+    /* border-bottom: 2px solid #ddd; */
     position: relative
 }
 
@@ -211,7 +211,7 @@ textarea {
 }
 
 #header .site-name .description {
-    margin: .2em 0 0;
+    margin: 0.2em 0 0;
     color: #999;
     font-family: Times New Roman;
     font-size: 18px;
@@ -414,7 +414,7 @@ textarea {
     border-radius: 3px;
 }
 .post-content p {
-    margin:0 0 1.1em;
+    margin:0 0 0.8em;
 }
 .post-content img {
     padding:1em 0;
@@ -423,9 +423,9 @@ textarea {
 }
 .post-content ul {
     overflow: auto;
-    padding: .5em 2.4em;
+    padding: 0em 1.6em;
     border-radius: 3px;
-    margin:1.8em 0;
+    margin: 0.8em .2em;
 }
 .post-content ul li{
     text-indent: .5em;
@@ -1178,4 +1178,13 @@ table tbody tr td:nth-of-type(1) pre {
 .github-badge .bg-lightgrey,.github-badge .bg-lightgray {
   background-color: #9f9f9f !important; 
 }
-  
+
+/* .highlight .ln {
+    width: 1120px;
+    display: block;
+    float: left;
+    text-align: right;
+    user-select: none;
+    padding-right: 8px;
+    color: #ccc;
+} */
