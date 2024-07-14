@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>RecSys on White</title>
-    <link>http://localhost:1313/categories/RecSys/</link>
+    <link>https://whiteding.fun/categories/RecSys/</link>
     <description>Recent content in RecSys on White</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/RecSys/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://whiteding.fun/categories/RecSys/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>当推荐遇到大模型</title>
-      <link>http://localhost:1313/post/recsys/llm/</link>
+      <link>https://whiteding.fun/post/recsys/llm/</link>
       <pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/recsys/llm/</guid>
+      <guid>https://whiteding.fun/post/recsys/llm/</guid>
       <description>自从大语言模型爆火之后，大家对大语言模型（LLM）如何成功应用在推荐系统进行了不少尝试。本文是对目前一些业界工作的调研和总结。 大模型应用范式 经典的推荐架构基本遵循以下范式： 目前, LLM 在推荐系统中的主流应用可以分为两种范式: 一个是作为经典推荐系统的辅助部分，即 LLM+RS。 一个是 LLM 单独作为一个完整的推荐系统，即 LLM AS RS。 本文接下来将分别介绍这两种应用方式。 LLM+RS 传统推荐系统经过多年发展，从召回、排序、重排</description>
     </item>
     <item>
       <title>推荐算法中的序列特征模型</title>
-      <link>http://localhost:1313/post/recsys/seq_feat/</link>
+      <link>https://whiteding.fun/post/recsys/seq_feat/</link>
       <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/recsys/seq_feat/</guid>
+      <guid>https://whiteding.fun/post/recsys/seq_feat/</guid>
       <description>在推荐领域中，行为序列特征是一种极为重要的特征。近年来，出现了很多有关行为序列特征建模的论文，研究如何将行为序列特征应用到推荐场景中，以更好挖掘用户的历史兴趣。本文将带大家梳理介绍这些论文中提出的方法。 序列特征 序列特征通常表现为时间上的跨度，具有很强的时间先后关系。如何在行为序列中挖掘用户兴趣的多样性以及实效性，是序列特模型研究的重点。 序列特征模型 按时间来看，推荐算法中的序列特征模型经历了$Poo</description>
     </item>
   </channel>
