@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>MapReduce原理解析 | White</title>
+    <meta property="og:title" content="MapReduce原理解析 - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-09-01T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-09-01T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="MapReduce">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="http://localhost:1313/post/spark/MapReduce/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://localhost:1313/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="http://localhost:1313/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#hadoop简介">Hadoop简介</a>
+          <ul>
+            <li><a href="#mapreduce">Map/Reduce：</a></li>
+            <li><a href="#方法一">方法一：</a></li>
+            <li><a href="#方法二">方法二：</a></li>
+            <li><a href="#方法三">方法三：</a></li>
+            <li><a href="#方法四">方法四：</a></li>
+          </ul>
+        </li>
+        <li><a href="#map函数和reduce函数">map函数和reduce函数　</a></li>
+        <li><a href="#执行过程">执行过程</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">MapReduce原理解析</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <h3 id="hadoop简介">Hadoop简介</h3>
+<blockquote>
+<p>Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等.</p>
+</blockquote>
+<p><strong>这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop：</strong></p>
+<h4 id="mapreduce">Map/Reduce：</h4>
+<ol>
+<li>
+<p>MapReduce是hadoop的核心组件之一，hadoop要分布式包括两部分，一是分布式文件系统hdfs,一部是分布式计算框架，就是mapreduce,缺一不可，也就是说，可以通过mapreduce很容易在hadoop平台上进行分布式的计算编程。</p>
+</li>
+<li>
+<p>Mapreduce是一种编程模型，是一种编程方法，抽象理论。</p>
+</li>
+<li>
+<p>下面是一个关于一个程序员是如何个妻子讲解什么是MapReduce？文章很长请耐心的看。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>我问妻子：“你真的想要弄懂什么是MapReduce？” 她很坚定的回答说“是的”。 因此我问道：
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>我： 你是如何准备洋葱辣椒酱的？（以下并非准确食谱，请勿在家尝试）
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>妻子： 我会取一个洋葱，把它切碎，然后拌入盐和水，最后放进混合研磨机里研磨。这样就能得到洋葱辣椒酱了。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>妻子： 但这和MapReduce有什么关系？
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>我： 你等一下。让我来编一个完整的情节，这样你肯定可以在15分钟内弄懂MapReduce.
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>妻子： 好吧。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>我：现在，假设你想用薄荷、洋葱、番茄、辣椒、大蒜弄一瓶混合辣椒酱。你会怎么做呢？
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>妻子： 我会取薄荷叶一撮，洋葱一个，番茄一个，辣椒一根，大蒜一根，切碎后加入适量的盐和水，再放入混合研磨机里研磨，这样你就可以得到一瓶混合辣椒酱了。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>我： 没错，让我们把MapReduce的概念应用到食谱上。Map和Reduce其实是两种操作，我来给你详细讲解下。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>Map（映射）: 把洋葱、番茄、辣椒和大蒜切碎，是各自作用在这些物体上的一个Map操作。所以你给Map一个洋葱，Map就会把洋葱切碎。 同样的，你把辣椒，大蒜和番茄一一地拿给Map，你也会得到各种碎块。 所以，当你在切像洋葱这样的蔬菜时，你执行就是一个Map操作。 Map操作适用于每一种蔬菜，它会相应地生产出一种或多种碎块，在我们的例子中生产的是蔬菜块。在Map操作中可能会出现有个洋葱坏掉了的情况，你只要把坏洋葱丢了就行了。所以，如果出现坏洋葱了，Map操作就会过滤掉坏洋葱而不会生产出任何的坏洋葱块。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>Reduce（化简）:在这一阶段，你将各种蔬菜碎都放入研磨机里进行研磨，你就可以得到一瓶辣椒酱了。这意味要制成一瓶辣椒酱，你得研磨所有的原料。因此，研磨机通常将map操作的蔬菜碎聚集在了一起。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>妻子： 所以，这就是MapReduce?
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>我： 你可以说是，也可以说不是。 其实这只是MapReduce的一部分，MapReduce的强大在于分布式计算。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>妻子： 分布式计算？ 那是什么？请给我解释下吧。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>我： 没问题。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>我： 假设你参加了一个辣椒酱比赛并且你的食谱赢得了最佳辣椒酱奖。得奖之后，辣椒酱食谱大受欢迎，于是你想要开始出售自制品牌的辣椒酱。假设你每天需要生产10000瓶辣椒酱，你会怎么办呢？
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>妻子： 我会找一个能为我大量提供原料的供应商。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>我：是的..就是那样的。那你能否独自完成制作呢？也就是说，独自将原料都切碎？ 仅仅一部研磨机又是否能满足需要？而且现在，我们还需要供应不同种类的辣椒酱，像洋葱辣椒酱、青椒辣椒酱、番茄辣椒酱等等。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>妻子： 当然不能了，我会雇佣更多的工人来切蔬菜。我还需要更多的研磨机，这样我就可以更快地生产辣椒酱了。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>我：没错，所以现在你就不得不分配工作了，你将需要几个人一起切蔬菜。每个人都要处理满满一袋的蔬菜，而每一个人都相当于在执行一个简单的Map操作。每一个人都将不断的从袋子里拿出蔬菜来，并且每次只对一种蔬菜进行处理，也就是将它们切碎，直到袋子空了为止。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>这样，当所有的工人都切完以后，工作台（每个人工作的地方）上就有了洋葱块、番茄块、和蒜蓉等等。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>妻子：但是我怎么会制造出不同种类的番茄酱呢？
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>我：现在你会看到MapReduce遗漏的阶段—搅拌阶段。MapReduce将所有输出的蔬菜碎都搅拌在了一起，这些蔬菜碎都是在以key为基础的 map操作下产生的。搅拌将自动完成，你可以假设key是一种原料的名字，就像洋葱一样。 所以全部的洋葱keys都会搅拌在一起，并转移到研磨洋葱的研磨器里。这样，你就能得到洋葱辣椒酱了。同样地，所有的番茄也会被转移到标记着番茄的研磨器里，并制造出番茄辣椒酱。
+</span></span></code></pre></div><blockquote>
+<p>上面都是从理论上来说明什么是MapReduce，那么咱们在MapReduce产生的过程和代码的角度来理解这个问题。</p>
+</blockquote>
+<blockquote>
+<p>如果想统计下过去10年计算机论文出现最多的几个单词，看看大家都在研究些什么，那收集好论文后，该怎么办呢？</p>
+</blockquote>
+<h4 id="方法一">方法一：</h4>
+<blockquote>
+<p>我可以写一个小程序，把所有论文按顺序遍历一遍，统计每一个遇到的单词的出现次数，最后就可以知道哪几个单词最热门了。 这种方法在数据集比较小时，是非常有效的，而且实现最简单，用来解决这个问题很合适。</p>
+</blockquote>
+<h4 id="方法二">方法二：</h4>
+<p><strong>写一个多线程程序，并发遍历论文.</strong></p>
+<blockquote>
+<p>这个问题理论上是可以高度并发的，因为统计一个文件时不会影响统计另一个文件。当我们的机器是多核或者多处理器，方法二肯定比方法一高效。但是写一个多线程程序要比方法一困难多了，我们必须自己同步共享数据，比如要防止两个线程重复统计文件。</p>
+</blockquote>
+<h4 id="方法三">方法三：</h4>
+<blockquote>
+<p>把作业交给多个计算机去完成。
+我们可以使用方法一的程序，部署到N台机器上去，然后把论文集分成N份，一台机器跑一个作业。这个方法跑
+得足够快，但是部署起来很麻烦，我们要人工把程序copy到别的机器，要人工把论文集分开，最痛苦的是还要
+把N个运行结果进行整合（当然我们也可以再写一个程序）。</p>
+</blockquote>
+<h4 id="方法四">方法四：</h4>
+<blockquote>
+<p>让MapReduce来帮帮我们吧！</p>
+</blockquote>
+<blockquote>
+<p>MapReduce本质上就是方法三，但是如何拆分文件集，如何copy程序，如何整合结果这些都是框架定义好的
+。我们只要定义好这个任务（用户程序），其它都交给MapReduce。</p>
+</blockquote>
+<h3 id="map函数和reduce函数">map函数和reduce函数　</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>map函数： 接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>reduce函数： 接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。 
+</span></span></code></pre></div><blockquote>
+<p>在统计词频的例子里，map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w
+，就产生一个中间键值对&lt;w, 1&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对
+传给reduce函数，这样reduce函数接受的键就是单词w，值是一串&quot;1&quot;（最基本的实现是这样，但可以优化）
+，个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统（GFS或HDFS）。</p>
+</blockquote>
+<h3 id="执行过程">执行过程</h3>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/map-reduce.png" />   
+    </p>
+<p>图1展示了我们的实现中MapReduce操作的整体流程。当用户程序调用MapReduce函数时，会发生下面一系列动作（图1中的标号与下面列表顺序相同）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>1. 用户程序中的MapReduce库首先将输入文件切分为M块，每块的大小从16MB到64MB（用户可通过一个可选参数控制此大小）。然后MapReduce库会在
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>一个集群的若干台机器上启动程序的多个副本。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>2. 程序的各个副本中有一个是特殊的——主节点，其它的则是工作节点。主节点将M个map任务和R个reduce任务分配给空闲的工作节点，每个节点一
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>项任务。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>3. 被分配map任务的工作节点读取对应的输入区块内容。它从输入数据中解析出key/value对，然后将每个对传递给用户定义的map函数。由map函数
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>产生的中间key/value对都缓存在内存中。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>4. 缓存的数据对会被周期性的由划分函数分成R块，并写入本地磁盘中。这些缓存对在本地磁盘中的位置会被传回给主节点，主节点负责将这些位置
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>再传给reduce工作节点。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>5. 当一个reduce工作节点得到了主节点的这些位置通知后，它使用RPC调用去读map工作节点的本地磁盘中的缓存数据。当reduce工作节点读取完了
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>所有的中间数据，它会将这些数据按中间key排序，这样相同key的数据就被排列在一起了。同一个reduce任务经常会分到有着不同key的数据，因此
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>这个排序很有必要。如果中间数据数量过多，不能全部载入内存，则会使用外部排序。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>6. reduce工作节点遍历排序好的中间数据，并将遇到的每个中间key和与它关联的一组中间value传递给用户的reduce函数。reduce函数的输出会
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>写到由reduce划分过程划分出来的最终输出文件的末尾。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>7. 当所有的map和reduce任务都完成后，主节点唤醒用户程序。此时，用户程序中的MapReduce调用返回到用户代码中。
+</span></span></code></pre></div><p>成功完成后，MapReduce执行的输出都在R个输出文件中（每个reduce任务产生一个，文件名由用户指定）。通常用户不需要合并这R个输出文件——他们经常会把这些文件当作另一个MapReduce调用的输入，或是用于另一个可以处理分成多个文件输入的分布式应用。</p>
+
+        </div>
+        
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "Shu-HowTing/hugo_blog_comment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="http://localhost:1313/">whiteding</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="http://localhost:1313/post/spark/MapReduce/">http://localhost:1313/post/spark/MapReduce/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+        
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/spark' target="_blank">spark</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="http://localhost:1313/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='http://localhost:1313/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://localhost:1313/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://localhost:1313/post/recsys/llm/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" title="Spark map字段处理" target="_blank">Spark map字段处理</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="http://localhost:1313/categories/machine-learning/">Machine Learning (1)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/RecSys/">RecSys (2)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/spark/">Spark (12)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="http://localhost:1313/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="http://localhost:1313/tags/spark/">Spark</a>
+    
+    <a href="http://localhost:1313/tags/Thompson/">Thompson</a>
+    
+    <a href="http://localhost:1313/tags/xgb/">Xgb</a>
+    
+    <a href="http://localhost:1313/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="http://localhost:1313/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="http://localhost:1313/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

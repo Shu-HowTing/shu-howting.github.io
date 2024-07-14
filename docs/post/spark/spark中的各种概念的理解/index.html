@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Spark各种概念理解 | White</title>
+    <meta property="og:title" content="Spark各种概念理解 - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-09-01T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-09-01T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="Spark调优实战">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="http://localhost:1313/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://localhost:1313/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="http://localhost:1313/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#spark中的各种概念的理解">Spark中的各种概念的理解</a>
+      <ul>
+        <li><a href="#spark运行流程">Spark运行流程</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Spark各种概念理解</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <h2 id="spark中的各种概念的理解">Spark中的各种概念的理解</h2>
+<p>Application：通俗讲，用户每次提交的所有的代码为一个application。</p>
+<p>Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（<strong>action</strong>）为一个job</p>
+<p>Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分</p>
+<p>Task：task是最小的基本的计算单位。一般是一个RDD的一个分区（partition）为一个task，大约是128M</p>
+<p>并行度：是指指令并行执行的最大条数。在指令流水中，同时执行多条指令称为指令并行。</p>
+<p>理论上：每一个stage下有多少的分区，就有多少的task，task的数量就是我们任务的最大的并行度。</p>
+<p>（一般情况下，我们一个task运行的时候，使用一个cores）</p>
+<p>实际上：最大的并行度，取决于我们的application任务运行时使用的executor拥有的cores的数量。</p>
+<p><a href="http://litaotao.github.io/spark-questions-concepts?s=inner">spark 基本概念解析</a></p>
+<h3 id="spark运行流程">Spark运行流程</h3>
+<ol>
+<li>Application 首先被 Driver 构建 DAG 图并分解成 Stage。</li>
+<li>然后 Driver 向 Cluster Manager 申请资源。</li>
+<li>Cluster Manager 向某些 Work Node 发送征召信号。</li>
+<li>被征召的 Work Node 启动 Executor 进程响应征召，并向 Driver 申请任务。</li>
+<li>Driver 分配 Task 给 Work Node。</li>
+<li>Executor 以 Stage 为单位执行 Task，期间 Driver 进行监控。</li>
+<li>Driver 收到 Executor 任务完成的信号后向 Cluster Manager 发送注销信号。</li>
+<li>Cluster Manager 向 Work Node 发送释放资源信号。</li>
+<li>Work Node 对应 Executor 停止运行。</li>
+</ol>
+<p>
+        <img class="mx-auto" alt="image" src="https://s2.ax1x.com/2019/08/29/mLRiZt.jpg" />   
+    </p>
+
+        </div>
+        
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "Shu-HowTing/hugo_blog_comment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="http://localhost:1313/">whiteding</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="http://localhost:1313/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/">http://localhost:1313/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+        
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/spark' target="_blank">spark</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="http://localhost:1313/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='http://localhost:1313/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://localhost:1313/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://localhost:1313/post/recsys/llm/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" title="Spark map字段处理" target="_blank">Spark map字段处理</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="http://localhost:1313/categories/machine-learning/">Machine Learning (1)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/RecSys/">RecSys (2)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/spark/">Spark (12)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="http://localhost:1313/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="http://localhost:1313/tags/spark/">Spark</a>
+    
+    <a href="http://localhost:1313/tags/Thompson/">Thompson</a>
+    
+    <a href="http://localhost:1313/tags/xgb/">Xgb</a>
+    
+    <a href="http://localhost:1313/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="http://localhost:1313/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="http://localhost:1313/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

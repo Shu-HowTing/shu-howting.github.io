@@ -117,7 +117,7 @@ $$
 
 $P(\theta)$为$beta$分布时：
 $$
-\\P(\theta) = \operatorname{Beta}(a, b)=\frac{\theta^{a-1}(1-\theta)^{b-1}}{B(a, b)} \propto \theta^{a-1}(1-\theta)^{b-1}
+P(\theta) = \operatorname{Beta}(a, b)=\frac{\theta^{a-1}(1-\theta)^{b-1}}{B(a, b)} \propto \theta^{a-1}(1-\theta)^{b-1}
 $$
 则此时的后验分布为:
 $$

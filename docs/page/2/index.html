@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta name="generator" content="Hugo 0.128.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>White | Stay foolish, Stay hungry!</title>
+    <meta property="og:title" content="White | Stay foolish, Stay hungry!">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="">
+    <meta property="og:url" content="http://localhost:1313/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="http://localhost:1313/index.xml" title="White" />
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="http://localhost:1313/">
+                            White
+                        </a>
+                    </h1>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="http://localhost:1313/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/post/spark/spark%E5%85%A5%E9%97%A8/" title="Spark入门" target="_blank">Spark入门</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            生态： Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。 Spark Streaming：对实时数据流进行处理和控制。Spark……
+        </div>
+        <p class="readmore"><a href="http://localhost:1313/post/spark/spark%E5%85%A5%E9%97%A8/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/" title="Spark各种概念理解" target="_blank">Spark各种概念理解</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            Spark中的各种概念的理解 Application：通俗讲，用户每次提交的所有的代码为一个application。 Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（action）为一个job Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分 Task：task是最小的基本的计算单位。一般是……
+        </div>
+        <p class="readmore"><a href="http://localhost:1313/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/post/spark/How-to-parse-a-column-of-json-string-in-Pyspark/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。 数据准备 1# Sample Data Frame 2jstr1 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12345,&#34;foo&#34;:&#34;bar&#34;},&#34;body&#34;:{&#34;id&#34;:111000,&#34;name&#34;:&#34;foobar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:54321,&#34;sub_sub_json&#34;:{&#34;col1&#34;:20,&#34;col2&#34;:&#34;somethong&#34;}}}}&#39; 3jstr2 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12346,&#34;foo&#34;:&#34;baz&#34;},&#34;body&#34;:{&#34;id&#34;:111002,&#34;name&#34;:&#34;barfoo&#34;,&#34;sub_json&#34;:{&#34;id&#34;:23456,&#34;sub_sub_json&#34;:{&#34;col1&#34;:30,&#34;col2&#34;:&#34;something else&#34;}}}}&#39; 4jstr3 = u&#39;{&#34;header&#34;:{&#34;id&#34;:43256,&#34;foo&#34;:&#34;foobaz&#34;},&#34;body&#34;:{&#34;id&#34;:20192,&#34;name&#34;:&#34;bazbar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:39283,&#34;sub_sub_json&#34;:{&#34;col1&#34;:50,&#34;col2&#34;:&#34;another thing&#34;}}}}&#39; 5df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)]) 如上所示，我们模拟一个DataFrame，其中只有一列，列名为json，类型为string。可以看到，json中的值为json格式。我们……
+        </div>
+        <p class="readmore"><a href="http://localhost:1313/post/spark/How-to-parse-a-column-of-json-string-in-Pyspark/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            Spark性能调优：合理设置并行度 1. Spark的并行度指的是什么？ 并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ $$ 并行度 = executor\_number * executor\_cores $$ 理解： sparkApplication的划分： $job &ndash;&gt; stage &ndash;&gt; task$ 一般每个task一次处理一个分区。 可以将task理解为比赛中的跑道：每轮比赛中，每个跑道上都会有一位运动员(分区，即处理的数据……
+        </div>
+        <p class="readmore"><a href="http://localhost:1313/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/post/spark/%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98/" title="Spark运行内存超出" target="_blank">Spark运行内存超出</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M). 解决办法 提高内存开销 减少执行程序内核的数量 增加分区数量 提高驱动程序和执行程序内存 提……
+        </div>
+        <p class="readmore"><a href="http://localhost:1313/post/spark/%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="http://localhost:1313/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当我选择树模型为基学习器时，我们需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值（xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半……
+        </div>
+        <p class="readmore"><a href="http://localhost:1313/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="http://localhost:1313/">Previous</a>
+    </li>
+    
+
+    
+    <li >
+        <a href="http://localhost:1313/">1</a>
+    </li>
+    
+    <li  class="current">
+        <a href="http://localhost:1313/page/2/">2</a>
+    </li>
+    
+
+    
+</ol>
+
+
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="http://localhost:1313/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='http://localhost:1313/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://localhost:1313/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://localhost:1313/post/recsys/llm/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" title="Spark map字段处理" target="_blank">Spark map字段处理</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="http://localhost:1313/categories/machine-learning/">Machine Learning (1)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/RecSys/">RecSys (2)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/spark/">Spark (12)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="http://localhost:1313/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="http://localhost:1313/tags/spark/">Spark</a>
+    
+    <a href="http://localhost:1313/tags/Thompson/">Thompson</a>
+    
+    <a href="http://localhost:1313/tags/xgb/">Xgb</a>
+    
+    <a href="http://localhost:1313/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="http://localhost:1313/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="http://localhost:1313/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

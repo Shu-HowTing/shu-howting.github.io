@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,7 @@
     <meta name="description" content="XGBoost的原理分析以及实践">
         
     <meta name="author" content="whiteding">
-    <meta property="og:url" content="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/">
+    <meta property="og:url" content="http://localhost:1313/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
@@ -53,7 +53,7 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <a id="logo" href="https://whiteding.fun/">
+                    <a id="logo" href="http://localhost:1313/">
                         White
                     </a>
                 
@@ -61,7 +61,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    <a class=" current" href="http://localhost:1313/"> <i class="fas fa-home"></i> Home</a>
                     
                     <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
                     
@@ -263,14 +263,6 @@ $$
 \hat{y_i}^{K} = \hat{y_i}^{K-1}+f_{K}\left(x_{i}\right) \\
 \end{array}
 $$</p>
-<p>$$
-\begin{align}
-E[1] &amp;= \frac{j^2}{n^2}\frac{\sum_{k&lt;=j}v_i}{j} + \frac{(n-j)(n+j)}{n^2}\frac{\sum_{i&gt;j}v_i}{n-j} \\
-&amp;= \frac{j\sum_{k&lt;=j}v_i}{n^2}+\frac{(n+j)\sum_{i&gt;j}v_i}{n^2} \\
-&amp;= \frac{\sum_{i&gt;j}v_i}{n} + \frac{j\sum_iv_i}{n^2} \\
-&amp;=\frac{\sum_{i&gt;j}v_i+jE[0]}{n} \\
-\end{align}
-$$</p>
 <p>所以，对于第K次的目标函数为：
 $$
 \mathcal{L}^{(K)}=\sum_{i} l\left(y_{i}, \hat{y_i}^{K}\right)+\Omega\left(f_{K}\right)+\text {constant} \\
@@ -307,11 +299,7 @@ $$
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/tree.png" />   
     
 $$
-f(x)=\left
-{\begin{array}{ll}
-0.8 &amp; x &lt;10 \
-0.4 &amp; x &gt;=10
-\end{array}\right.
+f(x)=\begin{cases}0.8&amp;x&lt;10 \\ 0.4&amp;x&gt;=10&amp;\end{cases}
 $$
 就说可以有如下映射的关系$f_K(x)=w_{q(x)}$。其中$q(x)$为叶子节点的编号（从左往右编，1，2，3···)。$w$是叶子节点的取值。也就说对于任意一个样本$x$,其最后会落在树的某个叶子节点上，其值为$w_{q(x)}$</p>
 <p>既然一棵树可以用叶子节点来表达，上面的正则项，我们可以对叶子节点值进行惩罚(正则)，比如取L2正则，以及我们控制一下叶子节点的个数T，那么正则项有：
@@ -322,11 +310,10 @@ $$</p>
 <p>其实正则为什么可以控制模型复杂度呢？有很多角度可以看这个问题，最直观就是，我们为了使得目标函数最小，自然正则项也要小，正则项要小，叶子节点个数T要小（叶子节点个数少，树就简单）。
 而为什么要对叶子节点的值进行L2正则，这个可以参考一下LR里面进行正则的原因，简单的说就是LR没有加正则，整个w的参数空间是无限大的，只有加了正则之后，才会把w的解规范在一个范围内。（对此困惑的话可以跑一个不带正则的LR，每次出来的权重w都不一样，但是loss都是一样的，加了L2正则后，每次得到的w都是一样的）</p>
 </blockquote>
-<p>目标函数（移除常数项后）就可以改写成这样（用叶子节点表达）：
-$$
-\sum_{i} \left[g_{i} w_{q \left(x_{i} \right)} + \frac{1}{2} h_{i} w_{q \left(x_{i}\right)}^{2}\right]+\frac{1}{2} \lambda \sum_{j}^{T}\left|w_{j}\right|<em>{2}+\gamma T \\
-=\sum</em>{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma(T)
-$$</p>
+<p>目标函数（移除常数项后）就可以改写成这样（用叶子节点表达）：</p>
+<p>
+        <img class="mx-auto" alt="" src="../img/1.png" />   
+    </p>
 <p>令：</p>
 <p>$$
 \begin{aligned}
@@ -339,7 +326,7 @@ $$</p>
 $$</p>
 <p>对$w_j$求导，然后带入极值点，可以得到一个极值
 $$
-w^{*}=-\frac{G_{j}}{H_{j}+\lambda} \
+w^{*}=-\frac{G_{j}}{H_{j}+\lambda} \\
 \mathcal{L} = -\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T
 $$
 到这里，我们一直都是在围绕目标函数进行分析，这个到底是为什么呢？这个主要是为了后面我们寻找$f(x)$，也就是建树的过程。</p>
@@ -531,12 +518,12 @@ $$
 分别计算不同的分割点得到：
 $$
 \begin{array}{|l|l|l|l|l|l|l|l|}
-\hline  { split_point } &amp; 2 &amp; 3 &amp; 6 &amp; 7 &amp; 8 &amp; 9 &amp; 10 \
-\hline  { G_L } &amp; 0 &amp; 0 &amp; -0.5 &amp; -1 &amp; -1 &amp; -1 &amp; -2 \
-\hline  { H_L } &amp; 0.5 &amp; 1 &amp; 1.25 &amp; 2 &amp; 2.5 &amp; 3 &amp; 3.5 \
-\hline  { G_R } &amp; -1.5 &amp; -1.5 &amp; -1 &amp; -0.5 &amp; -0.5 &amp; -0.5 &amp; 0.5 \
-\hline  { H_R } &amp; 3.25 &amp; 2.75 &amp; 2.5 &amp; 1.75 &amp; 1.25 &amp; 0.75 &amp; 0.25 \
-\hline  { Gain } &amp; 0.0557275 &amp; 0.1263157 &amp; -0.0768588 &amp; -0.0494417 &amp; -0.0768588 &amp; -0.0808270 &amp; 0.6152046 \
+\hline{split_point} &amp; 2 &amp; 3 &amp; 6 &amp; 7 &amp; 8 &amp; 9 &amp; 10 \\
+\hline{G_L} &amp; 0 &amp; 0 &amp; -0.5 &amp; -1 &amp; -1 &amp; -1 &amp; -2 \\
+\hline{H_L} &amp; 0.5 &amp; 1 &amp; 1.25 &amp; 2 &amp; 2.5 &amp; 3 &amp; 3.5 \\
+\hline{G_R} &amp; -1.5 &amp; -1.5 &amp; -1 &amp; -0.5 &amp; -0.5 &amp; -0.5 &amp; 0.5 \\
+\hline{H_R} &amp; 3.25 &amp; 2.75 &amp; 2.5 &amp; 1.75 &amp; 1.25 &amp; 0.75 &amp; 0.25 \\
+\hline{Gain} &amp; 0.0557275 &amp; 0.1263157 &amp; -0.0768588 &amp; -0.0494417 &amp; -0.0768588 &amp; -0.0808270 &amp; 0.6152046 \\
 \hline
 \end{array}
 $$
@@ -544,12 +531,12 @@ $$
 <p>同理，遍历下一个特征$x_2$，可以得到类似的表如下:
 $$
 \begin{array}{|l|l|l|l|l|}
-\hline  { split_point } &amp; -2 &amp; 0 &amp; 2 &amp; 5 \
-\hline  { G_L } &amp; -0.5 &amp; 0 &amp; -1.5 &amp; -1 \
-\hline  { H_L } &amp; 0.75 &amp; 1.5 &amp; 2.25 &amp; 3 \
-\hline  { G_R } &amp; -1 &amp; -1.5 &amp; 0 &amp; -0.5 \
-\hline  { H_R } &amp; 3 &amp; 2.25 &amp; 1.5 &amp; 0.75 \
-\hline  { Gain } &amp; -0.080827067669 &amp; 0.218623481781 &amp; 0.218623481781 &amp; -0.080827067669 \
+\hline{split_point} &amp; -2 &amp; 0 &amp; 2 &amp; 5 \\
+\hline{G_L} &amp; -0.5 &amp; 0 &amp; -1.5 &amp; -1 \\
+\hline{H_L} &amp; 0.75 &amp; 1.5 &amp; 2.25 &amp; 3 \\
+\hline{G_R} &amp; -1 &amp; -1.5 &amp; 0 &amp; -0.5 \\
+\hline{H_R} &amp; 3 &amp; 2.25 &amp; 1.5 &amp; 0.75 \\
+\hline{Gain} &amp; -0.080827067669 &amp; 0.218623481781 &amp; 0.218623481781 &amp; -0.080827067669 \\
 \hline
 \end{array}
 $$
@@ -730,8 +717,8 @@ $$
         
 <div class="post-archive">
     <ul class="post-copyright">
-        <li><strong>Author: </strong><a rel="author" href="https://whiteding.fun/">whiteding</a></li>
-        <li style="word-break:break-all"><strong>Link: </strong><a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/">https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</a></li>
+        <li><strong>Author: </strong><a rel="author" href="http://localhost:1313/">whiteding</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="http://localhost:1313/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/">http://localhost:1313/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</a></li>
         <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
     </ul>
 </div>
@@ -754,7 +741,7 @@ $$
 
                     <footer id="footer">
     <div>
-        &copy; 2024 <a href="https://whiteding.fun/">White By whiteding</a>
+        &copy; 2024 <a href="http://localhost:1313/">White By whiteding</a>
         
     </div>
     <br />
@@ -877,10 +864,10 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='https://whiteding.fun/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='http://localhost:1313/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="https://whiteding.fun/">
+      <input type="hidden" name="sitesearch" value="http://localhost:1313/">
       <button type="submit" class="submit icon-search"></button>
 </form>
     </section>
@@ -923,19 +910,43 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
 <ul class="widget-list">
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/llm/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+        <a href="http://localhost:1313/post/recsys/llm/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+        <a href="http://localhost:1313/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
+        <a href="http://localhost:1313/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
+        <a href="http://localhost:1313/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" title="Spark map字段处理" target="_blank">Spark map字段处理</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
+    </li>
+    
+    <li>
+        <a href="http://localhost:1313/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
     </li>
     
 </ul>
@@ -948,11 +959,13 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/machine-learning/">Machine Learning (1)</a></li>
+    <li><a href="http://localhost:1313/categories/machine-learning/">Machine Learning (1)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="http://localhost:1313/categories/RecSys/">RecSys (2)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    <li><a href="http://localhost:1313/categories/spark/">Spark (12)</a></li>
+    
+    <li><a href="http://localhost:1313/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
     
 </ul>
     </section>
@@ -961,17 +974,19 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
 <div class="tagcloud">
     
-    <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    <a href="http://localhost:1313/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
     
-    <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
+    <a href="http://localhost:1313/tags/spark/">Spark</a>
     
-    <a href="https://whiteding.fun/tags/xgb/">Xgb</a>
+    <a href="http://localhost:1313/tags/Thompson/">Thompson</a>
     
-    <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    <a href="http://localhost:1313/tags/xgb/">Xgb</a>
     
-    <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    <a href="http://localhost:1313/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     
-    <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    <a href="http://localhost:1313/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="http://localhost:1313/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
     
 </div>
     </section>
