@@ -27,7 +27,7 @@ math = true
 本文将聚焦于$Pooling、attention、transformer$等结构，介绍一些主流模型的实现原理。
 
 
-![$Timeline$](../img/milestone.png)
+![time_line](../img/milestone.png)
 
 ### $Pooling$结构
 

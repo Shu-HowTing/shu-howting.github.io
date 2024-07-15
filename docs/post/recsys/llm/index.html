@@ -243,12 +243,12 @@
 <p>自从大语言模型爆火之后，大家对大语言模型（LLM）如何成功应用在推荐系统进行了不少尝试。本文是对目前一些业界工作的调研和总结。</p>
 </blockquote>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/5bb122b8-edef-4175-8167-8aa1524cd7df.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/1_llm.png" />   
     </p>
 <h2 id="大模型应用范式">大模型应用范式</h2>
 <p>经典的推荐架构基本遵循以下范式：</p>
 <p>
-        <img class="mx-auto" alt="image" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pgEG19GKDHxeolWl/27da04c5ef2c47c7a7642a1a201f15f53264.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/1_1_llm.jpg" />   
     </p>
 <p>目前, LLM 在推荐系统中的主流应用可以分为两种范式:</p>
 <ul>
@@ -265,7 +265,7 @@
 <li>利用大模型的表征能力，生成推荐物料的文本或图像的表征向量/token，作为现有推荐模型的输入</li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/f1b83414-29bc-4699-97ac-82d7231c6c56.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/2_llm.png" />   
     </p>
 <p>下面我们从上述方向出发，介绍每一个方向的代表工作。</p>
 <h4 id="利用大模型进行模型结构升级">利用大模型进行模型结构升级</h4>
@@ -273,39 +273,39 @@
 <h5 id="bst">BST</h5>
 <p>BST采用的是Transformer中的Encoder部分的结构进行序列特征的处理。结构如下图：</p>
 <p>
-        <img class="mx-auto" alt="image" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/f16de178-f64e-4421-a755-76e559f413b4.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/3_llm.png" />   
     </p>
 <h5 id="sasrec">SASRec</h5>
-<p>SASRec借鉴了Transformer中Decoder部分的结构，输入的是用户行为序列，不断预测下一个用户交互的item(类似GPT)：
-
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/fffe4a40-d715-4339-9ec6-a98018510348.png" />   
+<p>SASRec借鉴了Transformer中Decoder部分的结构，输入的是用户行为序列，不断预测下一个用户交互的item(类似GPT)：</p>
+<p>
+        <img class="mx-auto" alt="image.png" src="../img/4_llm.png" />   
     </p>
 <h5 id="bert4rec">BERT4Rec</h5>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/ae060b3f-afad-4d7e-b2f7-71cd27a523e0.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/5_llm.png" />   
     </p>
 <h4 id="利用大模型进行向量token表征">利用大模型进行向量/token表征</h4>
 <h5 id="独立于现有推荐模型">独立于现有推荐模型</h5>
 <h5 id="notellm">NoteLLM</h5>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/f28f25ad-7ad9-43ed-ab0d-dc84e00a7c89.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/6_llm.png" />   
     </p>
 <p>输入NoteLLM的Prompt的格式模板如下:</p>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/5ed99d91-04f8-4684-8534-869816f2fa44.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/7_llm.png" />   
     </p>
 <p>其中, [BOS], [EMB]和[EOS]为特殊token, 而<!-- raw HTML omitted -->, <!-- raw HTML omitted -->, <!-- raw HTML omitted -->和<!-- raw HTML omitted -->为占位符, 对于不同的任务会使用不同特定的内容来替换。</p>
 <ul>
 <li><strong>类别生成任务</strong>的笔记压缩提示模板如下:</li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/0d3d18aa-4b62-4bf0-a197-5fddb0792a02.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/8_llm.png" />   
     </p>
 <ul>
 <li><strong>主题标签生成任务</strong>的笔记压缩提示模板如下:</li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/c8d02652-0d2c-4167-866b-a4742fc544ce.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/9_llm.png" />   
     </p>
 <p>学习目标分为两部分:</p>
 <ul>
@@ -328,32 +328,30 @@
 <h5 id="联合现有推荐模型训练">联合现有推荐模型训练：</h5>
 <h5 id="ctrl">CTRL</h5>
 <p>
-        <img class="mx-auto" alt="111image-topaz-enhance-1.7x.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/83027468-a2a2-4deb-8f4a-60a3b42c36a9.png" />   
-    </p>
-<p><strong>两阶段训练：</strong></p>
+        <img class="mx-auto" alt="image.png" src="../img/10_llm.jpeg" />   
+    
+<strong>两阶段训练：</strong></p>
 <ul>
 <li>step1: 语言模型(LLM)和推荐模型进行无监督的对比学习</li>
 </ul>
-<p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/53e18d76-9b26-4bf1-a107-9f8823efbcee.png" />   
-    </p>
+<p>$$
+\mathcal{L}_{ccl}=\frac{1}{2}(\mathcal{L}^{textual2tabular}+\mathcal{L}^{tabular2textual})
+$$</p>
 <ul>
 <li>step2: 推荐模型单独进行有监督的微调训练</li>
 </ul>
-<p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/4589882f-b81d-4802-9459-ed6fc0056ca3.png" />   
-    </p>
+<p>$$
+\mathcal{L}_{ctr} = -\frac{1}{N} \sum_{k=1}^{N}(y_{k}log(\hat{y}_{k})+(1-y_{k})log(1-\hat{y}_{k}))
+$$</p>
 <h3 id="llm-as-rs">LLM AS RS</h3>
-<blockquote>
 <p><strong>LLM 作为推荐系统，与 LLM+RS 最大的区别在于，它不再作为一个部分来影响推荐系统，而是以端到端的方式使用一个大模型作为整个系统，LLM 将直接面对用户和商品。</strong></p>
-</blockquote>
 <p>根据替换程度不同，我们也可以分为两种情况:</p>
 <ul>
 <li><strong>局部替换: 指大模型将代替推荐流程的某一环。比如精排环节, 采用prompt方式，直接让大模型从召回集合中输出排序推荐结果</strong></li>
 <li><strong>整体替换: 推翻现有的经典推荐架构, 直接使用大模型end2end进行推荐。</strong></li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/4505479c-28bf-46ee-b597-ccaf2b007137.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/16_llm.png" />   
     </p>
 <h4 id="局部替换">局部替换：</h4>
 <p>比如用大模型代替原来的排序模块对召回的结果进行打分排序。</p>
@@ -361,17 +359,17 @@
 <li>[Google] Do LLMs Understand User Preferences? Evaluating LLMs On User Rating Prediction</li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/dbf55ed1-a73d-4978-b0d7-702aff5eedfe.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/11_llm.png" />   
     </p>
 <ul>
 <li>[Amazon] PALR: Personalization Aware LLMs for Recommendation</li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/0c859c04-e9ef-43a0-aef8-ce600d60b38d.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/12_llm.png" />   
     </p>
 <p><strong>prompt:</strong></p>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/3edda769-4972-4567-b372-4a1f6c48ad30.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/13_llm.png" />   
     </p>
 <h4 id="整体替换">整体替换：</h4>
 <p>彻底颠覆现有的经典架构，用大模型进行end2end的训练和推荐预测。</p>
@@ -379,12 +377,12 @@
 <li>[Meta] Actions Speak Louder than Words</li>
 </ul>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/da5f7f8e-7212-4c74-ba0b-b9f86da86fe7.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/14_llm.png" />   
     </p>
 <p><strong>补充：</strong></p>
 <p>目前，根据训练和推理阶段的不同做法，可以从如下四个角度区分现阶段的研究方向：</p>
 <p>
-        <img class="mx-auto" alt="image.png" src="https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/res/KM7qe92bYQ5eqpj8/img/ce22c427-fdd4-46e6-b48a-dffff63fd854.png" />   
+        <img class="mx-auto" alt="image.png" src="../img/15_llm.png" />   
     </p>
 <ul>
 <li>在<strong>训练</strong>阶段，大语言模型是否需要<strong>微调</strong>。这里微调的定义包含了全量微调和参数高效微调。</li>
@@ -670,11 +668,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/machine-learning/">Machine Learning (1)</a></li>
-    
     <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/spark/">Spark (12)</a></li>
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
     
     <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
     
@@ -687,11 +685,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
     
-    <a href="https://whiteding.fun/tags/spark/">Spark</a>
-    
     <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
     
-    <a href="https://whiteding.fun/tags/xgb/">Xgb</a>
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     
