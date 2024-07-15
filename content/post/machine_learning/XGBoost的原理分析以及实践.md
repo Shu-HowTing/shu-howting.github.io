@@ -192,7 +192,7 @@ $$
 
 $$
 \begin{aligned}
-\frac{\partial L_{i}}{\partial\hat {y_i}} &= \frac{\partial L_{i}}{\partial p_{i}} \cdot \frac{\partial p_{i}}{\partial \hat {y_i}} \\
+\frac{\partial L_{i}}{\partial\hat {y_i}} &= \frac{\partial L_{i}}{\partial p_{i}} \cdot \frac{\partial p_{i}}{\partial \hat {y_i}} \\\\
 &=\sigma\left(\hat {y_i}\right)-y_{i} 
 \end{aligned}
 $$
@@ -225,6 +225,7 @@ $$
 \hline{ID} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\\\
 \hline{g_i} & 0.5 & 0.5 & -0.5 & -0.5 & -0.5 & -0.5 & -0.5 & 0.5 & 0.5 & -0.5 & -0.5 & -0.5 & 0.5 & 0.5 & -0.5 \\\\
 \hline{h_i} & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 & 0.25 \\\\
+\hline
 \end{array}
 $$
 
