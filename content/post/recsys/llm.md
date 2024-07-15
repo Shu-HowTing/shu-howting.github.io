@@ -49,25 +49,25 @@ math = true
 
 这部分最典型的工作集中在推荐中的序列特征方面。因为序列特征天然和NLP的token输入天然具有相似性。经典的有BST， SASRec。
 
-##### BST
+- BST
 
 BST采用的是Transformer中的Encoder部分的结构进行序列特征的处理。结构如下图：
 
 ![image.png](../img/3_llm.png)
 
-##### SASRec 
+- SASRec 
 
 SASRec借鉴了Transformer中Decoder部分的结构，输入的是用户行为序列，不断预测下一个用户交互的item(类似GPT)：
 
 ![image.png](../img/4_llm.png)
 
-##### BERT4Rec
+- BERT4Rec
 ![image.png](../img/5_llm.png)
 #### 利用大模型进行向量/token表征
 
 ##### 独立于现有推荐模型
 
-##### NoteLLM
+- NoteLLM
 
 ![image.png](../img/6_llm.png)
 
@@ -115,7 +115,7 @@ $$L\_{gen}=-\frac{1}{T}\sum\_{i=1}^{T}log(p(o\_{i}|o\_{<i},i))$$
 
 ##### 联合现有推荐模型训练：
 
-##### CTRL
+- CTRL
 ![image.png](../img/10_llm.jpeg)
 **两阶段训练：**
 

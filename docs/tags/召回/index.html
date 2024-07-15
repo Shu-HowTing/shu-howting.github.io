@@ -9,21 +9,21 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>spark | White</title>
-    <meta property="og:title" content="spark - White">
+    <title>召回 | White</title>
+    <meta property="og:title" content="召回 - White">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="DS, DeepLearning">
-    <meta name="description" content="spark">
+    <meta name="description" content="召回">
         
     <meta name="author" content="whiteding">
-    <meta property="og:url" content="https://whiteding.fun/categories/spark/">
+    <meta property="og:url" content="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/categories/spark/index.xml" title="White" />
+    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/index.xml" title="White" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -87,8 +87,8 @@
 <div class="res-cons">
     
     <h3 class="archive-title">
-        分类
-        <span class="keyword">spark</span>
+        包含标签
+        <span class="keyword">召回</span>
         articles
     </h3>
     
@@ -97,13 +97,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/" target="_blank">Spark入门</a>
+                <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" target="_blank">Batch内负采样</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2019-08-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2019-08-01
+  <time datetime="2024-04-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2024-04-02
   </time>
 
 
@@ -111,27 +111,27 @@
   <span>&nbsp;|</span>
   
     <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
   
 </div>
 
 
         <div class="post-content">
-            生态： Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。 Spark Streaming：对实时数据流进行处理和控制。Spark……
-            <p class="readmore"><a href="https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+            In-batch Negative Sampling code: 1import torch 2import torch.nn as nn 3import torch.nn.functional as F 4 5class RecommenderModel(nn.Module): 6 def __init__(self, user_size, item_size, embedding_dim): 7 super(RecommenderModel, self).__init__() 8 self.user_embedding = nn.Embedding(user_size, embedding_dim) 9 self.item_embedding = nn.Embedding(item_size, embedding_dim) 10 11 def forward(self, user_ids, item_ids): 12 user_embeds = self.user_embedding(user_ids) 13 item_embeds = self.item_embedding(item_ids) 14 return user_embeds, item_embeds 15 16 def in_batch_negative_sampling_loss(user_embeds, item_embeds): 17 batch_size = user_embeds.size(0) 18 19 # 正样本得分 20 positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) # (batch_size,) 21 22 # 负样本得分 23 negative_scores = torch.matmul(user_embeds, item_embeds.t()) # (batch_size, batch_size) 24 25 # 创建标签 26 labels = torch.eye(batch_size).to(user_embeds.device) # (batch_size, batch_size) 27 28 # 计算损失 29 loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1)) 30 31 return loss 32 33# 示例数据 34batch_size = 4 35embedding_dim = 8 36user_size = 100 37item_size = 1000 38 39user_ids = torch.randint(0, user_size, (batch_size,)) 40item_ids = torch.randint(0, item_size, (batch_size,)) 41 42model = RecommenderModel(user_size, item_size, embedding_dim) 43user_embeds, item_embeds = model(user_ids, item_ids) 44 45loss = in_batch_negative_sampling_loss(user_embeds, item_embeds) 46print(f&#39;Loss: {loss.item()}&#39;) 优点 效性：批量内负采样能够充分利用每个训练批次中的样本……
+            <p class="readmore"><a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
         </div>
     </article>
     
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/MapReduce/" target="_blank">MapReduce原理解析</a>
+                <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" target="_blank">召回模型的评估</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2019-06-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2019-06-01
+  <time datetime="2023-07-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-07-02
   </time>
 
 
@@ -139,14 +139,14 @@
   <span>&nbsp;|</span>
   
     <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
   
 </div>
 
 
         <div class="post-content">
-            Hadoop简介 Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等. 这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce： MapRe……
-            <p class="readmore"><a href="https://whiteding.fun/post/spark/MapReduce/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+            召回模型评测指标 为什么不用AUC指标 AUC指标不适用于衡量召回模型。原因有三： 计算AUC时，正样本容易获得，可以拿点击样本做正样本。但负样本从哪里来？照搬精排，用曝光未点击做负样本，行不行？不行。否则，测试样本都来自曝光物料，也就是从系统筛选过的、比较匹配用户爱好的优质物料，这样的测试数据明显与召回的实际应用场景（海量的、和用户毫不相关的物料）有着天壤之别。失真的测试环境只能产生失真的指标，不能反……
+            <p class="readmore"><a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
         </div>
     </article>
     
@@ -154,26 +154,6 @@
     
 
 
-
-<ol class="page-navigator">
-    
-    <li class="prev">
-        <a href="https://whiteding.fun/categories/spark/">Previous</a>
-    </li>
-    
-
-    
-    <li >
-        <a href="https://whiteding.fun/categories/spark/">1</a>
-    </li>
-    
-    <li  class="current">
-        <a href="https://whiteding.fun/categories/spark/page/2/">2</a>
-    </li>
-    
-
-    
-</ol>
 
 
 

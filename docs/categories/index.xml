@@ -17,15 +17,6 @@
     </item>
     
     <item>
-      <title>统计学</title>
-      <link>https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</link>
-      <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>machine learning</title>
       <link>https://whiteding.fun/categories/machine-learning/</link>
       <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
@@ -35,9 +26,18 @@
     </item>
     
     <item>
+      <title>统计学</title>
+      <link>https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</link>
+      <pubDate>Sat, 06 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>spark</title>
       <link>https://whiteding.fun/categories/spark/</link>
-      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 12 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://whiteding.fun/categories/spark/</guid>
       <description></description>

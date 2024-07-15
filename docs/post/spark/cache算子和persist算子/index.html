@@ -13,10 +13,10 @@
     <meta property="og:title" content="cache和persist比较 - White">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2021-09-01T00:00:00&#43;08:00'>
+    <meta property="article:published_time" content='2020-03-10T00:00:00&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2021-09-01T00:00:00&#43;08:00'>
+    <meta property="article:modified_time" content='2020-03-10T00:00:00&#43;08:00'>
         
     <meta name="Keywords" content="DS, DeepLearning">
     <meta name="description" content="cache和persist比较">
@@ -211,8 +211,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2020-03-10T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-03-10
   </time>
 
 
@@ -240,10 +240,10 @@
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#000;font-weight:bold">val</span> rdd1 <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">.</span>textFile<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;xxx&#34;</span><span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>rdd1<span style="color:#000;font-weight:bold">.</span>collect
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>rdd1<span style="color:#000;font-weight:bold">.</span>show
-</span></span></code></pre></div><p>但是Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。对于上面的代码，<code>$sc.textFile(&quot;xxx&quot;)$</code>会执行两次，这种方式的性能是很差的。</p>
+</span></span></code></pre></div><p>但是Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。对于上面的代码，<code>sc.textFile(&quot;xxx&quot;)</code>会执行两次，这种方式的性能是很差的。</p>
 <p>因此对于这种情况，我的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作。</p>
 <h3 id="持久化">持久化</h3>
-<p>如果要对一个RDD进行持久化，只要对这个RDD调用<code>$cache()$</code>和<code>$persist()$</code>即可。</p>
+<p>如果要对一个RDD进行持久化，只要对这个RDD调用<code>cache()</code>和<code>persist()</code>即可。</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#000;font-weight:bold">val</span> rdd1 <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">.</span>textFile<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;xxx&#34;</span><span style="color:#000;font-weight:bold">).</span>cache
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>rdd1<span style="color:#000;font-weight:bold">.</span>collect
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>rdd1<span style="color:#000;font-weight:bold">.</span>show
@@ -263,7 +263,7 @@
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#998;font-style:italic"> * Persist this RDD with the default storage level (`MEMORY_ONLY`).
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#998;font-style:italic">*/</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#000;font-weight:bold">def</span> persist<span style="color:#000;font-weight:bold">()</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">this.</span><span style="color:#000;font-weight:bold">type</span> <span style="color:#000;font-weight:bold">=</span> persist<span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">StorageLevel</span><span style="color:#000;font-weight:bold">.</span><span style="color:#458;font-weight:bold">MEMORY_ONLY</span><span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre></div><p>默认缓存级别是<code>$StorageLevel.MEMORY\_ONLY$</code>.也就是说cache的默认级别就是<code>$MEMORY\_ONLY$</code></p>
+</span></span></code></pre></div><p>默认缓存级别是<code>StorageLevel.MEMORY\_ONLY</code>.也就是说cache的默认级别就是<code>MEMORY\_ONLY</code></p>
 <h4 id="dataframe的cache和persist的区别">DataFrame的cache和persist的区别</h4>
 <p>官网和上的教程说的都是RDD,但是没有讲df的缓存，通过源码发现df和rdd还是不太一样的:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#998;font-style:italic">/**
@@ -325,9 +325,18 @@
 </li>
 </ul>
 <h2 id="使用cache注意下面三点">使用Cache注意下面三点</h2>
-<p>（1）cache之后一定不能立即有其它算子，不能直接去接算子。因为在实际工作的时候，cache后有算子的话，它每次都会重新触发这个计算过程。</p>
-<p>（2）cache不是一个action，运行它的时候没有执行一个作业。</p>
-<p>（3）cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的（没有计算）<strong>unpersist时eager级别的。意味着unpersist如果定义在action算子之前，则cache失效</strong></p>
+<ul>
+<li>
+<p>cache之后一定不能立即有其它算子，不能直接去接算子。因为在实际工作的时候，cache后有算子的话，它每次都会重新触发这个计算过程。</p>
+</li>
+<li>
+<p>cache不是一个action，运行它的时候没有执行一个作业。</p>
+</li>
+<li>
+<p>cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的（没有计算）</p>
+</li>
+</ul>
+<p><strong>unpersist是eager级别的。意味着unpersist如果定义在action算子之前，则cache失效</strong></p>
 
         </div>
         
@@ -548,7 +557,19 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
     </li>
     
     <li>
@@ -556,19 +577,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
     </li>
     
     <li>
@@ -576,11 +589,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
     </li>
     
 </ul>
@@ -593,7 +602,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (4)</a></li>
     
     <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
     
@@ -615,6 +624,8 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     <a href="https://whiteding.fun/tags/spark/">spark</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     

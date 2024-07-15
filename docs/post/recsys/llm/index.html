@@ -270,23 +270,31 @@
 <p>下面我们从上述方向出发，介绍每一个方向的代表工作。</p>
 <h4 id="利用大模型进行模型结构升级">利用大模型进行模型结构升级</h4>
 <p>这部分最典型的工作集中在推荐中的序列特征方面。因为序列特征天然和NLP的token输入天然具有相似性。经典的有BST， SASRec。</p>
-<h5 id="bst">BST</h5>
+<ul>
+<li>BST</li>
+</ul>
 <p>BST采用的是Transformer中的Encoder部分的结构进行序列特征的处理。结构如下图：</p>
 <p>
         <img class="mx-auto" alt="image.png" src="../img/3_llm.png" />   
     </p>
-<h5 id="sasrec">SASRec</h5>
+<ul>
+<li>SASRec</li>
+</ul>
 <p>SASRec借鉴了Transformer中Decoder部分的结构，输入的是用户行为序列，不断预测下一个用户交互的item(类似GPT)：</p>
 <p>
         <img class="mx-auto" alt="image.png" src="../img/4_llm.png" />   
     </p>
-<h5 id="bert4rec">BERT4Rec</h5>
-<p>
+<ul>
+<li>BERT4Rec
+
         <img class="mx-auto" alt="image.png" src="../img/5_llm.png" />   
-    </p>
+    </li>
+</ul>
 <h4 id="利用大模型进行向量token表征">利用大模型进行向量/token表征</h4>
 <h5 id="独立于现有推荐模型">独立于现有推荐模型</h5>
-<h5 id="notellm">NoteLLM</h5>
+<ul>
+<li>NoteLLM</li>
+</ul>
 <p>
         <img class="mx-auto" alt="image.png" src="../img/6_llm.png" />   
     </p>
@@ -326,13 +334,17 @@
 <p>$$L_{cl}=-\frac{1}{2B}\sum_{i=1}^{2B}log\frac{e^{sim(\boldsymbol{n}_{i},\boldsymbol{n}_{i}^{+})\cdot e^{\tau}}}{\sum_{j\in[2B]\setminus{i}}e^{sim(\boldsymbol{n}_{i},\boldsymbol{n}_{j})\cdot e^{\tau}}}$$</p>
 <p>$$L_{gen}=-\frac{1}{T}\sum_{i=1}^{T}log(p(o_{i}|o_{&lt;i},i))$$</p>
 <h5 id="联合现有推荐模型训练">联合现有推荐模型训练：</h5>
-<h5 id="ctrl">CTRL</h5>
-<p>
+<ul>
+<li>
+<p>CTRL
+
         <img class="mx-auto" alt="image.png" src="../img/10_llm.jpeg" />   
     
 <strong>两阶段训练：</strong></p>
-<ul>
-<li>step1: 语言模型(LLM)和推荐模型进行无监督的对比学习</li>
+</li>
+<li>
+<p>step1: 语言模型(LLM)和推荐模型进行无监督的对比学习</p>
+</li>
 </ul>
 <p>$$
 \mathcal{L}_{ccl}=\frac{1}{2}(\mathcal{L}^{textual2tabular}+\mathcal{L}^{tabular2textual})
@@ -623,7 +635,19 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
     </li>
     
     <li>
@@ -631,19 +655,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
     </li>
     
     <li>
@@ -651,11 +667,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
     </li>
     
 </ul>
@@ -668,7 +680,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (4)</a></li>
     
     <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
     
@@ -690,6 +702,8 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     <a href="https://whiteding.fun/tags/spark/">spark</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     

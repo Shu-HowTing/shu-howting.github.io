@@ -1,6 +1,6 @@
 +++
 title = "cache和persist比较"
-date = "2021-09-01"
+date = "2020-03-10"
 description = "cache和persist比较"
 tags = [
   "spark"
@@ -25,12 +25,12 @@ rdd1.collect
 rdd1.show
 ```
 
-但是Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。对于上面的代码，`$sc.textFile("xxx")$`会执行两次，这种方式的性能是很差的。
+但是Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。对于上面的代码，`sc.textFile("xxx")`会执行两次，这种方式的性能是很差的。
 
 因此对于这种情况，我的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作。
 
 ### 持久化
-如果要对一个RDD进行持久化，只要对这个RDD调用`$cache()$`和`$persist()$`即可。
+如果要对一个RDD进行持久化，只要对这个RDD调用`cache()`和`persist()`即可。
 ```scala
 val rdd1 = sc.textFile("xxx").cache
 rdd1.collect
@@ -57,7 +57,7 @@ def cache(): this.type = persist()
 */
 def persist(): this.type = persist(StorageLevel.MEMORY_ONLY)
 ```
-默认缓存级别是`$StorageLevel.MEMORY\_ONLY$`.也就是说cache的默认级别就是`$MEMORY\_ONLY$`
+默认缓存级别是`StorageLevel.MEMORY\_ONLY`.也就是说cache的默认级别就是`MEMORY\_ONLY`
 
 #### DataFrame的cache和persist的区别
 官网和上的教程说的都是RDD,但是没有讲df的缓存，通过源码发现df和rdd还是不太一样的:
@@ -119,8 +119,10 @@ def cacheQuery(
 - 通常不建议使用DISK_ONLY和后缀为_2的级别：因为完全基于磁盘文件进行数据的读写，会导致性能急剧降低，有时还不如重新计算一次所有RDD。后缀为_2的级别，必须将所有数据都复制一份副本，并发送到其他节点上，数据复制以及网络传输会导致较大的性能开销，除非是要求作业的高可用性，否则不建议使用。
 
 ## 使用Cache注意下面三点
-（1）cache之后一定不能立即有其它算子，不能直接去接算子。因为在实际工作的时候，cache后有算子的话，它每次都会重新触发这个计算过程。
+- cache之后一定不能立即有其它算子，不能直接去接算子。因为在实际工作的时候，cache后有算子的话，它每次都会重新触发这个计算过程。
 
-（2）cache不是一个action，运行它的时候没有执行一个作业。
+- cache不是一个action，运行它的时候没有执行一个作业。
 
-（3）cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的（没有计算）**unpersist时eager级别的。意味着unpersist如果定义在action算子之前，则cache失效**
+- cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的（没有计算）
+  
+**unpersist是eager级别的。意味着unpersist如果定义在action算子之前，则cache失效**

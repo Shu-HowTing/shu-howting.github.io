@@ -1,6 +1,6 @@
 +++
 title = "Spark map字段处理"
-date = "2021-09-01"
+date = "2020-04-12"
 description = "MapReduce"
 tags = [
   "spark"
@@ -71,7 +71,7 @@ df3.printSchema()
 df3.show()
 ```
 
-##### $output$
+$output:$
 
 ```
 
@@ -94,8 +94,8 @@ root
 +---------+------+
 ```
 
-> **注意：**
->
+**注意：**
+
 > `Washington`对应的$knownLanguages$字段是null，explode会忽略这种值，可以看到，结果集里并没有`Washington`的记录，如果需要保留，使用`explode_outer`函数
 
 #### $explode – map\ column\ example$
@@ -107,7 +107,7 @@ df3.printSchema()
 df3.show()
 ```
 
-##### $output$
+$output:$
 
 ```
 root
@@ -139,7 +139,7 @@ df.select(F.col("name"),
    F.col("properties").getItem("eye").alias("eye_color")).show()
 ```
 
-##### $output$
+$output:$
 
 ```
 +----------+----------+---------+

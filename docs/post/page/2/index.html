@@ -90,13 +90,103 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/spark/%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98/" title="Spark运行内存超出" target="_blank">Spark运行内存超出</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2020-03-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-03-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M). 解决办法 提高内存开销 减少执行程序内核的数量 增加分区数量 提高驱动程序和执行程序内存 提……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2019-10-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-10-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            简介 $repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$ 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数$shuffle=true$ 分析 例：RDD有N个分区，需要重新划分成M个分区 N小于M 一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将shu……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2019-09-20T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-09-20
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            RDD算子总结 从功能上分： 转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。 如：map 、flatmap、filter、 union、 join、 ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。 如：count 、collect、top、 take、 reduce 从作用上分： 通用的： map、 flatMap、 di……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2019-09-05T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-09-05
   </time>
 
 
@@ -120,13 +210,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" title="Spark map字段处理" target="_blank">Spark map字段处理</a>
+                <a href="https://whiteding.fun/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/" title="Spark各种概念理解" target="_blank">Spark各种概念理解</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2019-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-09-01
   </time>
 
 
@@ -140,9 +230,9 @@
 
 
         <div class="post-content">
-            $PySpark$ 在遇到$map$类型的列的一些处理 在$spark$中，有时会遇到$column$的类型是$array$和$map$类型的，这时候需要将它们转换为多行数据 $Explode\ array\ and\ map\ columns\ to\ rows$ 1import pyspark 2from pyspark.sql import SparkSession 3 4spark = SparkSession.builder.appName(&#39;pyspark-by-examples&#39;).getOrCreate() 5 6arrayData = [ 7 (&#39;James&#39;,[&#39;Java&#39;,&#39;Scala&#39;],{&#39;hair&#39;:&#39;black&#39;,&#39;eye&#39;:&#39;brown&#39;}), 8 (&#39;Michael&#39;,[&#39;Spark&#39;,&#39;Java&#39;,None],{&#39;hair&#39;:&#39;brown&#39;,&#39;eye&#39;:None}), 9 (&#39;Robert&#39;,[&#39;CSharp&#39;,&#39;&#39;],{&#39;hair&#39;:&#39;red&#39;,&#39;eye&#39;:&#39;&#39;}), 10 (&#39;Washington&#39;,None,None), 11 (&#39;Jefferson&#39;,[&#39;1&#39;,&#39;2&#39;],{}) ] 12 13df = spark.createDataFrame(data=arrayData, schema = [&#39;name&#39;,&#39;knownLanguages&#39;,&#39;properties&#39;]) 14df.printSchema() 15df.show() 1root 2 |-- name: string (nullable = true) 3 |-- knownLanguages: array (nullable = true) 4 | |-- element: string (containsNull = true) 5 |-- properties: map (nullable = true) 6 | |-- key: string 7 | |-- value: string (valueContainsNull = true) 8 9+----------+--------------+--------------------+ 10| name|knownLanguages| properties| 11+----------+--------------+--------------------+ 12| James| [Java, Scala]|[eye -&gt; brown, ha...| 13| Michael|[Spark, Java,]|[eye -&gt;, hair -&gt; ...| 14| Robert| [CSharp, ]|[eye -&gt; , hair -&gt;...| 15|Washington| null| null| 16| Jefferson| [1, 2]| []| 17+----------+--------------+--------------------+ $explode –……
+            Spark中的各种概念的理解 Application：通俗讲，用户每次提交的所有的代码为一个application。 Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（action）为一个job Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分 Task：task是最小的基本的计算单位。一般是……
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -150,13 +240,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+                <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0新特性" target="_blank">Spark2.0新特性</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2019-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-09-01
   </time>
 
 
@@ -170,9 +260,9 @@
 
 
         <div class="post-content">
-            简介 $repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$ 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数$shuffle=true$ 分析 例：RDD有N个分区，需要重新划分成M个分区 1N小于M 2一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将s……
+            Spark2.0 Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。 Spark2.0中引入了SparkSession的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。 SparkSession 在Spark的早期版本，SparkContext是进入Spark的切入点。……
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -180,13 +270,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
+                <a href="https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/" title="Spark入门" target="_blank">Spark入门</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2019-08-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-08-01
   </time>
 
 
@@ -200,9 +290,9 @@
 
 
         <div class="post-content">
-            RDD算子总结 从功能上分： 转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。 如：$map 、flatmap、filter、 union、 join、 ruduceByKey、 cache$ 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。 如：$count 、collect、top、 take、 reduce$ 从作用上分： 通用的： map、 flatMap、……
+            生态： Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。 Spark Streaming：对实时数据流进行处理和控制。Spark……
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -215,8 +305,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2019-06-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-06-01
   </time>
 
 
@@ -233,36 +323,6 @@
             Hadoop简介 Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等. 这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce： MapRe……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/spark/MapReduce/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            Spark中cache和persist的作用 Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行多……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -384,7 +444,19 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
     </li>
     
     <li>
@@ -392,19 +464,11 @@
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
     </li>
     
     <li>
@@ -412,11 +476,7 @@
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
     </li>
     
 </ul>
@@ -429,7 +489,7 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (4)</a></li>
     
     <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
     
@@ -451,6 +511,8 @@
     <a href="https://whiteding.fun/tags/spark/">spark</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     

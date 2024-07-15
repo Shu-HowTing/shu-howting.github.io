@@ -1,6 +1,6 @@
 +++
 title = "repartition和coalesce区别"
-date = "2021-09-01"
+date = "2019-10-15"
 description = "repartition和coalesce区别"
 tags = [
   "spark"
@@ -19,16 +19,20 @@ $repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boole
 - 作用：对RDD的分区进行**重新划分**，repartition内部调用了coalesce，参数`$shuffle=true$`
 ### 分析
 #### 例：RDD有N个分区，需要重新划分成M个分区
-```
-N小于M
+
+- N小于M 
+
 一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将shuffle设置为true。
 
-N大于M且和M相差不多
-假如N是1000，M是100)那么就可以将N个分区中的若干个分区合并成一个新的分区，最终合并为M个分区，这时可以将shuff设置为false，在shuffl为false的情况下，如果M>N时，coalesce为无效的，不进行shuffle过程，父RDD和子RDD之间是窄依赖关系。
+- N大于M且和M相差不多
 
-N大于M且和M相差悬殊
+假如N是1000，M是100。那么就可以将N个分区中的若干个分区合并成一个新的分区，最终合并为M个分区，这时可以将shuff设置为false，在shuffl为false的情况下，如果M>N时，coalesce为无效的，不进行shuffle过程，父RDD和子RDD之间是窄依赖关系。
+
+- N大于M且和M相差悬殊
+
 这时如果将shuffle设置为false，父子RDD是窄依赖关系，他们在同一个Stage中，就可能造成Spark程序的并行度不够，从而影响性能，如果在M为1的时候，为了使coalesce之前的操作有更好的并行度，可以讲shuffle设置为true。
-```
+
+
 ### 总结：
 返回一个减少到numPartitions个分区的新RDD，这会导致窄依赖
 例如：你将1000个分区转换成100个分区，这个过程不会发生shuffle，相反如果10个分区转换成100个分区将会发生shuffle。

@@ -119,6 +119,66 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2024-04-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2024-04-02
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        <div class="post-content">
+            In-batch Negative Sampling code: 1import torch 2import torch.nn as nn 3import torch.nn.functional as F 4 5class RecommenderModel(nn.Module): 6 def __init__(self, user_size, item_size, embedding_dim): 7 super(RecommenderModel, self).__init__() 8 self.user_embedding = nn.Embedding(user_size, embedding_dim) 9 self.item_embedding = nn.Embedding(item_size, embedding_dim) 10 11 def forward(self, user_ids, item_ids): 12 user_embeds = self.user_embedding(user_ids) 13 item_embeds = self.item_embedding(item_ids) 14 return user_embeds, item_embeds 15 16 def in_batch_negative_sampling_loss(user_embeds, item_embeds): 17 batch_size = user_embeds.size(0) 18 19 # 正样本得分 20 positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) # (batch_size,) 21 22 # 负样本得分 23 negative_scores = torch.matmul(user_embeds, item_embeds.t()) # (batch_size, batch_size) 24 25 # 创建标签 26 labels = torch.eye(batch_size).to(user_embeds.device) # (batch_size, batch_size) 27 28 # 计算损失 29 loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1)) 30 31 return loss 32 33# 示例数据 34batch_size = 4 35embedding_dim = 8 36user_size = 100 37item_size = 1000 38 39user_ids = torch.randint(0, user_size, (batch_size,)) 40item_ids = torch.randint(0, item_size, (batch_size,)) 41 42model = RecommenderModel(user_size, item_size, embedding_dim) 43user_embeds, item_embeds = model(user_ids, item_ids) 44 45loss = in_batch_negative_sampling_loss(user_embeds, item_embeds) 46print(f&#39;Loss: {loss.item()}&#39;) 优点 效性：批量内负采样能够充分利用每个训练批次中的样本……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-07-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-07-02
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        <div class="post-content">
+            召回模型评测指标 为什么不用AUC指标 AUC指标不适用于衡量召回模型。原因有三： 计算AUC时，正样本容易获得，可以拿点击样本做正样本。但负样本从哪里来？照搬精排，用曝光未点击做负样本，行不行？不行。否则，测试样本都来自曝光物料，也就是从系统筛选过的、比较匹配用户爱好的优质物料，这样的测试数据明显与召回的实际应用场景（海量的、和用户毫不相关的物料）有着天壤之别。失真的测试环境只能产生失真的指标，不能反……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
             </h1>
         </header>
@@ -149,13 +209,43 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当我选择树模型为基学习器时，我们需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值（xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2022-02-06T00:00:00Z" class="post-meta meta-date dt-published">
-    2022-02-06
+  <time datetime="2021-03-06T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-03-06
   </time>
 
 
@@ -179,13 +269,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+                <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2020-06-12T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-06-12
   </time>
 
 
@@ -199,9 +289,9 @@
 
 
         <div class="post-content">
-            Spark中cache和persist的作用 Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行多……
+            Spark性能调优：合理设置并行度 1. Spark的并行度指的是什么？ 并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ $$ 并行度 = executor\_number * executor\_cores $$ 理解： sparkApplication的划分： $job &ndash;&gt; stage &ndash;&gt; task$ 一般每个task一次处理一个分区。 可以将task理解为比赛中的跑道：每轮比赛中，每个跑道上都会有一位运动员(分区，即处理的数据……
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -209,13 +299,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
+                <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2020-04-23T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-04-23
   </time>
 
 
@@ -229,69 +319,9 @@
 
 
         <div class="post-content">
-            Hadoop简介 Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等. 这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce： MapRe……
+            How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。 数据准备 1# Sample Data Frame 2jstr1 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12345,&#34;foo&#34;:&#34;bar&#34;},&#34;body&#34;:{&#34;id&#34;:111000,&#34;name&#34;:&#34;foobar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:54321,&#34;sub_sub_json&#34;:{&#34;col1&#34;:20,&#34;col2&#34;:&#34;somethong&#34;}}}}&#39; 3jstr2 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12346,&#34;foo&#34;:&#34;baz&#34;},&#34;body&#34;:{&#34;id&#34;:111002,&#34;name&#34;:&#34;barfoo&#34;,&#34;sub_json&#34;:{&#34;id&#34;:23456,&#34;sub_sub_json&#34;:{&#34;col1&#34;:30,&#34;col2&#34;:&#34;something else&#34;}}}}&#39; 4jstr3 = u&#39;{&#34;header&#34;:{&#34;id&#34;:43256,&#34;foo&#34;:&#34;foobaz&#34;},&#34;body&#34;:{&#34;id&#34;:20192,&#34;name&#34;:&#34;bazbar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:39283,&#34;sub_sub_json&#34;:{&#34;col1&#34;:50,&#34;col2&#34;:&#34;another thing&#34;}}}}&#39; 5df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)]) 1+--------------------+ 2| json| 3+--------------------+ 4|{&#34;header&#34;:{&#34;id&#34;:1...| 5|{&#34;header&#34;:{&#34;id&#34;:1...| 6|{&#34;header&#34;:{&#34;id&#34;:4...| 7+--------------------+ 如上所示，我们模拟一个DataFrame，其中只有一列，列名为json，类型为string。可以看到，json中的值为j……
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/MapReduce/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            RDD算子总结 从功能上分： 转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。 如：$map 、flatmap、filter、 union、 join、 ruduceByKey、 cache$ 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。 如：$count 、collect、top、 take、 reduce$ 从作用上分： 通用的： map、 flatMap、……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            简介 $repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$ 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数$shuffle=true$ 分析 例：RDD有N个分区，需要重新划分成M个分区 1N小于M 2一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将s……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -304,8 +334,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2020-04-12T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-04-12
   </time>
 
 
@@ -329,13 +359,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
+                <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2020-03-10T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-03-10
   </time>
 
 
@@ -349,39 +379,9 @@
 
 
         <div class="post-content">
-            RDD简介 RDD&ndash;弹性分布式数据集（Resilient Distributed Dataset）是spark的核心概念。RDD其实就是分布式的元素集合。在Spark中，对数据的所有操作不外乎创建RDD，转化已有的RDD以及调用RDD操作进行求值。而在这一切的背后，spark会自动讲RDD中的数据分发到集群上，并将操作并行化执行。 RDD基础 RDD是一个不可变的分布式对象集合.每个RDD被分为多个分区，这些分区运……
+            Spark中cache和persist的作用 Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行多……
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            Spark2.0 Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。 Spark2.0中引入了$SparkSession$的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。 SparkSession 在Spark的早期版本，SparkContext是进入Spark的切入……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -503,7 +503,19 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
     </li>
     
     <li>
@@ -511,19 +523,11 @@
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
     </li>
     
     <li>
@@ -531,11 +535,7 @@
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
     </li>
     
 </ul>
@@ -548,7 +548,7 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (4)</a></li>
     
     <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
     
@@ -570,6 +570,8 @@
     <a href="https://whiteding.fun/tags/spark/">spark</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     

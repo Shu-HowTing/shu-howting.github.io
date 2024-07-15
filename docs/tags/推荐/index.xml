@@ -17,6 +17,24 @@
     </item>
     
     <item>
+      <title>Batch内负采样</title>
+      <link>https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/</link>
+      <pubDate>Tue, 02 Apr 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/</guid>
+      <description>In-batch Negative Sampling code: 1import torch 2import torch.nn as nn 3import torch.nn.functional as F 4 5class RecommenderModel(nn.Module): 6 def __init__(self, user_size, item_size, embedding_dim): 7 super(RecommenderModel, self).__init__() 8 self.user_embedding = nn.Embedding(user_size, embedding_dim) 9 self.item_embedding = nn.Embedding(item_size, embedding_dim) 10 11 def forward(self, user_ids, item_ids): 12 user_embeds = self.user_embedding(user_ids) 13 item_embeds = self.item_embedding(item_ids) 14 return user_embeds, item_embeds 15 16 def in_batch_negative_sampling_loss(user_embeds, item_embeds): 17 batch_size = user_embeds.size(0) 18 19 # 正样本得分 20 positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) # (batch_size,) 21 22 # 负样本得分 23 negative_scores = torch.matmul(user_embeds, item_embeds.t()) # (batch_size, batch_size) 24 25 # 创建标签 26 labels = torch.eye(batch_size).to(user_embeds.device) # (batch_size, batch_size) 27 28 # 计算损失 29 loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1)) 30 31 return loss 32 33# 示例数据 34batch_size = 4 35embedding_dim = 8 36user_size = 100 37item_size = 1000 38 39user_ids = torch.randint(0, user_size, (batch_size,)) 40item_ids = torch.randint(0, item_size, (batch_size,)) 41 42model = RecommenderModel(user_size, item_size, embedding_dim) 43user_embeds, item_embeds = model(user_ids, item_ids) 44 45loss = in_batch_negative_sampling_loss(user_embeds, item_embeds) 46print(f&amp;#39;Loss: {loss.item()}&amp;#39;) 优点 效性：批量内负采样能够充分利用每个训练批次中的样本</description>
+    </item>
+    
+    <item>
+      <title>召回模型的评估</title>
+      <link>https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/</link>
+      <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/</guid>
+      <description>召回模型评测指标 为什么不用AUC指标 AUC指标不适用于衡量召回模型。原因有三： 计算AUC时，正样本容易获得，可以拿点击样本做正样本。但负样本从哪里来？照搬精排，用曝光未点击做负样本，行不行？不行。否则，测试样本都来自曝光物料，也就是从系统筛选过的、比较匹配用户爱好的优质物料，这样的测试数据明显与召回的实际应用场景（海量的、和用户毫不相关的物料）有着天壤之别。失真的测试环境只能产生失真的指标，不能反</description>
+    </item>
+    
+    <item>
       <title>推荐算法中的序列特征模型</title>
       <link>https://whiteding.fun/post/recsys/seq_feat/</link>
       <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>

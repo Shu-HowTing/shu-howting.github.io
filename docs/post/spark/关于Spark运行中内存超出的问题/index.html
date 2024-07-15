@@ -13,10 +13,10 @@
     <meta property="og:title" content="Spark运行内存超出 - White">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2021-09-01T00:00:00&#43;08:00'>
+    <meta property="article:published_time" content='2020-03-01T00:00:00&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2021-09-01T00:00:00&#43;08:00'>
+    <meta property="article:modified_time" content='2020-03-01T00:00:00&#43;08:00'>
         
     <meta name="Keywords" content="DS, DeepLearning">
     <meta name="description" content="Spark运行内存超出">
@@ -211,8 +211,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2020-03-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-03-01
   </time>
 
 
@@ -234,15 +234,9 @@
         
         
         <div class="post-content">
-            <blockquote>
-<h2 id="container-killed-by-yarn-for-exceeding-memory-limits">Container killed by YARN for exceeding memory limits？</h2>
-</blockquote>
-<blockquote>
-<p>运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。</p>
-</blockquote>
-<blockquote>
-<p>这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M).</p>
-</blockquote>
+            <h2 id="container-killed-by-yarn-for-exceeding-memory-limits">Container killed by YARN for exceeding memory limits？</h2>
+<p><code>运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。</code></p>
+<p><code>这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M).</code></p>
 <h3 id="解决办法">解决办法</h3>
 <ul>
 <li>提高内存开销</li>
@@ -251,22 +245,14 @@
 <li>提高驱动程序和执行程序内存</li>
 </ul>
 <h4 id="提高内存开销">提高内存开销</h4>
-<blockquote>
 <p>即直接指定堆外内存的大小</p>
-</blockquote>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>spark.conf.set(&#34;spark.yarn.executor.memoryOverhead&#34;, &#34;4g&#34;)
 </span></span></code></pre></div><h4 id="减少执行程序内核的数量">减少执行程序内核的数量</h4>
-<blockquote>
 <p>这可减少执行程序可以执行的最大任务数量，从而减少所需的内存量。</p>
-</blockquote>
 <h4 id="增加分区数量">增加分区数量</h4>
-<blockquote>
 <p>要增加分区数量，请为原始弹性分布式数据集增加 spark.default.parallelism 的值，或执行.repartition() 操作。增加分区数量可减少每个分区所需的内存量。</p>
-</blockquote>
 <h4 id="提高驱动程序和执行程序内存">提高驱动程序和执行程序内存</h4>
-<blockquote>
 <p>即通过增大executor.memory的值来增大堆外内存,但是可以看到，由于乘了10%，所以提升其实很有限。</p>
-</blockquote>
 
         </div>
         
@@ -487,7 +473,19 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
     </li>
     
     <li>
@@ -495,19 +493,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
     </li>
     
     <li>
@@ -515,11 +505,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
     </li>
     
 </ul>
@@ -532,7 +518,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (4)</a></li>
     
     <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
     
@@ -554,6 +540,8 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     <a href="https://whiteding.fun/tags/spark/">spark</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     

@@ -1,6 +1,6 @@
 +++
 title = "RDD算子总结"
-date = "2021-09-01"
+date = "2019-09-20"
 description = "RDD算子总结"
 tags = [
   "spark"
@@ -17,10 +17,10 @@ mathjax = true
 
 ### 从功能上分：
 **转换算子(transformer)：** lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。
-如：`$map 、flatmap、filter、   union、  join、  ruduceByKey、 cache$`
+如：`map 、flatmap、filter、   union、  join、  ruduceByKey、 cache`
 
 **行动算子(action)：** 触发任务执行，产生job，返回值不再是rdd。
-如：`$count 、collect、top、  take、  reduce$`
+如：`count 、collect、top、  take、  reduce`
 
 ### 从作用上分：
 **通用的：** map、 flatMap、 distinct、 union

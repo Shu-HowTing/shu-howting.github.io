@@ -84,13 +84,18 @@ $$
 \Omega\left(f_{K}\right)=\frac{1}{2} \lambda \sum_{j}^{T}\left\|w_{j}\right\|_{2}+\gamma T
 $$
 
-> 其实正则为什么可以控制模型复杂度呢？有很多角度可以看这个问题，最直观就是，我们为了使得目标函数最小，自然正则项也要小，正则项要小，叶子节点个数T要小（叶子节点个数少，树就简单）。
-> 而为什么要对叶子节点的值进行L2正则，这个可以参考一下LR里面进行正则的原因，简单的说就是LR没有加正则，整个w的参数空间是无限大的，只有加了正则之后，才会把w的解规范在一个范围内。（对此困惑的话可以跑一个不带正则的LR，每次出来的权重w都不一样，但是loss都是一样的，加了L2正则后，每次得到的w都是一样的）
+`其实正则为什么可以控制模型复杂度呢？有很多角度可以看这个问题，最直观就是，我们为了使得目标函数最小，自然正则项也要小，正则项要小，叶子节点个数T要小（叶子节点个数少，树就简单）。`
+
+`而为什么要对叶子节点的值进行L2正则，这个可以参考一下LR里面进行正则的原因，简单的说就是LR没有加正则，整个w的参数空间是无限大的，只有加了正则之后，才会把w的解规范在一个范围内。（对此困惑的话可以跑一个不带正则的LR，每次出来的权重w都不一样，但是loss都是一样的，加了L2正则后，每次得到的w都是一样的）`
 
 目标函数（移除常数项后）就可以改写成这样（用叶子节点表达）：
 
-![](../img/1.png)
-
+$$
+\begin{gathered}
+\sum_i \left[g_{i}w_{q(x_i)} + \frac{1}{2}h\_{i}w\_{q(x_i)}^2 \right] + \frac{1}{2}\lambda\sum\_j^T\left\|w\_j\right\|\_2 + \gamma T \\\\
+=\sum_{j=1}^{T} \left[\left(\sum_{i\in {I_j}}g\_i \right)w\_j+\frac{1}{2}\left(\sum_{i \in {I_j}}h\_i+\lambda\right)w_{j}^2\right]+\gamma(T) 
+\end{gathered}
+$$
 令：
 
 $$
@@ -136,13 +141,11 @@ $$
 
 #### 寻找分裂点算法
 
-![](https://cdn.mathpix.com/snip/images/LC0iyzFYQjB4HsylLXDgSkrI8JEkYeHJcj_JwrgdxA4.original.fullsize.png)
+![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/202407151739193.png)
 
 #### 缺失值的处理
 
-![](https://cdn.mathpix.com/snip/images/uPZQ0FZfBRnH3ITmtDETJPSNT9jH2JnrFV8p_UbnXNQ.original.fullsize.png)
-
-可以看到内层循环里面有两个for，第一个for是从把特征取值从小到大排序，然后从小到大进行扫描，这个时候在计算$G_R$的时候是用总的$G$减去$G_LG_R$时候是用总的$G$减去$G_L$，$H_R$也是同样用总的$H$减去$H_L$,这意味着把空缺样本归到了右子结点。
+从上图中可以看到,内层循环里面有两个for，第一个for是从把特征取值从小到大排序，然后从小到大进行扫描，这个时候在计算$G_R$的时候是用总的$G$减去$G_LG_R$时候是用总的$G$减去$G_L$，$H_R$也是同样用总的$H$减去$H_L$,这意味着把空缺样本归到了右子结点。
 
 第二个for相反过来，把空缺样本归到了左子结点。
 只要比较这两次最大增益出现在第一个for中还是第二个for中就可以知道对于空缺值的分裂方向，这就是xgboost如何学习空缺值的思想。

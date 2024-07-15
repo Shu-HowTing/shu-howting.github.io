@@ -1,6 +1,6 @@
 +++
 title = "Spark解析DataFrame中的json字段"
-date = "2021-09-01"
+date = "2020-04-23"
 description = "cache和persist比较"
 tags = [
   "spark"
@@ -27,7 +27,17 @@ jstr3 = u'{"header":{"id":43256,"foo":"foobaz"},"body":{"id":20192,"name":"bazba
 df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)])
 ```
 
-> 如上所示，我们模拟一个DataFrame，其中只有一列，列名为`json`，类型为`string`。可以看到，`json`中的值为json格式。我们如何从中取出我们关心的值，形成一个单独的列呢？例如：$df['header']['id']$.
+```markdown
++--------------------+
+|                json|
++--------------------+
+|{"header":{"id":1...|
+|{"header":{"id":1...|
+|{"header":{"id":4...|
++--------------------+
+```
+
+如上所示，我们模拟一个DataFrame，其中只有一列，列名为`json`，类型为`string`。可以看到，`json`中的值为json格式。我们如何从中取出我们关心的值，形成一个单独的列呢？例如：`df['header']['id']`.
 
 ### from_json函数
 

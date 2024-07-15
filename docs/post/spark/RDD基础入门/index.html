@@ -13,10 +13,10 @@
     <meta property="og:title" content="Spark RDD入门 - White">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2021-09-01T00:00:00&#43;08:00'>
+    <meta property="article:published_time" content='2019-09-05T00:00:00&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2021-09-01T00:00:00&#43;08:00'>
+    <meta property="article:modified_time" content='2019-09-05T00:00:00&#43;08:00'>
         
     <meta name="Keywords" content="DS, DeepLearning">
     <meta name="description" content="Spark RDD入门">
@@ -163,9 +163,9 @@
         <li><a href="#rdd简介">RDD简介</a></li>
         <li><a href="#rdd基础">RDD基础</a>
           <ul>
-            <li><a href="#1创建rdd">1、创建RDD</a></li>
-            <li><a href="#2rdd操作">2、RDD操作</a></li>
-            <li><a href="#3函数传递">3、函数传递</a></li>
+            <li><a href="#1-创建rdd">1. 创建RDD</a></li>
+            <li><a href="#2-创建rdd">2. 创建RDD</a></li>
+            <li><a href="#3-创建rdd">3. 创建RDD</a></li>
             <li><a href="#4rdd操作">4、RDD操作</a></li>
             <li><a href="#5持久化缓存">5、持久化(缓存)</a></li>
           </ul>
@@ -213,8 +213,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-09-01
+  <time datetime="2019-09-05T00:00:00Z" class="post-meta meta-date dt-published">
+    2019-09-05
   </time>
 
 
@@ -237,139 +237,113 @@
         
         <div class="post-content">
             <h3 id="rdd简介">RDD简介</h3>
-<blockquote>
 <p>RDD&ndash;弹性分布式数据集（Resilient Distributed Dataset）是spark的核心概念。RDD其实就是分布式的元素集合。在Spark中，对数据的所有操作不外乎创建RDD，转化已有的RDD以及调用RDD操作进行求值。而在这一切的背后，spark会自动讲RDD中的数据分发到集群上，并将操作并行化执行。</p>
-</blockquote>
 <h3 id="rdd基础">RDD基础</h3>
-<blockquote>
 <p>RDD是一个不可变的分布式对象集合.每个RDD被分为多个分区，这些分区运行在集群中的不同节点上。RDD可以包含Python、Java、Scala中任意类型的对象。</p>
-</blockquote>
 <p><strong>每个spark程序无外乎都是下面的流程:</strong></p>
-<p>1.从外部数据创建输入RDD</p>
-<p>2.使用诸如filter()这样的操作对RDD进行转化，定义新的RDD</p>
-<p>3.告诉spark对需要被重用的中间RDD执行persisit()操作</p>
-<p>4.使用行动操作(count(),first())触发一次并行计算，spark并不会立马执行，而是优化后再执行</p>
-<h4 id="1创建rdd">1、创建RDD</h4>
-<blockquote>
-<p>　Spark提供了两种方法创建RDD的方法：</p>
-</blockquote>
+<ol>
+<li>
+<p>从外部数据创建输入RDD</p>
+</li>
+<li>
+<p>使用诸如filter()这样的操作对RDD进行转化，定义新的RDD</p>
+</li>
+<li>
+<p>告诉spark对需要被重用的中间RDD执行persisit()操作</p>
+</li>
+<li>
+<p>使用行动操作(count(),first())触发一次并行计算，spark并不会立马执行，而是优化后再执行</p>
+</li>
+</ol>
+<h4 id="1-创建rdd">1. 创建RDD</h4>
+<p><strong>Spark提供了两种方法创建RDD的方法：</strong></p>
 <ul>
 <li>读取外部数据集</li>
 <li>在驱动器程序中对一个集合进行并行化</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>#parallelize方法将集合转化为rdd
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>lines = sc.parallelize([&#34;pandas&#34;, &#34;i like pandas&#34;])
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#998;font-style:italic">#parallelize方法将集合转化为rdd</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>lines <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">.</span>parallelize([<span style="color:#d14">&#34;pandas&#34;</span>, <span style="color:#d14">&#34;i like pandas&#34;</span>])
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>#textFile方法
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>lines=sc.textFile(&#34;README.md&#34;)
-</span></span></code></pre></div><h4 id="2rdd操作">2、RDD操作</h4>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#998;font-style:italic">#textFile方法</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>lines<span style="color:#000;font-weight:bold">=</span>sc<span style="color:#000;font-weight:bold">.</span>textFile(<span style="color:#d14">&#34;README.md&#34;</span>)
+</span></span></code></pre></div><h4 id="2-创建rdd">2. 创建RDD</h4>
 <p><strong>spark支持两种操作：转化操作，行动操作</strong></p>
 <h5 id="转化操作">转化操作</h5>
-<blockquote>
 <p>转化操作执行时返回新的RDD的操作，转化出来的RDD是惰性求值的，只有在行动中用到这些RDD时才会被计算，许多转化操作只会操作RDD中的一个元素，并不是所有的转化操作都是这样</p>
-</blockquote>
 <p>比如提取日志文件的错误信息</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>inputRDD=sc.testFile(&#34;log.txt&#34;)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>errorsRDD=inputRDD.filter(lambda x:&#34;error&#34; in x)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>warningsRDD = inputRDD.filter(lambda x: &#34;warning&#34; in x)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span># 将errorsRDD和warningsRDD合并成一个RDD
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>badLinesRDD = errorsRDD.union(warningsRDD)
-</span></span></code></pre></div><blockquote>
-<p>通过转化操作，从已有的RDD中派生新的RDD，spark会使用谱系图记录这些RDD的依赖关系，spark在需要用这些信息的时候按需计算每个RDD，也可以依靠谱系图在丢失数据的情况下恢复丢失的数据</p>
-</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>inputRDD<span style="color:#000;font-weight:bold">=</span>sc<span style="color:#000;font-weight:bold">.</span>testFile(<span style="color:#d14">&#34;log.txt&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>errorsRDD<span style="color:#000;font-weight:bold">=</span>inputRDD<span style="color:#000;font-weight:bold">.</span>filter(<span style="color:#000;font-weight:bold">lambda</span> x:<span style="color:#d14">&#34;error&#34;</span> <span style="color:#000;font-weight:bold">in</span> x)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>warningsRDD <span style="color:#000;font-weight:bold">=</span> inputRDD<span style="color:#000;font-weight:bold">.</span>filter(<span style="color:#000;font-weight:bold">lambda</span> x: <span style="color:#d14">&#34;warning&#34;</span> <span style="color:#000;font-weight:bold">in</span> x)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#998;font-style:italic"># 将errorsRDD和warningsRDD合并成一个RDD</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>badLinesRDD <span style="color:#000;font-weight:bold">=</span> errorsRDD<span style="color:#000;font-weight:bold">.</span>union(warningsRDD)
+</span></span></code></pre></div><p>通过转化操作，从已有的RDD中派生新的RDD，spark会使用谱系图记录这些RDD的依赖关系，spark在需要用这些信息的时候按需计算每个RDD，也可以依靠谱系图在丢失数据的情况下恢复丢失的数据</p>
 <h5 id="行动操作">行动操作</h5>
-<blockquote>
 <p>行动操作需要实际的输出，它会强制执行哪些求值必须用到的RDD转化操作</p>
-</blockquote>
 <p>示例：对badLinesRDD进行计数操作，并且打印前十条记录</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>print &#34;Input had &#34; + badLinesRDD.count() + &#34; concerning lines&#34;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span># take(num) 从RDD中取出num个元素
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>for line in badLinesRDD.take(10):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    print line
-</span></span></code></pre></div><blockquote>
-<p>这里使用了take()取出少量的数据集，也可以使用collect()函数获取整个RDD中的数据，但是使用collect需要注意内存是否够用。如果数据集特别大的时候，我们需要把数据写到诸如HDFS之类的分布式存储系统，当调用一个新的行动操作的时候整个RDD会从头计算，我们要将中间结果持久化</p>
-</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#0086b3">print</span> <span style="color:#d14">&#34;Input had &#34;</span> <span style="color:#000;font-weight:bold">+</span> badLinesRDD<span style="color:#000;font-weight:bold">.</span>count() <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34; concerning lines&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#998;font-style:italic"># take(num) 从RDD中取出num个元素</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#000;font-weight:bold">for</span> line <span style="color:#000;font-weight:bold">in</span> badLinesRDD<span style="color:#000;font-weight:bold">.</span>take(<span style="color:#099">10</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#0086b3">print</span> line
+</span></span></code></pre></div><p>这里使用了take()取出少量的数据集，也可以使用collect()函数获取整个RDD中的数据，但是使用collect需要注意内存是否够用。如果数据集特别大的时候，我们需要把数据写到诸如HDFS之类的分布式存储系统，当调用一个新的行动操作的时候整个RDD会从头计算，我们要将中间结果持久化</p>
 <h5 id="惰性求值">惰性求值</h5>
-<blockquote>
 <p>RDD的转化操作都是多心求值的，这意味着在被调用行动操作之前Spark不会开始计算。</p>
-</blockquote>
-<blockquote>
 <p>惰性求值意味着我们对RDD调用转化操作（例如map()）时，操作不会立即执行，相反，Spark会在内部记录下所要求执行的操作的相关信息。<strong>我们不应该把RDD看作放着特定数据的数据集，而最好把每个RDD看作我们通过转化操作构建出来的、记录如何计算数据的指令列表</strong>。把数据读到RDD的操作也是惰性的，因此，当我们调用sc.textFile()时，数据并没有读取进来，而是在必要时才会读取。</p>
-</blockquote>
-<h4 id="3函数传递">3、函数传递</h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>#使用lambda方法传递
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>word = rdd.filter(lambda s: &#34;error&#34; in s)
+<h4 id="3-创建rdd">3. 创建RDD</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#998;font-style:italic">#使用lambda方法传递</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>word <span style="color:#000;font-weight:bold">=</span> rdd<span style="color:#000;font-weight:bold">.</span>filter(<span style="color:#000;font-weight:bold">lambda</span> s: <span style="color:#d14">&#34;error&#34;</span> <span style="color:#000;font-weight:bold">in</span> s)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>#定义一个函数然后传递
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>def containsError(s):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    return &#34;error&#34; in s
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>word = rdd.filter(containsError)
-</span></span></code></pre></div><blockquote>
-<p>传递函数时要小心，python会在不经意间把函数所在的对象也序列化传出，有时如果传递的类里包含了python不知道如何序列化输出的对象，也可能导致程序失败。</p>
-</blockquote>
-<blockquote>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#998;font-style:italic">#定义一个函数然后传递</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">containsError</span>(s):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;error&#34;</span> <span style="color:#000;font-weight:bold">in</span> s
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>word <span style="color:#000;font-weight:bold">=</span> rdd<span style="color:#000;font-weight:bold">.</span>filter(containsError)
+</span></span></code></pre></div><p>传递函数时要小心，python会在不经意间把函数所在的对象也序列化传出，有时如果传递的类里包含了python不知道如何序列化输出的对象，也可能导致程序失败。</p>
 <p>如下是一个错误的函数传递示例；</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>class SearchFunctions(object):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    def __init__(self, query):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        self.query = query
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    def isMatch(self, s):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        return self.query in s
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    def getMatchesFunctionReference(self, rdd):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        # 问题：在&#34;self.isMatch&#34;中引用了整个self
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        return rdd.filter(self.isMatch)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    def getMatchesMemberReference(self, rdd):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        # 问题：在&#34;self.query&#34;中引用了整个self
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        return rdd.filter(lambda x: self.query in x)
-</span></span></code></pre></div><blockquote>
-<p>正确做法:</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>class WordFunctions(object):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    def getMatchesNoReference(self, rdd):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>        # 安全：只把需要的字段提取到局部变量中
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>        query = self.query
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        return rdd.filter(lambda x: query in x)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SearchFunctions</span>(<span style="color:#0086b3">object</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#000;font-weight:bold">def</span> __init__(<span style="color:#999">self</span>, query):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>query <span style="color:#000;font-weight:bold">=</span> query
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">isMatch</span>(<span style="color:#999">self</span>, s):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        <span style="color:#000;font-weight:bold">return</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>query <span style="color:#000;font-weight:bold">in</span> s
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">getMatchesFunctionReference</span>(<span style="color:#999">self</span>, rdd):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        <span style="color:#998;font-style:italic"># 问题：在&#34;self.isMatch&#34;中引用了整个self</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#000;font-weight:bold">return</span> rdd<span style="color:#000;font-weight:bold">.</span>filter(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>isMatch)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">getMatchesMemberReference</span>(<span style="color:#999">self</span>, rdd):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        <span style="color:#998;font-style:italic"># 问题：在&#34;self.query&#34;中引用了整个self</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        <span style="color:#000;font-weight:bold">return</span> rdd<span style="color:#000;font-weight:bold">.</span>filter(<span style="color:#000;font-weight:bold">lambda</span> x: <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>query <span style="color:#000;font-weight:bold">in</span> x)
+</span></span></code></pre></div><p>正确做法:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WordFunctions</span>(<span style="color:#0086b3">object</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">getMatchesNoReference</span>(<span style="color:#999">self</span>, rdd):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>        <span style="color:#998;font-style:italic"># 安全：只把需要的字段提取到局部变量中</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>        query <span style="color:#000;font-weight:bold">=</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>query
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#000;font-weight:bold">return</span> rdd<span style="color:#000;font-weight:bold">.</span>filter(<span style="color:#000;font-weight:bold">lambda</span> x: query <span style="color:#000;font-weight:bold">in</span> x)
 </span></span></code></pre></div><h4 id="4rdd操作">4、RDD操作</h4>
-<blockquote>
 <p>常见的转化操作</p>
-</blockquote>
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/rdd1.png" />   
     </p>
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/rdd2.png" />   
     </p>
-<blockquote>
 <p>常见的行动操作</p>
-</blockquote>
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/rdd3.png" />   
     </p>
 <h4 id="5持久化缓存">5、持久化(缓存)</h4>
-<blockquote>
 <p>如前所述， Spark
 RDD是惰性求值的，而有时我们希望能多次使用同一个 RDD。如果简单
 地对 RDD 调用行动操作， Spark 每次都会重算 RDD 以及它的所有依赖。这在迭代算法中
 消耗格外大，因为迭代算法常常会多次使用同一组数据。</p>
-</blockquote>
-<blockquote>
 <p>如下就是先对 RDD 作一次计数、再把该 RDD 输出的一个小例子。</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Scala" data-lang="Scala"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#000;font-weight:bold">val</span> result <span style="color:#000;font-weight:bold">=</span> input<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">*</span>x<span style="color:#000;font-weight:bold">)</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#000;font-weight:bold">val</span> result <span style="color:#000;font-weight:bold">=</span> input<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">*</span>x<span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>println<span style="color:#000;font-weight:bold">(</span>result<span style="color:#000;font-weight:bold">.</span>count<span style="color:#000;font-weight:bold">())</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>println<span style="color:#000;font-weight:bold">(</span>result<span style="color:#000;font-weight:bold">.</span>collect<span style="color:#000;font-weight:bold">().</span>mkString<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;,&#34;</span><span style="color:#000;font-weight:bold">))</span>
-</span></span></code></pre></div><blockquote>
-<p>为了避免多次计算同一个 RDD，可以让 Spark 对数据进行持久化。当我们让 Spark 持久化
+</span></span></code></pre></div><p>为了避免多次计算同一个 RDD，可以让 Spark 对数据进行持久化。当我们让 Spark 持久化
 存储一个 RDD 时，计算出 RDD 的节点会分别保存它们所求出的分区数据。如果一个有持
 久化数据的节点发生故障， Spark 会在需要用到缓存的数据时重算丢失的数据分区。如果
 希望节点故障的情况不会拖累我们的执行速度，也可以把数据备份到多个节点上。</p>
-</blockquote>
-<blockquote>
 <p>出于不同的目的，我们可以为 RDD 选择不同的持久化级别（如表 3-6 所示）。在 Scala和 Java 中，默认情况下 persist() 会把数据以序列化的形式缓存在 JVM 的堆空
 间中。在 Python 中，我们会始终序列化要持久化存储的数据，所以持久化级别默认值就是
 以序列化后的对象存储在 JVM 堆空间中。当我们把数据写到磁盘或者堆外存储上时，也
 总是使用序列化后的数据。</p>
-</blockquote>
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/rdd4.png" />   
     </p>
@@ -377,14 +351,12 @@ RDD是惰性求值的，而有时我们希望能多次使用同一个 RDD。如�
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>result<span style="color:#000;font-weight:bold">.</span>persist<span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">StorageLevel</span><span style="color:#000;font-weight:bold">.</span><span style="color:#458;font-weight:bold">DISK_ONLY</span><span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>println<span style="color:#000;font-weight:bold">(</span>result<span style="color:#000;font-weight:bold">.</span>count<span style="color:#000;font-weight:bold">())</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>println<span style="color:#000;font-weight:bold">(</span>result<span style="color:#000;font-weight:bold">.</span>collect<span style="color:#000;font-weight:bold">().</span>mkString<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;,&#34;</span><span style="color:#000;font-weight:bold">))</span>
-</span></span></code></pre></div><blockquote>
-<p>如果要缓存的数据太多， 内存中放不下， Spark 会自动利用最近最少使用（ LRU）的缓存
+</span></span></code></pre></div><p>如果要缓存的数据太多， 内存中放不下， Spark 会自动利用最近最少使用（ LRU）的缓存
 策略把最老的分区从内存中移除。 对于仅把数据存放在内存中的缓存级别，下一次要用到
 已经被移除的分区时， 这些分区就需要重新计算。但是对于使用内存与磁盘的缓存级别的
 分区来说，被移除的分区都会写入磁盘。不论哪一种情况，都不必担心你的作业因为缓存
 了太多数据而被打断。 不过，缓存不必要的数据会导致有用的数据被移出内存，带来更多
 重算的时间开销</p>
-</blockquote>
 
         </div>
         
@@ -605,7 +577,19 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
     </li>
     
     <li>
@@ -613,19 +597,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" title="Spark调优实战" target="_blank">Spark调优实战</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
+        <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
     </li>
     
     <li>
@@ -633,11 +609,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Spark RDD入门" target="_blank">Spark RDD入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/" title="Spark2.0特性" target="_blank">Spark2.0特性</a>
+        <a href="https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/" title="cache和persist比较" target="_blank">cache和persist比较</a>
     </li>
     
 </ul>
@@ -650,7 +622,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (4)</a></li>
     
     <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (1)</a></li>
     
@@ -672,6 +644,8 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     <a href="https://whiteding.fun/tags/spark/">spark</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
     <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
     
