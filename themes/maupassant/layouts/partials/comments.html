@@ -17,14 +17,18 @@
     <!--waline-->
     {{ if .Site.Params.waline.enable }}
     <div id="waline"></div>
-      <script type="module">
-        import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
-  
-        init({
-          el: '#waline',
-          serverURL: '{{ .Site.Params.waline.serverURL }}',
-          placeholder: '{{ .Site.Params.waline.placeholder }}',
-        });
-      </script>
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: '#waline',
+        lang: 'zh-CN',
+        serverURL: '{{ .Site.Params.waline.serverURL }}',
+        lang: '{{ .Site.Params.waline.locale }}',
+        placeholder: '{{ .Site.Params.waline.placeholder }}'
+        // dark: 'html[class="scroll-smooth dark"]'
+
+      });
+    </script>
     {{ end }}
 {{- end }}
