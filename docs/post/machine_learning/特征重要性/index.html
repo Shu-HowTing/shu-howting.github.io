@@ -166,6 +166,7 @@
       <ul>
         <li><a href="#单特征-auc">单特征 auc</a></li>
         <li><a href="#--lime">- LIME</a></li>
+        <li><a href="#shap分析">SHAP分析</a></li>
       </ul>
     </li>
   </ul>
@@ -304,6 +305,18 @@
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>instance <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>array([<span style="color:#099">0.5</span>, <span style="color:#099">0.3</span>, <span style="color:#099">0.2</span>, <span style="color:#099">0.1</span>, <span style="color:#099">0.4</span>])  <span style="color:#998;font-style:italic"># 需要解释的实例</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>feature_importances <span style="color:#000;font-weight:bold">=</span> lime_explanation(instance, predict_fn)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span><span style="color:#0086b3">print</span>(<span style="color:#d14">&#34;Feature importances:&#34;</span>, feature_importances)
+</span></span></code></pre></div><h3 id="shap分析">SHAP分析</h3>
+<p>SHAP 算法的原理步骤如下：</p>
+<ol>
+<li>特征组合：考虑所有可能的特征子集。</li>
+<li>边际贡献：计算每个特征加入现有特征子集后对模型输出的边际贡献。</li>
+<li>平均边际贡献：对所有特征子集计算每个特征的平均边际贡献，得到Shapley值。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>举个例子：
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>一个DNN模型有5个特征&lt;x_1, x_2, x_3, x_4, x_5&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>x_5的Shapley值为：&lt;x_1, x_2, x_3, x_4&gt;特征集合的所有子集加上x_5所取得的边际增益的平均值
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>Shapley_value = avg([Model(x1, x5) - Model(x5)], [Model(x1, x2, x5) - Model(x1, x2)],  [Model(x1, x2, x3, x5) - Model(x1, x2, x3)],···)
 </span></span></code></pre></div>
         </div>
         
@@ -329,18 +342,9 @@
       });
     </script>
     
-
         
-<div class="post-archive">
-    <ul class="post-copyright">
-        <li><strong>Author: </strong><a rel="author" href="https://whiteding.fun/">whiteding</a></li>
-        <li style="word-break:break-all"><strong>Link: </strong><a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</a></li>
-        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
-    </ul>
-</div>
-<br/>
-
-
+        
+        
         
 
         <div class="post-meta meta-tags">
