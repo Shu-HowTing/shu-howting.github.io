@@ -9,21 +9,21 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>flink | White</title>
-    <meta property="og:title" content="flink - White">
+    <title>模型特征重要性 | White</title>
+    <meta property="og:title" content="模型特征重要性 - White">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="DS, DeepLearning">
-    <meta name="description" content="flink">
+    <meta name="description" content="模型特征重要性">
         
     <meta name="author" content="whiteding">
-    <meta property="og:url" content="https://whiteding.fun/categories/flink/">
+    <meta property="og:url" content="https://whiteding.fun/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/categories/flink/index.xml" title="White" />
+    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/index.xml" title="White" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -87,8 +87,8 @@
 <div class="res-cons">
     
     <h3 class="archive-title">
-        分类
-        <span class="keyword">flink</span>
+        包含标签
+        <span class="keyword">模型特征重要性</span>
         articles
     </h3>
     
@@ -97,13 +97,13 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/" target="_blank">Flink流处理入门</a>
+                <a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" target="_blank">模型特征重要性的计算</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2020-08-25T00:00:00Z" class="post-meta meta-date dt-published">
-    2020-08-25
+  <time datetime="2021-07-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-07-15
   </time>
 
 
@@ -111,14 +111,14 @@
   <span>&nbsp;|</span>
   
     <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/flink' target="_blank">flink</a>
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
   
 </div>
 
 
         <div class="post-content">
-            Flink 流处理API 1. Environment 1.1 getExecutionEnvironment 创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境的方式。 1ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment(); 2StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 1.2 createLocalEnvironment 1LocalStreamEnvironment env = StreamExecutionEnvironment.createLocalEnvironment(1); 1.3 createRemoteEnvironment 1StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment(&#34;jobmanage-hostname&#34;, 6123,&#34;YOURPATH//WordCount.jar&#34;); 2. Source 2.1 集合 1StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 2env.setParallelism(1); 3 4// 从集合里读取数……
-            <p class="readmore"><a href="https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+            深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。……
+            <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
         </div>
     </article>
     

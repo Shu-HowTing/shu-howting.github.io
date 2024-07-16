@@ -109,14 +109,14 @@ summaryLength = 200
 
 # 配置 utteranc评论,教程参考 https://utteranc.es/
 [params.utteranc]
-  enable = true
+  enable = false
   repo = "Shu-HowTing/hugo_blog_comment" ##换成自己得
   issueTerm = "pathname"
   theme = "github-light"
 
 # 配置 waline 评论系统,教程参考 https://waline.js.org/
 [params.waline]
-  enable = false
+  enable = true
   locale = "zh-CN"  # 设置语言
   placeholder = "说点什么吧..."
   serverURL = "https://white-waline.netlify.app/.netlify/functions/comment" #换成你的serverURL

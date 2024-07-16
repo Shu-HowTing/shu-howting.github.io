@@ -13,16 +13,18 @@
       </script>
     </div>
     {{ end }}
+    
     <!--waline-->
     {{ if .Site.Params.waline.enable }}
     <div id="waline"></div>
-    <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
-    <script>
-        Waline({
-            el: '#waline',
-            serverURL: '{{ .Site.Params.waline.serverURL }}',
-            placeholder: '{{ .Site.Params.waline.placeholder }}',
+      <script type="module">
+        import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+  
+        init({
+          el: '#waline',
+          serverURL: '{{ .Site.Params.waline.serverURL }}',
+          placeholder: '{{ .Site.Params.waline.placeholder }}',
         });
-    </script>
+      </script>
     {{ end }}
 {{- end }}
