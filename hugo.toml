@@ -68,16 +68,16 @@ summaryLength = 200
 
 ## 友情链接，可以多个
 [[params.links]]
+  title = "instagram"
+  name = "Instagram"
+  icon = "fab fa-instagram fa-lg"
+  url = "https://www.instagram.com/whiteding94/"
+
+[[params.links]]
   title = "blog"
   name = "知乎"
-  icon = "far fa-comment"
+  icon = "far fa-comment fa-lg"
   url = "https://www.zhihu.com/people/ding-shu-hao"
-
-# [[params.links]]
-#   title = "blog"
-#   name = "知乎"
-#   icon = "far fa-comment"
-#   url = "https://www.zhihu.com/people/ding-shu-hao"
 
 # 右边栏头像下方个人联系方式
 [[params.avatar]]
@@ -121,17 +121,17 @@ summaryLength = 200
   placeholder = "说点什么吧..."
   serverURL = "https://white-waline.netlify.app/.netlify/functions/comment" #换成你的serverURL
 
-## 开启版权声明，协议名字和链接都可以换
+# 开启版权声明，协议名字和链接都可以换
 [params.cc]
     name = "知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议"
     link = "https://creativecommons.org/licenses/by-nc-nd/4.0/"
 
-# ## 配置代码高亮
+# 配置代码高亮
 [markup]
   [markup.highlight]
     codeFences = true
     guessSyntax = true
-    hl_Lines = ""
+    # hl_Lines = ""
     lineNoStart = 1
     lineNos = true
     lineNumbersInTable = false

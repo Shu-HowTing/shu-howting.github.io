@@ -13,10 +13,10 @@
     <meta property="og:title" content="Batch内负采样 - White">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2024-04-02T00:00:00&#43;08:00'>
+    <meta property="article:published_time" content='2024-03-02T00:00:00&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2024-04-02T00:00:00&#43;08:00'>
+    <meta property="article:modified_time" content='2024-03-02T00:00:00&#43;08:00'>
         
     <meta name="Keywords" content="DS, DeepLearning">
     <meta name="description" content="Batch内负采样">
@@ -165,6 +165,7 @@
       </ul>
     </li>
     <li><a href="#sampled_softmax-loss">sampled_softmax loss</a></li>
+    <li><a href="#reference">reference：</a></li>
   </ul>
 </nav>
     </div>
@@ -206,8 +207,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2024-04-02T00:00:00Z" class="post-meta meta-date dt-published">
-    2024-04-02
+  <time datetime="2024-03-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2024-03-02
   </time>
 
 
@@ -254,14 +255,14 @@
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>		<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">in_batch_negative_sampling_loss</span>(user_embeds, item_embeds):
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>		    batch_size <span style="color:#000;font-weight:bold">=</span> user_embeds<span style="color:#000;font-weight:bold">.</span>size(<span style="color:#099">0</span>)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>		    
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>		    <span style="color:#998;font-style:italic"># 正样本得分</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>		    positive_scores <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>sum(user_embeds <span style="color:#000;font-weight:bold">*</span> item_embeds, dim<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>)  <span style="color:#998;font-style:italic"># (batch_size,)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>		    <span style="color:#998;font-style:italic"># 正样本得分 (batch_size,) </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>		    positive_scores <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>sum(user_embeds <span style="color:#000;font-weight:bold">*</span> item_embeds, dim<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>) 
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>		    
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>		    <span style="color:#998;font-style:italic"># 负样本得分</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>		    negative_scores <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>matmul(user_embeds, item_embeds<span style="color:#000;font-weight:bold">.</span>t())  <span style="color:#998;font-style:italic"># (batch_size, batch_size)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>		    <span style="color:#998;font-style:italic"># 负样本得分 (batch_size, batch_size)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>		    negative_scores <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>matmul(user_embeds, item_embeds<span style="color:#000;font-weight:bold">.</span>t())  
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>		    
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>		    <span style="color:#998;font-style:italic"># 创建标签</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>		    labels <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>eye(batch_size)<span style="color:#000;font-weight:bold">.</span>to(user_embeds<span style="color:#000;font-weight:bold">.</span>device)  <span style="color:#998;font-style:italic"># (batch_size, batch_size)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>		    <span style="color:#998;font-style:italic"># 创建标签  (batch_size, batch_size)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>		    labels <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>eye(batch_size)<span style="color:#000;font-weight:bold">.</span>to(user_embeds<span style="color:#000;font-weight:bold">.</span>device) 
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>		    
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>		    <span style="color:#998;font-style:italic"># 计算损失</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>		    loss <span style="color:#000;font-weight:bold">=</span> F<span style="color:#000;font-weight:bold">.</span>cross_entropy(negative_scores, labels<span style="color:#000;font-weight:bold">.</span>argmax(dim<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>))
@@ -303,7 +304,23 @@
     </p>
 <h2 id="sampled_softmax-loss">sampled_softmax loss</h2>
 <p>$$\mathcal{L}=-log{\left[\frac{exp(s_{i,i}-log(p_j))}{\sum_{k\neq i}exp(s_{i,k}-log(p_k))+exp(s_{i,i}-log(p_j))}\right]}$$</p>
-<p>$$
+<p>对每个item j，假设被采样的概率为$p_j$，那么$log Q$矫正就是在本来的内积上加上 $-log{p_j}$
+$$
+s^c(x_i, y_j) = s(x_i, y_j) – \log {p_j}
+$$</p>
+<p>$p_j$的概率通过距离上一次看到y的间隔来估计，item越热门，训练过程中就越经常看到item，那么距离上次看到y的间隔B(y)跟概率p成反比。于是有如下算法</p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/sampel_softmax_1.png" />   
+    </p>
+<p>在实践当中，对每个y都可以用PS的1维向量来存储对应的step，那么下一次再看到y时就可以计算出对应的间隔和概率了。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>step <span style="color:#000;font-weight:bold">=</span> get_global_step()  <span style="color:#998;font-style:italic"># 获取当前的batch计数tensor</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>item_step <span style="color:#000;font-weight:bold">=</span> get_item_step_vector()   <span style="color:#998;font-style:italic"># 获取用于存储item上次见过的step的向量</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>item_step<span style="color:#000;font-weight:bold">.</span>set_gradient(grad<span style="color:#000;font-weight:bold">=</span>step <span style="color:#000;font-weight:bold">-</span> item_step, lr<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1.0</span>)  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>delta <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>clip_by_value(step <span style="color:#000;font-weight:bold">-</span> item_step, <span style="color:#099">1</span>, <span style="color:#099">1000</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>logq <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>stop_gradient(tf<span style="color:#000;font-weight:bold">.</span>log(delta))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>batch_logits <span style="color:#000;font-weight:bold">+=</span> logq  <span style="color:#998;font-style:italic"># batch_logits 是前面计算的logits</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#000;font-weight:bold">...</span>
+</span></span></code></pre></div><p>$$
 \begin{aligned}
 \frac{\partial\mathcal{L}}{\partial {s_{i,j}}} \\
 &amp;=\frac{\exp(s_{i,j}-log(p_j))}{\sum_{k\neq i}\exp(s_{i,k}-log(p_k))+\exp(s_{i,i}-log(p_i))} \\
@@ -384,7 +401,11 @@ $$</p>
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span><span style="color:#d14">        out_logits: [batch_size, num_true + num_sampled]
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span><span style="color:#d14">        out_labels: 与`out_logits`同形状
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span><span style="color:#d14">    &#34;&#34;&#34;</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="reference">reference：</h2>
+<ol>
+<li><a href="http://nullpointerexception.top/269">双塔召回模型中的logQ矫正</a></li>
+</ol>
+
         </div>
         
     
@@ -604,6 +625,14 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
     </li>
     
@@ -627,14 +656,6 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
     </li>
     
-    <li>
-        <a href="https://whiteding.fun/post/kafka/Kafka%E6%A6%82%E8%BF%B0/" title="Kafka入门" target="_blank">Kafka入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/" title="Flink流处理入门" target="_blank">Flink流处理入门</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -645,15 +666,15 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/flink/">Flink (1)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/kafka/">Kafka (1)</a></li>
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/machine-learning/">Machine Learning (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (5)</a></li>
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (2)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/spark/">Spark (12)</a></li>
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
     
     <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
     
@@ -666,17 +687,19 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
     
-    <a href="https://whiteding.fun/tags/flink/">Flink</a>
-    
-    <a href="https://whiteding.fun/tags/kafka/">Kafka</a>
-    
-    <a href="https://whiteding.fun/tags/softmax/">Softmax</a>
-    
-    <a href="https://whiteding.fun/tags/spark/">Spark</a>
-    
     <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
     
-    <a href="https://whiteding.fun/tags/xgb/">Xgb</a>
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
@@ -685,6 +708,8 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
     
     <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
     
 </div>
     </section>
@@ -695,7 +720,11 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     <ul class="widget-list">
         
         <li>
-            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment"></i> 知乎</a>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
         </li>
         
     </ul>

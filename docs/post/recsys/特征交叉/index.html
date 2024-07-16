@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>推荐中的特征交叉技术 | White</title>
+    <meta property="og:title" content="推荐中的特征交叉技术 - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-11-15T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-11-15T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="Rank模型中的特征交叉技术">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://whiteding.fun/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#特征交叉范式">特征交叉范式</a></li>
+    <li><a href="#方法">方法</a>
+      <ul>
+        <li><a href="#非参数化">非参数化</a></li>
+        <li><a href="#参数化方法">参数化方法</a>
+          <ul>
+            <li><a href="#fm">FM</a></li>
+            <li><a href="#pnn">PNN</a></li>
+            <li><a href="#dcn">DCN</a></li>
+            <li><a href="#can">CAN</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">推荐中的特征交叉技术</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-11-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-11-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <h2 id="特征交叉范式">特征交叉范式</h2>
+<blockquote>
+<p>特征交叉指的是通过组合两个（或多个）特征来学习特征间非线性的组合高阶表达，其收益则是来自通过挖掘特征之间的共现组合，拓展了特征输入的表达，从而使得模型能更容易学习到共现组合提供的信息。
+业界实现方案可以主要分为非参数化方案和参数化方案。</p>
+</blockquote>
+<p><strong>非参数化方案</strong>：显式的表达特征交叉ID，例如特征求交，笛卡尔积特征等。</p>
+<p><strong>参数化方案</strong>：主要通过模型参数隐式拟合的形式去捕捉特征的非线性组合能力，而参数化方案在DNN基础上的创新迭代又主要分为以下两类范式：</p>
+<ul>
+<li>范式一：通过模型参数拟合的过程中， 能够明确特征的交互关系，例如DeepFM，PNN，以及CAN。</li>
+<li>范式二：无法明确特征具体交互关系，通过设计更复杂的后端网络追求特征的implict组合和高阶融合，例如DCN，xDeepFM，FIBNET等</li>
+</ul>
+<p>需要注意的是，两种范式并不冲突，如果我们将范式一定义丰富输入X的表达，则范式二则是在复杂化F表达式，那么两者结合的F(X)可能会带来进一步收益.</p>
+<h2 id="方法">方法</h2>
+<h3 id="非参数化">非参数化</h3>
+<p>即人为的将不同的特征进行组合表达，提高输入到模型的信息量，从而促使模型的效果更好。如图所示:
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/feat_x1.png" />   
+    </p>
+<h3 id="参数化方法">参数化方法</h3>
+<h4 id="fm">FM</h4>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/deepfm.png" />   
+    </p>
+<p>\begin{equation}
+\begin{aligned}y=w_0+\sum_{i=1}^nw_ix_i+\sum_{i=1}^n\sum_{j=i+1}^n\langle v_i,v_j\rangle x_ix_j\end{aligned}
+\end{equation}</p>
+<h4 id="pnn">PNN</h4>
+<p>PNN，全称为$Product-based\ Neural\ Network$，认为在embedding输入到MLP之后学习的交叉特征表达并不充分，提出了一种product layer的思想，即基于乘法的运算来体现特征交叉的DNN网络结构。</p>
+<p>PNN模型大致由三个部分组成：<strong>embedding层、product层、FC层</strong>。
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/pnn.png" />   
+    </p>
+<p>根据交叉函数g的不同，PNN可分为IPNN和OPNN。这里主要介绍IPNN:
+$$
+\begin{equation}
+\begin{aligned}
+\boldsymbol{z}=\begin{pmatrix}\boldsymbol{z}_1,\boldsymbol{z}_2,\ldots,\boldsymbol{z}_N\end{pmatrix}\triangleq\begin{pmatrix}\boldsymbol{f}_1,\boldsymbol{f}_2,\ldots, \boldsymbol{f}_N\end{pmatrix}
+\end{aligned}
+\end{equation}
+$$
+$$
+\boldsymbol{p}=\{\boldsymbol{p}_{i,j}\}, i=1&hellip;N, j=1&hellip;N
+$$</p>
+<p>$$
+\begin{equation}
+\begin{aligned}
+\boldsymbol{l}_{z}=\left(l_{z}^{1},l_{z}^{2},\ldots,l_{z}^{n},\ldots,l_{z}^{D_{1}}\right),\quad l_{z}^{n}=\boldsymbol{W}_{z}^{n}\odot\boldsymbol{z} \\
+\end{aligned}
+\end{equation}
+$$</p>
+<p>$$
+\begin{equation}
+\begin{aligned}
+&amp;\boldsymbol{l}_{p}=\left(l_{p}^{1},l_{p}^{2},\ldots,l_{p}^{n},\ldots,l_{p}^{D_{1}}\right),\quad l_{p}^{n}=\boldsymbol{W}_{p}^{n}\odot\boldsymbol{p} \\
+\end{aligned}
+\end{equation}
+$$</p>
+<p>$$
+\boldsymbol{l}_1=\mathrm{relu}(\boldsymbol{l}_z+\boldsymbol{l}_p+\boldsymbol{b}_1)
+$$</p>
+<h4 id="dcn">DCN</h4>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/DCN_v2.png" />   
+    </p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/DCN_v2_1.png" />   
+    </p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/DCN_v2_2.png" />   
+    </p>
+<h4 id="can">CAN</h4>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/can1.png" />   
+    </p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/can2.png" />   
+    </p>
+<p>关于作者最后一部分提到的多层次独立性$multi-level\ Independence$</p>
+<ul>
+<li>
+<p><strong>参数独立</strong>：必须使用。即每个特征都有两种初始的向量，一种是用于表征学习的，即前文提到的$e_{user}$; 一种是用于co-action建模的，即前文提到的$p_{user}$
+。这两个参数是独立的。这一点实际上对我是有启发的。在日常使用DIN的过程中，我发现每个item本身的嵌入和在序列中的嵌入独立开，会比二者共享同一个嵌入的效果更好。可能是因为通过参数独立，可以更好地建模种记忆性的场景。还比如，目标item和序列item直接做笛卡尔积，即：目标item &amp; 序列item1，目标item &amp; 序列item2，依次类推，每一个交叉特征整体都单独作嵌入，这种方式在强记忆性场景也是有效的。</p>
+</li>
+<li>
+<p><strong>组合独立</strong>：推荐使用。前文我们提到，item(参数侧)的特征，会和多种user(输入侧)的特征做co-action建模，这样item是会被共享的，可能会影响学习的独立性。一种思路是，同一个item，对每个不同的user侧特征，用于建模其co-action的item侧特征参数都不一样；user侧同理。这种情况下，如果有N个user特征，M个item特征，那么item侧需要$O(M×N×T)$的参数量，user侧需要$O(M×N×D)$的参数量。这种方式的参数量和笛卡尔积是相同的，并没有降低参数量。那么其优势只剩下CAN Unit结构本身了。</p>
+</li>
+<li>
+<p><strong>阶数独立</strong>：可选。针对上述user端特征多阶提升做的独立性。即：不同阶对应不同的$MLP_{can}$网络参数。</p>
+</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<ol>
+<li>DeepFM: A Factorization-Machine based Neural Network for CTR Prediction</li>
+<li>Product-based neural networks for user response prediction</li>
+<li>CAN: Feature Co-Action Network for Click-Through Rate Prediction</li>
+<li>[广告机制]-模型篇：CTR预估之PNN算法</li>
+<li><a href="https://zhuanlan.zhihu.com/p/287898562">想为特征交互走一条新的路</a></li>
+<li><a href="http://xtf615.com/2021/01/10/can/">特征交互新思路| 阿里 Co-action Network论文解读</a></li>
+</ol>
+
+        </div>
+        
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "Shu-HowTing/hugo_blog_comment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://whiteding.fun/">whiteding</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+        
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89' target="_blank">特征交叉</a></li>
+                
+                <li><a href='/tags/%E6%8E%A8%E8%8D%90' target="_blank">推荐</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://whiteding.fun/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    
+    
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/llm/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/" title="多兴趣召回推荐" target="_blank">多兴趣召回推荐</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征模型" target="_blank">推荐算法中的序列特征模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (2)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
+    
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

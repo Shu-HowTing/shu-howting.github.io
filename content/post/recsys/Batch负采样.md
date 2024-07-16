@@ -1,7 +1,7 @@
 +++
 # author = "丁树浩"
 title = "Batch内负采样"
-date = "2024-04-02"
+date = "2024-03-02"
 description = ""
 tags = [
   "召回",
@@ -39,14 +39,14 @@ class RecommenderModel(nn.Module):
 		def in_batch_negative_sampling_loss(user_embeds, item_embeds):
 		    batch_size = user_embeds.size(0)
 		    
-		    # 正样本得分
-		    positive_scores = torch.sum(user_embeds * item_embeds, dim=-1)  # (batch_size,)
+		    # 正样本得分 (batch_size,) 
+		    positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) 
 		    
-		    # 负样本得分
-		    negative_scores = torch.matmul(user_embeds, item_embeds.t())  # (batch_size, batch_size)
+		    # 负样本得分 (batch_size, batch_size)
+		    negative_scores = torch.matmul(user_embeds, item_embeds.t())  
 		    
-		    # 创建标签
-		    labels = torch.eye(batch_size).to(user_embeds.device)  # (batch_size, batch_size)
+		    # 创建标签  (batch_size, batch_size)
+		    labels = torch.eye(batch_size).to(user_embeds.device) 
 		    
 		    # 计算损失
 		    loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1))
@@ -67,7 +67,6 @@ user_embeds, item_embeds = model(user_ids, item_ids)
 
 loss = in_batch_negative_sampling_loss(user_embeds, item_embeds)
 print(f'Loss: {loss.item()}')
-
 ```
 
 ### 优点
@@ -91,6 +90,26 @@ print(f'Loss: {loss.item()}')
 ## sampled_softmax loss
 
 $$\mathcal{L}=-log{\left[\frac{exp(s_{i,i}-log(p_j))}{\sum_{k\neq i}exp(s_{i,k}-log(p_k))+exp(s_{i,i}-log(p_j))}\right]}$$
+
+对每个item j，假设被采样的概率为$p_j$，那么$log Q$矫正就是在本来的内积上加上 $-log{p_j}$
+$$
+s^c(x_i, y_j) = s(x_i, y_j) – \log {p_j}
+$$
+
+$p_j$的概率通过距离上一次看到y的间隔来估计，item越热门，训练过程中就越经常看到item，那么距离上次看到y的间隔B(y)跟概率p成反比。于是有如下算法
+
+![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/sampel_softmax_1.png)
+
+在实践当中，对每个y都可以用PS的1维向量来存储对应的step，那么下一次再看到y时就可以计算出对应的间隔和概率了。
+```py
+step = get_global_step()  # 获取当前的batch计数tensor
+item_step = get_item_step_vector()   # 获取用于存储item上次见过的step的向量
+item_step.set_gradient(grad=step - item_step, lr=1.0)  
+delta = tf.clip_by_value(step - item_step, 1, 1000)
+logq = tf.stop_gradient(tf.log(delta))
+batch_logits += logq  # batch_logits 是前面计算的logits
+...
+```
 
 $$
 \begin{aligned}
@@ -175,3 +194,7 @@ def _compute_sampled_logits(weights,
         out_labels: 与`out_logits`同形状
     """
 ```
+
+
+## reference：
+1. [双塔召回模型中的logQ矫正](http://nullpointerexception.top/269)

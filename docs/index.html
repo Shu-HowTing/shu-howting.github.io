@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-	<meta name="generator" content="Hugo 0.128.1">
+	<meta name="generator" content="Hugo 0.114.0">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -94,8 +94,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2024-07-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2024-07-01
+  <time datetime="2024-06-05T00:00:00Z" class="post-meta meta-date dt-published">
+    2024-06-05
   </time>
 
 
@@ -124,8 +124,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2024-04-02T00:00:00Z" class="post-meta meta-date dt-published">
-    2024-04-02
+  <time datetime="2024-03-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2024-03-02
   </time>
 
 
@@ -139,9 +139,69 @@
 
 
         <div class="post-content">
-            In-batch Negative Sampling code: 1import torch 2import torch.nn as nn 3import torch.nn.functional as F 4 5class RecommenderModel(nn.Module): 6 def __init__(self, user_size, item_size, embedding_dim): 7 super(RecommenderModel, self).__init__() 8 self.user_embedding = nn.Embedding(user_size, embedding_dim) 9 self.item_embedding = nn.Embedding(item_size, embedding_dim) 10 11 def forward(self, user_ids, item_ids): 12 user_embeds = self.user_embedding(user_ids) 13 item_embeds = self.item_embedding(item_ids) 14 return user_embeds, item_embeds 15 16 def in_batch_negative_sampling_loss(user_embeds, item_embeds): 17 batch_size = user_embeds.size(0) 18 19 # 正样本得分 20 positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) # (batch_size,) 21 22 # 负样本得分 23 negative_scores = torch.matmul(user_embeds, item_embeds.t()) # (batch_size, batch_size) 24 25 # 创建标签 26 labels = torch.eye(batch_size).to(user_embeds.device) # (batch_size, batch_size) 27 28 # 计算损失 29 loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1)) 30 31 return loss 32 33# 示例数据 34batch_size = 4 35embedding_dim = 8 36user_size = 100 37item_size = 1000 38 39user_ids = torch.randint(0, user_size, (batch_size,)) 40item_ids = torch.randint(0, item_size, (batch_size,)) 41 42model = RecommenderModel(user_size, item_size, embedding_dim) 43user_embeds, item_embeds = model(user_ids, item_ids) 44 45loss = in_batch_negative_sampling_loss(user_embeds, item_embeds) 46print(f&#39;Loss: {loss.item()}&#39;) 优点 效性：批量内负采样能够充分利用每个训练批次中的样本……
+            In-batch Negative Sampling code: 1import torch 2import torch.nn as nn 3import torch.nn.functional as F 4 5class RecommenderModel(nn.Module): 6 def __init__(self, user_size, item_size, embedding_dim): 7 super(RecommenderModel, self).__init__() 8 self.user_embedding = nn.Embedding(user_size, embedding_dim) 9 self.item_embedding = nn.Embedding(item_size, embedding_dim) 10 11 def forward(self, user_ids, item_ids): 12 user_embeds = self.user_embedding(user_ids) 13 item_embeds = self.item_embedding(item_ids) 14 return user_embeds, item_embeds 15 16 def in_batch_negative_sampling_loss(user_embeds, item_embeds): 17 batch_size = user_embeds.size(0) 18 19 # 正样本得分 (batch_size,) 20 positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) 21 22 # 负样本得分 (batch_size, batch_size) 23 negative_scores = torch.matmul(user_embeds, item_embeds.t()) 24 25 # 创建标签 (batch_size, batch_size) 26 labels = torch.eye(batch_size).to(user_embeds.device) 27 28 # 计算损失 29 loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1)) 30 31 return loss 32 33# 示例数据 34batch_size = 4 35embedding_dim = 8 36user_size = 100 37item_size = 1000 38 39user_ids = torch.randint(0, user_size, (batch_size,)) 40item_ids = torch.randint(0, item_size, (batch_size,)) 41 42model = RecommenderModel(user_size, item_size, embedding_dim) 43user_embeds, item_embeds = model(user_ids, item_ids) 44 45loss = in_batch_negative_sampling_loss(user_embeds, item_embeds) 46print(f&#39;Loss: {loss.item()}&#39;) 优点 效性：批量内负采样能够充分利用每个训练批次中的样本，提高……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-12-17T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-12-17
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        <div class="post-content">
+            动态权重 1. 从LHUC说起 语音识别领域2016年一项开创性工作提出了LHUC(Learning Hidden Unit Contribution)算法, 在DNN网络中为每个speaker学习对应的hidden unit contribution， 然后与common hidden layer相结合，以此提升不同speaker的语音识别准确率。这项工作属于domain adaptation领域，LHUC方法相比之前工作最重要的改进点是模型实现doma……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-11-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-11-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        <div class="post-content">
+            特征交叉范式 特征交叉指的是通过组合两个（或多个）特征来学习特征间非线性的组合高阶表达，其收益则是来自通过挖掘特征之间的共现组合，拓展了特征输入的表达，从而使得模型能更容易学习到共现组合提供的信息。 业界实现方案可以主要分为非参数化方案和参数化方案。 非参数化方案：显式的表达特征交叉ID，例如特征求交，笛卡尔积特征等。 参数化方案：主要通过模型参数隐式拟合的形式去捕捉特征的非线性组合能力，而参数化方案在D……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -289,7 +349,7 @@
 
 
         <div class="post-content">
-            XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当我选择树模型为基学习器时，我们需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值（xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半……
+            XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当选择树模型为基学习器时，需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值(xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半代表预……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
@@ -322,66 +382,6 @@
             $Beta$分布 $Beta$分布是一个定义在[0,1]区间上的连续概率分布族，它有两个正值参数，称为形状参数，一般用$\alpha$和$\beta$表示 $Beta$分布的概率密度为： $$ f(x ; \alpha, \beta)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\int_{0}^{1} u^{\alpha-1}(1-u)^{\beta-1} d u}=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha-1}(1-x)^{\beta-1}=\frac{1}{B(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1} $$ 随机变量$X$服从参数为$\alpha, \beta$的$beta$分布，一般记作： $$ X \sim \operatorname {Beta} (\alpha, \beta) $$ $Beta$分布的期望： $$ \frac{\alpha}{\alpha + \beta} $$ $Beta$分布的方差： $$ \frac{\alpha \beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)} $$ $Beta$分布的概率密度图……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/kafka/Kafka%E6%A6%82%E8%BF%B0/" title="Kafka入门" target="_blank">Kafka入门</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2020-09-02T00:00:00Z" class="post-meta meta-date dt-published">
-    2020-09-02
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/kafka' target="_blank">kafka</a>
-  
-</div>
-
-
-        <div class="post-content">
-            Kafka基本概念 Kafka 是一个分布式的基于发布/订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。 1. 消息队列(MQ) 1.1 优点 解耦 削封 缓冲 异步通信 1.2 两种模式 点对点(一对一，消费者主动拉取数据，消息收到后消息清除) ​ 消息生产者生产消息发送到Queue中，然后消息消费者主动从Queue中取出并且消费消息。消息被消费以后，queue中不再有存储，所以消息消费者不可能消费到已经被消费的……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/kafka/Kafka%E6%A6%82%E8%BF%B0/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/" title="Flink流处理入门" target="_blank">Flink流处理入门</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2020-08-25T00:00:00Z" class="post-meta meta-date dt-published">
-    2020-08-25
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/flink' target="_blank">flink</a>
-  
-</div>
-
-
-        <div class="post-content">
-            Flink 流处理API 1. Environment 1.1 getExecutionEnvironment 创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境的方式。 1ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment(); 2StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 1.2 createLocalEnvironment 1LocalStreamEnvironment env = StreamExecutionEnvironment.createLocalEnvironment(1); 1.3 createRemoteEnvironment 1StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment(&#34;jobmanage-hostname&#34;, 6123,&#34;YOURPATH//WordCount.jar&#34;); 2. Source 2.1 集合 1StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 2env.setParallelism(1); 3 4// 从集合里读取数……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -505,6 +505,14 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
     </li>
     
@@ -528,14 +536,6 @@
         <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
     </li>
     
-    <li>
-        <a href="https://whiteding.fun/post/kafka/Kafka%E6%A6%82%E8%BF%B0/" title="Kafka入门" target="_blank">Kafka入门</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/" title="Flink流处理入门" target="_blank">Flink流处理入门</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -546,15 +546,15 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/flink/">Flink (1)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/kafka/">Kafka (1)</a></li>
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/machine-learning/">Machine Learning (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (5)</a></li>
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (2)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/spark/">Spark (12)</a></li>
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
     
     <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
     
@@ -567,17 +567,19 @@
     
     <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
     
-    <a href="https://whiteding.fun/tags/flink/">Flink</a>
-    
-    <a href="https://whiteding.fun/tags/kafka/">Kafka</a>
-    
-    <a href="https://whiteding.fun/tags/softmax/">Softmax</a>
-    
-    <a href="https://whiteding.fun/tags/spark/">Spark</a>
-    
     <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
     
-    <a href="https://whiteding.fun/tags/xgb/">Xgb</a>
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
@@ -586,6 +588,8 @@
     <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
     
     <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
     
 </div>
     </section>
@@ -596,7 +600,11 @@
     <ul class="widget-list">
         
         <li>
-            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment"></i> 知乎</a>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
         </li>
         
     </ul>
