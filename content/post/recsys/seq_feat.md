@@ -1,6 +1,5 @@
 +++
-author = "丁树浩"
-title = "推荐算法中的序列特征模型"
+title = "推荐算法中的序列特征处理"
 date = "2022-02-08"
 description = "序列特征模型简介"
 tags = [
@@ -21,13 +20,11 @@ math = true
 
 序列特征通常表现为时间上的跨度，具有很强的时间先后关系。如何在行为序列中挖掘用户兴趣的多样性以及实效性，是序列特模型研究的重点。
 
-## 序列特征模型
-
-按时间来看，推荐算法中的序列特征模型经历了$Pooling, Attention, RNN, Capsule, Transformer, GNN$的发展路线。基于 $Pooling$结构的模型主要包含有 $YouTube\ Rec$ , 基于$Attention$ 结构的模型主要有 $DIN,DSTN$, 基于$ RNN$ 结构的模型包含有$ GRU4Rec, DIEN, DUPN, HUP, DHAN $等，基于$Capsule$结构的模型主要包含有 $MIND, ComiRec $等，基于 $Transformer$结构的模型主要有$BST, DSIN, SIM, DMT $等，基于$GNN$结构的模型主要有 $SURGE$等。
-本文将聚焦于$Pooling、attention、transformer$等结构，介绍一些主流模型的实现原理。
+## 序列特征处理方法
 
 
-![time_line](../img/milestone.png)
+本文将聚焦于$Pooling、attention、transformer$等结构，介绍一些主流的序列特征的应用。
+
 
 ### $Pooling$结构
 
@@ -59,17 +56,7 @@ DIN (Deep Interest Network for Click-Through Rate Prediction)由阿里妈妈的�
 - **Diversity**：用户在浏览电商网站的过程中显示出的兴趣是十分多样性的。
 - **Local activation**: 由于用户兴趣的多样性，只有部分历史数据会影响到当次推荐的物品是否被点击，而不是所有的历史记录
 
-举个简单的例子，如图：
-
-![](../img/DIN1.png)
-
-显然这是一个女生的行为历史，从最左边的手套，鞋子到右边的杯子，睡衣。现在，待推荐的候选商品是一件女式大衣。我们应该如何计算这件大衣的CTR呢？
-
-如果按照之前的做法，我们会一碗水端平的考虑所有行为记录的影响，对应到模型中就是我们会用一个$average\ pooling$层把用户交互过的所有商品的$embedding\ vector$平均一下形成这个用户的$user\ vector$。
-
-但是我们仔细想一想我们自己的购买过程，其实每个用户的兴趣都是多样的，女生喜欢买衣服包包，也喜欢化妆品(**Diversity**)，甚至还为自己男朋友挑选过球衣球鞋，那么你在买大衣的时候，真的要把给男朋友买球鞋的偏好考虑进来么？具体到本文的例子中，在预测大衣的$CTR$这件事情上，用户浏览过杯子，跟用户浏览过另一件大衣这两个行为的重要程度是一样的吗？显然，肯定是浏览过另一件大衣这件事对当前推荐的参考价值更高(**Local activation**)。
-
-那么，如何体现不同的历史行为的对当前推荐的参考价值呢，答案便是$attention$机制，这也是$DIN$模型的精髓所在。
+如何体现不同的历史行为的对当前推荐的item的参考价值呢，答案便是$attention$机制，这也是$DIN$模型的精髓所在。
 
 注意力机制顾名思义，就是模型在预测的时候，对用户不同行为的注意力是不一样的，“相关”的行为历史看重一些，“不相关”的历史甚至可以忽略。那么这样的思想反应到模型中也是直观的。
 $$
@@ -80,11 +67,7 @@ $$
 
 通过注意力机制，算出不同商品对当前待推荐的商品的影响权重，有效解决了**Diversity**和**Local activation**的问题。
 
-基于$pooling$的 base 模型如下图所示：
-
-![$Base$](../img/DIN2.png)
-
-改进后的 DIN 模型如下图所示：
+$DIN$模型如下图所示：
 
 ![$DIN$](../img/DIN3.png)
 
@@ -167,29 +150,22 @@ $$
 $$
 $BST$比较直接的将 $Transformer$应用到推荐系统中，通过引入$Transformer\ Layer$来很好的利用了用户历史行为序列信息，最终在淘宝的数据集上取得了很好的效果。
 
-### $GNN$结构
+## 关于self-attention处理序列特征的讨论
 
-#### $SURGE$
+在使用self-attention机制处理序列特征时，$Target\ item$如何处理, 目前有两种比较主流的方法
 
-$SURGE(SeqUential\ Recomendation\ with\ Graph neural\ nEtworks)$ 模型将图卷积应用在序列特征建模中。模型主要分为四大部分，包括兴趣图构建，兴趣融合图卷积，兴趣图池化，和预测层。
+- 将$target\\_item$ append到原序列特征的尾部，当成序列特征的一部分，进行self-attention的计算
 
-模型的框架如下图所示：
+![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/seq1.png)
 
-![$SURGE$](https://pic3.zhimg.com/80/v2-66bd2b24433979193a8f007079272b5a_720w.jpg)
-
-**兴趣图构建**的主要目的是将用户的交互序列转变为一个兴趣图，而用户的核心兴趣就会体现在项目节点间的相关性上，而预测下一个点击项的任何就转换为通过用户的核心兴趣来判断交互发生的可能性。
-
-**兴趣融合卷积**的目的是通过$GNN$的思想，利用上个阶段A得到的兴趣图 ，通过图卷积操作实现相关项目节点间的信息流通（即局部范围内有差别的邻居聚合）来形成多个代表用户不同兴趣的簇集群，这一过程类似于图表示学习任务常见的节点分类。而为了减轻聚合过程中产生的噪声，作者提出两种注意力，包括簇意识注意力和搜索意识注意力。
-
-**兴趣图池化**有点类似于卷积神经网络中的池化操作，通过学习一个集群指定矩阵，再通过矩阵相乘的到不同的兴趣集群表示，然后利用图中每个节点的重要性分数，得到全局图表示。
-
-**预测层**对于上一阶段得到的兴趣图进行位置平整的到精简版的兴趣序列，利用 $AUGRU$输出用户层的表示，最后将用户表示，兴趣图表示以及下一个需要预测的项目表示进行级联(concat) 后接 MLP 层，得到最后 CTR 预估的结果。
+- 先对原始序列特征进行$self-attention$的计算，然后和$target\\_item$进行$target\\_attention$计算(DIN)
+![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/seq2.png)
 
 ## 总结
 
 序列特征是一种很强的反应用户历史兴趣的特征，因此，如何有效的对其进行表征，是推荐模型中的重要一环。好的序列模型将极大的提升推荐的效果。$Pooling、Attention、Transformer$等结构都是目前比较成熟的应用。此外，关于**长期序列(MIMN, SIM)**、**多行为序列(MKM-SR)** 和 **多兴趣表示(MIND,ComiRec)** 等多个角度的序列建模，都取得了不错的研究成果。
 
-## $Reference: $
+## $Reference$
 
 1. [推荐系统中的注意力机制——阿里深度兴趣网络(DIN)](https://zhuanlan.zhihu.com/p/51623339)
 2. [推荐系统 DIEN (Deep Interest Evolution Network)](https://zhuanlan.zhihu.com/p/299585179)
