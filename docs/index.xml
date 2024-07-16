@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>White</title>
+    <link>https://whiteding.fun/</link>
+    <description>Recent content on White</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 05 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>当推荐遇到大模型</title>
+      <link>https://whiteding.fun/post/recsys/%E5%BD%93%E6%8E%A8%E8%8D%90%E9%81%87%E5%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/%E5%BD%93%E6%8E%A8%E8%8D%90%E9%81%87%E5%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/</guid>
+      <description>自从大语言模型爆火之后，大家对大语言模型（LLM）如何成功应用在推荐系统进行了不少尝试。本文是对目前一些业界工作的调研和总结。 大模型应用范式 经典的推荐架构基本遵循以下范式： 目前, LLM 在推荐系统中的主流应用可以分为两种范式: 一个是作为经典推荐系统的辅助部分，即 LLM+RS。 一个是 LLM 单独作为一个完整的推荐系统，即 LLM AS RS。 本文接下来将分别介绍这两种应用方式。 LLM+RS 传统推荐系统经过多年发展，从召回、排序、重排</description>
+    </item>
+    
+    <item>
+      <title>Batch内负采样</title>
+      <link>https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/</link>
+      <pubDate>Sat, 02 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/</guid>
+      <description>In-batch Negative Sampling code: 1import torch 2import torch.nn as nn 3import torch.nn.functional as F 4 5class RecommenderModel(nn.Module): 6 def __init__(self, user_size, item_size, embedding_dim): 7 super(RecommenderModel, self).__init__() 8 self.user_embedding = nn.Embedding(user_size, embedding_dim) 9 self.item_embedding = nn.Embedding(item_size, embedding_dim) 10 11 def forward(self, user_ids, item_ids): 12 user_embeds = self.user_embedding(user_ids) 13 item_embeds = self.item_embedding(item_ids) 14 return user_embeds, item_embeds 15 16 def in_batch_negative_sampling_loss(user_embeds, item_embeds): 17 batch_size = user_embeds.size(0) 18 19 # 正样本得分 (batch_size,) 20 positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) 21 22 # 负样本得分 (batch_size, batch_size) 23 negative_scores = torch.matmul(user_embeds, item_embeds.t()) 24 25 # 创建标签 (batch_size, batch_size) 26 labels = torch.eye(batch_size).to(user_embeds.device) 27 28 # 计算损失 29 loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1)) 30 31 return loss 32 33# 示例数据 34batch_size = 4 35embedding_dim = 8 36user_size = 100 37item_size = 1000 38 39user_ids = torch.randint(0, user_size, (batch_size,)) 40item_ids = torch.randint(0, item_size, (batch_size,)) 41 42model = RecommenderModel(user_size, item_size, embedding_dim) 43user_embeds, item_embeds = model(user_ids, item_ids) 44 45loss = in_batch_negative_sampling_loss(user_embeds, item_embeds) 46print(f&amp;#39;Loss: {loss.item()}&amp;#39;) 优点 效性：批量内负采样能够充分利用每个训练批次中的样本，提高</description>
+    </item>
+    
+    <item>
+      <title>动态权重：推荐算法的新范式</title>
+      <link>https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/</guid>
+      <description>动态权重 1. 从LHUC说起 语音识别领域2016年一项开创性工作提出了LHUC(Learning Hidden Unit Contribution)算法, 在DNN网络中为每个speaker学习对应的hidden unit contribution， 然后与common hidden layer相结合，以此提升不同speaker的语音识别准确率。这项工作属于domain adaptation领域，LHUC方法相比之前工作最重要的改进点是模型实现doma</description>
+    </item>
+    
+    <item>
+      <title>推荐中的特征交叉技术</title>
+      <link>https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/</link>
+      <pubDate>Wed, 15 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/</guid>
+      <description>特征交叉范式 特征交叉指的是通过组合两个（或多个）特征来学习特征间非线性的组合高阶表达，其收益则是来自通过挖掘特征之间的共现组合，拓展了特征输入的表达，从而使得模型能更容易学习到共现组合提供的信息。 业界实现方案可以主要分为非参数化方案和参数化方案。 非参数化方案：显式的表达特征交叉ID，例如特征求交，笛卡尔积特征等。 参数化方案：主要通过模型参数隐式拟合的形式去捕捉特征的非线性组合能力，而参数化方案在D</description>
+    </item>
+    
+    <item>
+      <title>召回模型的评估</title>
+      <link>https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/</link>
+      <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/</guid>
+      <description>召回模型评测指标 为什么不用AUC指标 AUC指标不适用于衡量召回模型。原因有三： 计算AUC时，正样本容易获得，可以拿点击样本做正样本。但负样本从哪里来？照搬精排，用曝光未点击做负样本，行不行？不行。否则，测试样本都来自曝光物料，也就是从系统筛选过的、比较匹配用户爱好的优质物料，这样的测试数据明显与召回的实际应用场景（海量的、和用户毫不相关的物料）有着天壤之别。失真的测试环境只能产生失真的指标，不能反</description>
+    </item>
+    
+    <item>
+      <title>多兴趣召回推荐</title>
+      <link>https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/</link>
+      <pubDate>Thu, 15 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/</guid>
+      <description>传统双塔 user_tower: 产生$V_u$ item_tower: 产生$V_i$ $$ score = f(u\_emb, i\_emb)= &amp;lt;V_u, V_i&amp;gt; $$ 多兴趣双塔 MIND 1interest_capsules = CapsuleLayer(input_units=user_seq_embedding.shape[-1], 2 out_units=params[&amp;#39;embedding_dim&amp;#39;], 3 max_len=params[&amp;#39;max_seq_len&amp;#39;], 4 k_max=params[&amp;#39;k_max&amp;#39;], 5 mode=mode)((user_seq_embedding, like_user_seq_len)) # [B, k_max, embedding_dim] 6 7q_embedding_layer = tf.tile(tf.expand_dims(q_embedding, -2), [1, params[&amp;#39;k_max&amp;#39;], 1]) # [B, k_max, 64] 8 9q_deep_input = tf.concat([q_embedding_layer, interest_capsules], axis=-1) # [B, k_max, embedding_dim+64] $Dynamic \ \ Routing$ $Loss$: $$ \begin{aligned} \overrightarrow{\boldsymbol{\upsilon}}_{u} &amp;amp;=\mathrm{Attention}\left(\overrightarrow{\boldsymbol{e}}_{i},\mathrm{V}_{u},\mathrm{V}_{u}\right) \\ &amp;amp;=\mathrm{V}_{u}\mathrm{softmax}(\mathrm{pow}(\mathrm{V}_{u}^{\mathrm{T}}\overrightarrow{\boldsymbol{e}}_{i},p)) \end{aligned} $$ ComiRec $Dynamic \ \ Routing$提取兴趣 $Attention$机制提取兴趣 $$ \mathbf{A}=\mathrm{softmax}(\mathbf{W}_{2}^{\top}\tanh(\mathbf{W}_{1}\mathbf{H}))^{\top} \\ \mathbf{V}_{u}=\mathbf{HA} $$ $\mathrm{H}\in \mathbb{R}^{d \times n}$ $\mathrm{where~}n\mathrm{~is~the~length~of~user~sequence}$ $\mathbf{V}_{u}=[\mathbf{v}_{1},&amp;hellip;,\mathbf{v}_{K}]\in\mathbb{R}^{d\times K}$ : $K个user \ \ emb$ $Loss$: $$ \mathbf{v}_u=\mathbf{V}_u[:,\mathrm{argmax}(\mathbf{V}_u^\top\mathbf{e}_i)], \\ P_\theta(i|u)=\frac{\exp(\mathbf{v}_u^\top\mathbf{e}_i)}{\sum_{k\in I}\exp(\mathbf{v}_u^\top\mathbf{e}_k)}. $$ $Reference: $ MIND网络多兴趣提取</description>
+    </item>
+    
+    <item>
+      <title>推荐算法中的序列特征处理</title>
+      <link>https://whiteding.fun/post/recsys/seq_feat/</link>
+      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/seq_feat/</guid>
+      <description>在推荐领域中，行为序列特征是一种极为重要的特征。近年来，出现了很多有关行为序列特征建模的论文，研究如何将行为序列特征应用到推荐场景中，以更好挖掘用户的历史兴趣。本文将带大家梳理介绍这些论文中提出的方法。 序列特征 序列特征通常表现为时间上的跨度，具有很强的时间先后关系。如何在行为序列中挖掘用户兴趣的多样性以及实效性，是序列特模型研究的重点。 序列特征处理方法 本文将聚焦于$Pooling、attentio</description>
+    </item>
+    
+    <item>
+      <title>softmax计算优化</title>
+      <link>https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/</guid>
+      <description>softmax上溢和下溢问题 解决这个问题的方法就是利用softmax的冗余性。我们可以看到对于任意一个数$a$, $x-a$和$x$在$softmax$中的结果都是一样的。 $$ \frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}=\frac{\exp ^{(x)} \exp ^{(-a)}}{\exp ^{(-a)} \sum_{i=1}^k \exp _i^{(x)}}=\frac{\exp ^{(x)}}{\sum_{i=1}^k \exp_i^{(x)}} $$ 对于一组输入，我们可以让a=max(x). 这样就可以保证x-a的最大值等于0，也就不会产生上溢的问题。同时，因为$x-a=0$, 所以$exp(0)=1$,分母就不可能为0。 $$ \begin{array}{l} \log \left(\frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}\right) &amp;amp;=\log \left(e^{(x-a)}\right)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \\ &amp;amp;=(x-a)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \end{array} $$</description>
+    </item>
+    
+    <item>
+      <title>XGBoost的原理分析以及实践</title>
+      <link>https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</guid>
+      <description>XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当选择树模型为基学习器时，需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值(xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半代表预</description>
+    </item>
+    
+    <item>
+      <title>模型特征重要性的计算</title>
+      <link>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
+      <pubDate>Thu, 15 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</guid>
+      <description>深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。</description>
+    </item>
+    
+    <item>
+      <title>Beta分布和Thompson采样</title>
+      <link>https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/</link>
+      <pubDate>Sat, 06 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/</guid>
+      <description>$Beta$分布 $Beta$分布是一个定义在[0,1]区间上的连续概率分布族，它有两个正值参数，称为形状参数，一般用$\alpha$和$\beta$表示 $Beta$分布的概率密度为： $$ f(x ; \alpha, \beta)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\int_{0}^{1} u^{\alpha-1}(1-u)^{\beta-1} d u}=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha-1}(1-x)^{\beta-1}=\frac{1}{B(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1} $$ 随机变量$X$服从参数为$\alpha, \beta$的$beta$分布，一般记作： $$ X \sim \operatorname {Beta} (\alpha, \beta) $$ $Beta$分布的期望： $$ \frac{\alpha}{\alpha + \beta} $$ $Beta$分布的方差： $$ \frac{\alpha \beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)} $$ $Beta$分布的概率密度图</description>
+    </item>
+    
+    <item>
+      <title>Kafka入门</title>
+      <link>https://whiteding.fun/post/kafka/Kafka%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/kafka/Kafka%E6%A6%82%E8%BF%B0/</guid>
+      <description>Kafka基本概念 Kafka 是一个分布式的基于发布/订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。 1. 消息队列(MQ) 1.1 优点 解耦 削封 缓冲 异步通信 1.2 两种模式 点对点(一对一，消费者主动拉取数据，消息收到后消息清除) ​ 消息生产者生产消息发送到Queue中，然后消息消费者主动从Queue中取出并且消费消息。消息被消费以后，queue中不再有存储，所以消息消费者不可能消费到已经被消费的</description>
+    </item>
+    
+    <item>
+      <title>Flink流处理入门</title>
+      <link>https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/</link>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/flink/FLink%E6%B5%81%E5%A4%84%E7%90%86API/</guid>
+      <description>Flink 流处理API 1. Environment 1.1 getExecutionEnvironment 创建一个执行环境，表示当前执行程序的上下文。如果程序是独立调用的，则此方法返回本地执行环境；如果从命令行客户端调用程序以提交到集群，则此方法返回此集群的执行环境，也就是说，getExecutionEnvironment会根据查询运行的方式决定返回什么样的运行环境，是最常用的一种创建执行环境的方式。 1ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment(); 2StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 1.2 createLocalEnvironment 1LocalStreamEnvironment env = StreamExecutionEnvironment.createLocalEnvironment(1); 1.3 createRemoteEnvironment 1StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment(&amp;#34;jobmanage-hostname&amp;#34;, 6123,&amp;#34;YOURPATH//WordCount.jar&amp;#34;); 2. Source 2.1 集合 1StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(); 2env.setParallelism(1); 3 4// 从集合里读取数</description>
+    </item>
+    
+    <item>
+      <title>Spark调优实战</title>
+      <link>https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Fri, 12 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/Spark%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</guid>
+      <description>Spark性能调优：合理设置并行度 1. Spark的并行度指的是什么？ 并行度其实就是指的是spark作业中,各个stage的同时运行的task的数量,也就代表了spark作业在各个阶段stage的并行度！ $$ 并行度 = executor\_number * executor\_cores $$ 理解： sparkApplication的划分： $job &amp;ndash;&amp;gt; stage &amp;ndash;&amp;gt; task$ 一般每个task一次处理一个分区。 可以将task理解为比赛中的跑道：每轮比赛中，每个跑道上都会有一位运动员(分区，即处理的数据</description>
+    </item>
+    
+    <item>
+      <title>Spark解析DataFrame中的json字段</title>
+      <link>https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/</link>
+      <pubDate>Thu, 23 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/</guid>
+      <description>How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。 数据准备 1# Sample Data Frame 2jstr1 = u&amp;#39;{&amp;#34;header&amp;#34;:{&amp;#34;id&amp;#34;:12345,&amp;#34;foo&amp;#34;:&amp;#34;bar&amp;#34;},&amp;#34;body&amp;#34;:{&amp;#34;id&amp;#34;:111000,&amp;#34;name&amp;#34;:&amp;#34;foobar&amp;#34;,&amp;#34;sub_json&amp;#34;:{&amp;#34;id&amp;#34;:54321,&amp;#34;sub_sub_json&amp;#34;:{&amp;#34;col1&amp;#34;:20,&amp;#34;col2&amp;#34;:&amp;#34;somethong&amp;#34;}}}}&amp;#39; 3jstr2 = u&amp;#39;{&amp;#34;header&amp;#34;:{&amp;#34;id&amp;#34;:12346,&amp;#34;foo&amp;#34;:&amp;#34;baz&amp;#34;},&amp;#34;body&amp;#34;:{&amp;#34;id&amp;#34;:111002,&amp;#34;name&amp;#34;:&amp;#34;barfoo&amp;#34;,&amp;#34;sub_json&amp;#34;:{&amp;#34;id&amp;#34;:23456,&amp;#34;sub_sub_json&amp;#34;:{&amp;#34;col1&amp;#34;:30,&amp;#34;col2&amp;#34;:&amp;#34;something else&amp;#34;}}}}&amp;#39; 4jstr3 = u&amp;#39;{&amp;#34;header&amp;#34;:{&amp;#34;id&amp;#34;:43256,&amp;#34;foo&amp;#34;:&amp;#34;foobaz&amp;#34;},&amp;#34;body&amp;#34;:{&amp;#34;id&amp;#34;:20192,&amp;#34;name&amp;#34;:&amp;#34;bazbar&amp;#34;,&amp;#34;sub_json&amp;#34;:{&amp;#34;id&amp;#34;:39283,&amp;#34;sub_sub_json&amp;#34;:{&amp;#34;col1&amp;#34;:50,&amp;#34;col2&amp;#34;:&amp;#34;another thing&amp;#34;}}}}&amp;#39; 5df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)]) 1+--------------------+ 2| json| 3+--------------------+ 4|{&amp;#34;header&amp;#34;:{&amp;#34;id&amp;#34;:1...| 5|{&amp;#34;header&amp;#34;:{&amp;#34;id&amp;#34;:1...| 6|{&amp;#34;header&amp;#34;:{&amp;#34;id&amp;#34;:4...| 7+--------------------+ 如上所示，我们模拟一个DataFrame，其中只有一列，列名为json，类型为string。可以看到，json中的值为j</description>
+    </item>
+    
+    <item>
+      <title>Spark map字段处理</title>
+      <link>https://whiteding.fun/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/</guid>
+      <description>$PySpark$ 在遇到$map$类型的列的一些处理 在$spark$中，有时会遇到$column$的类型是$array$和$map$类型的，这时候需要将它们转换为多行数据 $Explode\ array\ and\ map\ columns\ to\ rows$ 1import pyspark 2from pyspark.sql import SparkSession 3 4spark = SparkSession.builder.appName(&amp;#39;pyspark-by-examples&amp;#39;).getOrCreate() 5 6arrayData = [ 7 (&amp;#39;James&amp;#39;,[&amp;#39;Java&amp;#39;,&amp;#39;Scala&amp;#39;],{&amp;#39;hair&amp;#39;:&amp;#39;black&amp;#39;,&amp;#39;eye&amp;#39;:&amp;#39;brown&amp;#39;}), 8 (&amp;#39;Michael&amp;#39;,[&amp;#39;Spark&amp;#39;,&amp;#39;Java&amp;#39;,None],{&amp;#39;hair&amp;#39;:&amp;#39;brown&amp;#39;,&amp;#39;eye&amp;#39;:None}), 9 (&amp;#39;Robert&amp;#39;,[&amp;#39;CSharp&amp;#39;,&amp;#39;&amp;#39;],{&amp;#39;hair&amp;#39;:&amp;#39;red&amp;#39;,&amp;#39;eye&amp;#39;:&amp;#39;&amp;#39;}), 10 (&amp;#39;Washington&amp;#39;,None,None), 11 (&amp;#39;Jefferson&amp;#39;,[&amp;#39;1&amp;#39;,&amp;#39;2&amp;#39;],{}) ] 12 13df = spark.createDataFrame(data=arrayData, schema = [&amp;#39;name&amp;#39;,&amp;#39;knownLanguages&amp;#39;,&amp;#39;properties&amp;#39;]) 14df.printSchema() 15df.show() 1root 2 |-- name: string (nullable = true) 3 |-- knownLanguages: array (nullable = true) 4 | |-- element: string (containsNull = true) 5 |-- properties: map (nullable = true) 6 | |-- key: string 7 | |-- value: string (valueContainsNull = true) 8 9+----------+--------------+--------------------+ 10| name|knownLanguages| properties| 11+----------+--------------+--------------------+ 12| James| [Java, Scala]|[eye -&amp;gt; brown, ha...| 13| Michael|[Spark, Java,]|[eye -&amp;gt;, hair -&amp;gt; ...| 14| Robert| [CSharp, ]|[eye -&amp;gt; , hair -&amp;gt;...| 15|Washington| null| null| 16| Jefferson| [1, 2]| []| 17+----------+--------------+--------------------+ $explode –</description>
+    </item>
+    
+    <item>
+      <title>cache和persist比较</title>
+      <link>https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/</link>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/cache%E7%AE%97%E5%AD%90%E5%92%8Cpersist%E7%AE%97%E5%AD%90/</guid>
+      <description>Spark中cache和persist的作用 Spark开发高性能的大数据计算作业并不是那么简单。如果没有对Spark作业进行合理的调优，Spark作业的执行速度可能会很慢，这样就完全体现不出Spark作为一种快速大数据计算引擎的优势来。因此，想要用好Spark，就必须对其进行合理的性能优化。 有一些代码开发基本的原则，避免创建重复的RDD，尽可能复用同一个RDD，如下，我们可以直接用一个RDD进行多</description>
+    </item>
+    
+    <item>
+      <title>Spark运行内存超出</title>
+      <link>https://whiteding.fun/post/spark/%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/%E5%85%B3%E4%BA%8ESpark%E8%BF%90%E8%A1%8C%E4%B8%AD%E5%86%85%E5%AD%98%E8%B6%85%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>Container killed by YARN for exceeding memory limits？ 运行spark脚本时，经常会碰到Container killed by YARN for exceeding memory limits的错误，导致程序运行失败。 这个的意思是指executor的外堆内存超出了。默认情况下，这个值被设置为executor_memory的10%或者384M，以较大者为准，即max(executor_memory*.1, 384M). 解决办法 提高内存开销 减少执行程序内核的数量 增加分区数量 提高驱动程序和执行程序内存 提</description>
+    </item>
+    
+    <item>
+      <title>repartition和coalesce区别</title>
+      <link>https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/</guid>
+      <description>简介 $repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$ 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数$shuffle=true$ 分析 例：RDD有N个分区，需要重新划分成M个分区 N小于M 一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将shu</description>
+    </item>
+    
+    <item>
+      <title>RDD算子总结</title>
+      <link>https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/</guid>
+      <description>RDD算子总结 从功能上分： 转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。 如：map 、flatmap、filter、 union、 join、 ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。 如：count 、collect、top、 take、 reduce 从作用上分： 通用的： map、 flatMap、 di</description>
+    </item>
+    
+    <item>
+      <title>Spark RDD入门</title>
+      <link>https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Thu, 05 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/RDD%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/</guid>
+      <description>RDD简介 RDD&amp;ndash;弹性分布式数据集（Resilient Distributed Dataset）是spark的核心概念。RDD其实就是分布式的元素集合。在Spark中，对数据的所有操作不外乎创建RDD，转化已有的RDD以及调用RDD操作进行求值。而在这一切的背后，spark会自动讲RDD中的数据分发到集群上，并将操作并行化执行。 RDD基础 RDD是一个不可变的分布式对象集合.每个RDD被分为多个分区，这些分区运</description>
+    </item>
+    
+    <item>
+      <title>Spark2.0新特性</title>
+      <link>https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/</link>
+      <pubDate>Sun, 01 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/spark2.0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7/</guid>
+      <description>Spark2.0 Spark直接从1.6跨入2.0版本，带来一些新的特性。最大的变化便是SparkSession整合了各种环境。 Spark2.0中引入了SparkSession的概念，它为用户提供了一个统一的切入点来使用Spark的各项功能，用户不但可以使用DataFrame和Dataset的各种API，学习Spark的难度也会大大降低。 SparkSession 在Spark的早期版本，SparkContext是进入Spark的切入点。</description>
+    </item>
+    
+    <item>
+      <title>Spark各种概念理解</title>
+      <link>https://whiteding.fun/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+      <pubDate>Sun, 01 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/spark%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+      <description>Spark中的各种概念的理解 Application：通俗讲，用户每次提交的所有的代码为一个application。 Job：一个application可以分为多个job。如何划分job？通俗讲，触发一个final RDD的实际计算（action）为一个job Stage：一个job可以分为多个stage。根据一个job中的RDD的宽依赖和窄依赖关系进行划分 Task：task是最小的基本的计算单位。一般是</description>
+    </item>
+    
+    <item>
+      <title>Spark入门</title>
+      <link>https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/</guid>
+      <description>生态： Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。 Spark Streaming：对实时数据流进行处理和控制。Spark</description>
+    </item>
+    
+    <item>
+      <title>MapReduce原理解析</title>
+      <link>https://whiteding.fun/post/spark/MapReduce/</link>
+      <pubDate>Sat, 01 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/spark/MapReduce/</guid>
+      <description>Hadoop简介 Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等. 这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce： MapRe</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://whiteding.fun/about/</link>
+      <pubDate>Tue, 10 Mar 2015 00:13:27 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/about/</guid>
+      <description>性别：男 职业：算法工程师 研究方向：推荐系统、深度学习 兴趣爱好：足球、摄影、健身 邮件：white_ding@163.com 人生信条：不讲究，不将就!</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>https://whiteding.fun/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>搜索</title>
+      <link>https://whiteding.fun/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

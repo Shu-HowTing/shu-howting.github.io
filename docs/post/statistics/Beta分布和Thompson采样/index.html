@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Beta分布和Thompson采样 | White</title>
+    <meta property="og:title" content="Beta分布和Thompson采样 - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-03-06T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-03-06T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="序列特征模型简介">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@v2/dist/waline.css">
+        
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://whiteding.fun/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#beta分布">$Beta$分布</a></li>
+    <li><a href="#案例">案例</a>
+      <ul>
+        <li><a href="#beta分布和二项分布">$Beta$分布和二项分布</a>
+          <ul>
+            <li><a href="#二项分布">二项分布</a></li>
+          </ul>
+        </li>
+        <li><a href="#贝叶斯定理">贝叶斯定理</a></li>
+      </ul>
+    </li>
+    <li><a href="#thompson采样">$Thompson$采样</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Beta分布和Thompson采样</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-03-06T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-03-06
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6' target="_blank">统计学</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <h2 id="beta分布">$Beta$分布</h2>
+<p>$Beta$分布是一个定义在[0,1]区间上的连续概率分布族，它有两个正值参数，称为形状参数，一般用$\alpha$和$\beta$表示</p>
+<p>$Beta$分布的概率密度为：
+$$
+f(x ; \alpha, \beta)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\int_{0}^{1} u^{\alpha-1}(1-u)^{\beta-1} d u}=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha-1}(1-x)^{\beta-1}=\frac{1}{B(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1}
+$$
+随机变量$X$服从参数为$\alpha, \beta$的$beta$分布，一般记作：
+$$
+X \sim \operatorname {Beta} (\alpha, \beta)
+$$
+<strong>$Beta$分布的期望：</strong>
+$$
+\frac{\alpha}{\alpha + \beta}
+$$
+<strong>$Beta$分布的方差：</strong>
+$$
+\frac{\alpha \beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}
+$$
+<strong>$Beta$分布的概率密度图:</strong></p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/Beta1.png" />   
+    </p>
+<p>从$Beta$分布的概率密度函数的图形我们可以看出，$Beta$分布有很多种形状，但都是在$0~1$区间内，因此$Beta$分布可以描述各种$0~1$区间内的形状（事件）。因此，它特别适合为某件事发生或者成功的概率建模。同时，当$α=1，β=1$的时候，它就是一个均匀分布。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">scipy.stats</span> <span style="color:#000;font-weight:bold">import</span> beta  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>x <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>linspace(<span style="color:#099">0</span>, <span style="color:#099">1</span>, <span style="color:#099">100</span>)  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>a_array <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">8</span>]  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>b_array <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">8</span>]  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#000;font-weight:bold">for</span> i, a <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">enumerate</span>(a_array):  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>  <span style="color:#000;font-weight:bold">for</span> j, b <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">enumerate</span>(b_array):  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    plt<span style="color:#000;font-weight:bold">.</span>plot(x, beta<span style="color:#000;font-weight:bold">.</span>pdf(x, a, b), lw<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, alpha<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0.6</span>, label<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;a=&#39;</span><span style="color:#000;font-weight:bold">+</span><span style="color:#0086b3">str</span>(a)<span style="color:#000;font-weight:bold">+</span><span style="color:#d14">&#39;,b=&#39;</span><span style="color:#000;font-weight:bold">+</span><span style="color:#0086b3">str</span>(b))  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>plt<span style="color:#000;font-weight:bold">.</span>legend(frameon<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">False</span>)  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>plt<span style="color:#000;font-weight:bold">.</span>show()  
+</span></span></code></pre></div><p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/6_llm.png" />   
+    </p>
+<p><strong>贝塔分布主要有 $α$和 $β$两个参数，这两个参数决定了分布的形状，从上图及其均值和方差的公式可以看出：</strong></p>
+<ul>
+<li>
+<p>$α/(α+β)$也就是均值，其越大，概率密度分布的中心位置越靠近1，依据此概率分布产生的随机数也多说都靠近1，反之则都靠近0。</p>
+</li>
+<li>
+<p>$α+β$越大，则分布越窄，也就是集中度越高，这样产生的随机数更接近中心位置，从方差公式上也能看出来。</p>
+</li>
+</ul>
+<h2 id="案例">案例</h2>
+<p>$Beta$分布可以看作是一个概率的概率分布(如硬币正面朝上的概率的分布)，当我们不知道一个东西的具体概率是多少时，它给出了所有概率出现的可能性大小，可以理解为概率的概率分布&ndash;贝叶斯的思维。</p>
+<p><strong>以棒球为例子：</strong></p>
+<p>熟悉棒球运动的都知道有一个指标就是棒球击球率(batting average)，就是用一个运动员击中的球数除以击球的总数，我们一般认为0.266是正常水平的击球率，而如果击球率高达0.3就被认为是非常优秀的。</p>
+<p>现在有一个棒球运动员，我们希望能够预测他在这一赛季中的棒球击球率是多少。你可能就会直接计算棒球击球率，用击中的数除以击球数，但是如果这个棒球运动员只打了一次，而且还命中了，那么他就击球率就是100%了，这显然是不合理的，因为根据棒球的历史信息，我们知道这个击球率应该是0.215到0.36之间才对啊。</p>
+<p>对于这个问题，我们可以用一个二项分布表示（一系列成功或失败），一个最好的方法来表示这些经验（在统计中称为先验信息）就是用beta分布，这表示在我们没有看到这个运动员打球之前，我们就有了一个大概的范围。beta分布的定义域是(0,1)这就跟概率的范围是一样的。</p>
+<p>接下来我们将这些先验信息转换为beta分布的参数，我们知道一个击球率应该是平均0.27左右，而他的范围是0.21到0.35，那么根据这个信息，我们可以取$α=81,β=219$</p>
+<p><strong>之所以取这两个参数是因为</strong>：</p>
+<ul>
+<li>beta分布的均值是$\frac{\alpha}{\alpha+\beta}=\frac{81}{81+219}=0.27$</li>
+<li>从图中可以看到这个分布主要落在了$(0.2,0.35)$间，这是从经验中得出的合理的范围</li>
+</ul>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/beta2.png" />   
+    </p>
+<p>在这个例子里，我们的x轴就表示各个击球率的取值，x对应的y值就是这个击球率所对应的概率。也就是说beta分布可以看作一个概率的概率分布。</p>
+<p>那么有了先验信息后，现在我们考虑一个运动员只打一次球，那么他现在的数据就是<code>1中-1击</code>。这时候我们就可以更新我们的分布了，让这个曲线做一些移动去适应我们的新信息。beta分布在数学上就给我们提供了这一性质，他与二项分布是共轭先验的。所谓共轭先验就是先验分布是beta分布，而后验分布同样是beta分布。结果很简单：
+$$
+\operatorname{Beta}\left(\alpha_{0}+\text { hits }, \beta_{0}+\text { misses }\right)
+$$</p>
+<p>如果我们得到了更多的数据，假设一共打了300次，其中击中了100次，200次没击中，那么这一新分布就是：$\operatorname{beta}(81+100,219+200)$</p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/Beta3.png" />   
+    </p>
+<p>可以看出，曲线更窄而且往右移动了（击球率更高），由此我们对于运动员的击球率有了更好的了解。新的贝塔分布的期望值为0.303，比直接计算$100/(100+200)=0.333$要低，是比赛季开始时的预计0.27要高，所以贝塔分布能够抛出掉一些偶然因素，比直接计算击球率更能客观反映球员的击球水平。</p>
+<h3 id="beta分布和二项分布">$Beta$分布和二项分布</h3>
+<h4 id="二项分布">二项分布</h4>
+<p>$$
+P(\text {data} \mid \theta) \propto \theta^{z}(1-\theta)^{N-z}
+$$</p>
+<h3 id="贝叶斯定理">贝叶斯定理</h3>
+<p>$$
+P(\theta \mid d a t a)=\frac{P(d a t a \mid \theta) P(\theta)}{P(d a t a)} \propto P(d a t a \mid \theta) P(\theta)
+$$</p>
+<p>$P(\theta)$为$beta$分布时：
+$$
+P(\theta) = \operatorname{Beta}(a, b)=\frac{\theta^{a-1}(1-\theta)^{b-1}}{B(a, b)} \propto \theta^{a-1}(1-\theta)^{b-1}
+$$
+则此时的后验分布为:
+$$
+\begin{array}{c}
+P(\theta \mid d a t a) \propto \theta^{z}(1-\theta)^{N-z} * \theta^{a-1}(1-\theta)^{b-1} \
+\propto \theta^{a+z-1}(1-\theta)^{b+N-z-1}
+\end{array}
+$$
+令$a′=a+z,b′=b+N−z$：
+$$
+P(\theta \mid \text { data })=\frac{\theta^{a^{\prime}-1}(1-\theta)^{b^{\prime}-1}}{B\left(a^{\prime}, b^{\prime}\right)}
+$$
+可见，后验分布依然是一个$Beta$分布。所以，我们将$Beta$分布和二项分布称之为<strong>共轭分布</strong></p>
+<h2 id="thompson采样">$Thompson$采样</h2>
+<p>$Thompson$采样的背后原理正是上述所讲的$Beta$分布，将$Beta$分布的 $\alpha$参数看成是推荐后用户点击的次数，把分布的 $\beta$ 参数看成是推荐后用户未点击的次数，则汤普森采样过程如下：</p>
+<ul>
+<li>取出每一个候选对应的参数 a 和 b；</li>
+<li>为每个候选用 a 和 b 作为参数，用贝塔分布产生一个随机数；</li>
+<li>按照随机数排序，输出最大值对应的候选；</li>
+<li>观察用户反馈，如果用户点击则将对应候选的 a 加 1，否则 b 加 1；</li>
+</ul>
+<p>$Thompson$采样为什么有效呢？</p>
+<ol>
+<li>
+<p>如果一个候选被选中的次数很多，也就是 $a+b$ 很大了，它的分布会很窄，换句话说这个候选的收益已经非常确定了，就是说不管分布中心接近0还是1都几乎比较确定了。用它产生随机数，基本上就在中心位置附近，接近平均收益。</p>
+</li>
+<li>
+<p>如果一个候选不但 a+b 很大，即分布很窄，而且 $a/(a+b) $也很大，接近 1，那就确定这是个好的候选项，平均收益很好，每次选择很占优势，就进入利用阶段。反之则有可能平均分布比较接近与0，<strong>几乎再无出头之日</strong>。</p>
+</li>
+<li>
+<p>如果一个候选的 $a+b$ 很小，分布很宽，也就是没有被选择太多次，说明这个候选是好是坏还不太确定，那么分布就是跳跃的，这次可能好，下次就可能坏，也就是还有机会存在，没有完全抛弃。那么用它产生随机数就有可能得到一个较大的随机数，在排序时被优先输出，这就起到了<strong>前面说的探索作用。</strong></p>
+</li>
+</ol>
+<p><strong>代码实现：</strong></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>choice <span style="color:#000;font-weight:bold">=</span> numpy<span style="color:#000;font-weight:bold">.</span>argmax(pymc<span style="color:#000;font-weight:bold">.</span>rbeta(<span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>wins, <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>trials <span style="color:#000;font-weight:bold">-</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>wins))
+</span></span></code></pre></div>
+        </div>
+        
+    
+
+    
+    
+    
+    
+    
+    <div id="waline"></div>
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: '#waline',
+        lang: 'zh-CN',
+        serverURL: 'https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment',
+        lang: 'zh-CN',
+        placeholder: '说点什么吧...'
+        
+
+      });
+    </script>
+    
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://whiteding.fun/">whiteding</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/">https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+        
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/Thompson' target="_blank">Thompson</a></li>
+                
+                <li><a href='/tags/Beta%E5%88%86%E5%B8%83' target="_blank">Beta分布</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://whiteding.fun/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+    <script src="https://unpkg.com/@waline/client@v2/dist/waline.mjs"></script>
+
+                </div>
+
+                <div id="secondary">
+    
+    
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%BD%93%E6%8E%A8%E8%8D%90%E9%81%87%E5%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/" title="多兴趣召回推荐" target="_blank">多兴趣召回推荐</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征处理" target="_blank">推荐算法中的序列特征处理</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" title="模型特征重要性的计算" target="_blank">模型特征重要性的计算</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (3)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
+    
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">模型特征重要性</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>
