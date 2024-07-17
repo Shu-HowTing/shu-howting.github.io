@@ -71,12 +71,30 @@
     </item>
     
     <item>
+      <title>Transformer的细节</title>
+      <link>https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</guid>
+      <description>Transformer中的几个细节讨论 1. 为什么self-attention中需要$/\sqrt{d}$ 在自注意力（self-attention）机制中，将查询（Query, Q）与键（Key, K）相乘之后除以($\sqrt{d}$)，其中d是键向量的维度，这是为了稳定梯度和防止数值不稳定。 具体原因如下： 避免数值过大：在没有缩放的情况下，Q和K的点积结果会随着维度$d$的增加而变得很大。点积的结果会随</description>
+    </item>
+    
+    <item>
       <title>softmax计算优化</title>
       <link>https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/</link>
       <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/</guid>
       <description>softmax上溢和下溢问题 解决这个问题的方法就是利用softmax的冗余性。我们可以看到对于任意一个数$a$, $x-a$和$x$在$softmax$中的结果都是一样的。 $$ \frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}=\frac{\exp ^{(x)} \exp ^{(-a)}}{\exp ^{(-a)} \sum_{i=1}^k \exp _i^{(x)}}=\frac{\exp ^{(x)}}{\sum_{i=1}^k \exp_i^{(x)}} $$ 对于一组输入，我们可以让a=max(x). 这样就可以保证x-a的最大值等于0，也就不会产生上溢的问题。同时，因为$x-a=0$, 所以$exp(0)=1$,分母就不可能为0。 $$ \begin{array}{l} \log \left(\frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}\right) &amp;amp;=\log \left(e^{(x-a)}\right)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \\ &amp;amp;=(x-a)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \end{array} $$</description>
+    </item>
+    
+    <item>
+      <title>Transformer模型理解</title>
+      <link>https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</guid>
+      <description>Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的行馆细节 Transformer Encoder Self-attention $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$ Transformer 中token的输入表示$a$由$Word\ Embedding$ 和位置 $Positional\ Encoding$ 相加得到。 Add &amp;amp; Norm Add &amp;amp; Norm 层由 Add 和 Norm 两部分组成，其计算公式如下： $$\textit{LayerNorm}\big(X+\text{MultiHeadAttention}(X)\big)$$ Feed Forward Feed Forward 层比较简单，是一个两层的全连接层，第一</description>
     </item>
     
     <item>

@@ -93,6 +93,66 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-09-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-09-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当选择树模型为基学习器时，需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值(xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半代表预……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" title="模型特征重要性的计算" target="_blank">模型特征重要性的计算</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-07-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-07-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" title="Beta分布和Thompson采样" target="_blank">Beta分布和Thompson采样</a>
             </h1>
         </header>
@@ -330,66 +390,6 @@
     
     
     
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" title="repartition和coalesce区别" target="_blank">repartition和coalesce区别</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2019-10-15T00:00:00Z" class="post-meta meta-date dt-published">
-    2019-10-15
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            简介 $repartition(numPartitions:Int)$ 和 $coalesce(numPartitions:Int，shuffle:Boolean=false)$ 作用：对RDD的分区进行重新划分，repartition内部调用了coalesce，参数$shuffle=true$ 分析 例：RDD有N个分区，需要重新划分成M个分区 N小于M 一般情况下N个分区有数据分布不均匀的状况，利用HashPartitioner函数将数据重新分区为M个，这时需要将shu……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/repartition%E5%92%8Ccoalesce%E5%8C%BA%E5%88%AB/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" title="RDD算子总结" target="_blank">RDD算子总结</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2019-09-20T00:00:00Z" class="post-meta meta-date dt-published">
-    2019-09-20
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            RDD算子总结 从功能上分： 转换算子(transformer)： lazy执行，生成新的rdd，只有在调用action算子时，才会真正的执行。 如：map 、flatmap、filter、 union、 join、 ruduceByKey、 cache 行动算子(action)： 触发任务执行，产生job，返回值不再是rdd。 如：count 、collect、top、 take、 reduce 从作用上分： 通用的： map、 flatMap、 di……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/RDD%E7%AE%97%E5%AD%90%E6%80%BB%E7%BB%93/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
 
 
 
@@ -535,15 +535,15 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/" title="XGBoost的原理分析以及实践" target="_blank">XGBoost的原理分析以及实践</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" title="模型特征重要性的计算" target="_blank">模型特征重要性的计算</a>
+        <a href="https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/" title="Transformer模型理解" target="_blank">Transformer模型理解</a>
     </li>
     
 </ul>
@@ -557,6 +557,8 @@
 <ul class="widget-list">
     
     <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (2)</a></li>
     
     <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
     
@@ -588,6 +590,8 @@
     <a href="https://whiteding.fun/tags/softmax/">softmax</a>
     
     <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/transformer/">transformer</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
     

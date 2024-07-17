@@ -23,23 +23,38 @@
         <div class="post-content">
             {{ .Content }}
         </div>
+
+        <div class="post-meta meta-tags">
+            {{ if and (isset .Params "tags") .Params.tags }}
+            <ul class="clearfix">
+                {{ range .Params.Tags }}
+                <li><a href='{{ "tags/" | relURL }}{{ . | urlize }}' target="_blank">{{ . }} </a></li>
+                {{ end }}
+            </ul>
+            {{ else }}
+                {{ i18n "tagsNone" }}
+            {{ end }}
+        </div>
+
+        <style>
+            hr {
+                opacity: 0.5; /* 设置透明度为50% */
+                border: none; /* 去除默认的边框 */
+                height: 1px; /* 设置水平线的高度 */
+                background-color: rgba(101, 91, 91, 0.422); /* 设置水平线的颜色 */
+            }
+        </style>
+
+        <hr>
+
+
         {{ partial "comments" . }}
         
         
         <!-- {{ partial "copyright" .}} -->
         <!-- {{ partial "related" . }} -->
 
-        <div class="post-meta meta-tags">
-            {{ if and (isset .Params "tags") .Params.tags }}
-            <ul class="clearfix">
-                {{ range .Params.Tags }}
-                <li><a href='{{ "tags/" | relURL }}{{ . | urlize }}' target="_blank">{{ . }}</a></li>
-                {{ end }}
-            </ul>
-            {{ else }}
-            {{ i18n "tagsNone" }}
-            {{ end }}
-        </div>
+
     </article>
 </div>
 {{ end }}
