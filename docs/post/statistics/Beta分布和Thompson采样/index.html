@@ -260,21 +260,21 @@ $$
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/Beta1.png" />   
     </p>
 <p>从$Beta$分布的概率密度函数的图形我们可以看出，$Beta$分布有很多种形状，但都是在$0~1$区间内，因此$Beta$分布可以描述各种$0~1$区间内的形状（事件）。因此，它特别适合为某件事发生或者成功的概率建模。同时，当$α=1，β=1$的时候，它就是一个均匀分布。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">scipy.stats</span> <span style="color:#000;font-weight:bold">import</span> beta  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="font-weight:bold">from</span> <span style="color:#555">scipy.stats</span> <span style="font-weight:bold">import</span> beta  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="font-weight:bold">as</span> <span style="color:#555">plt</span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="font-weight:bold">as</span> <span style="color:#555">np</span>  
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>x <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>linspace(<span style="color:#099">0</span>, <span style="color:#099">1</span>, <span style="color:#099">100</span>)  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>x <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#099">0</span>, <span style="color:#099">1</span>, <span style="color:#099">100</span>)  
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>a_array <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">8</span>]  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>b_array <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">8</span>]  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>a_array <span style="font-weight:bold">=</span> [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">8</span>]  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>b_array <span style="font-weight:bold">=</span> [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">8</span>]  
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#000;font-weight:bold">for</span> i, a <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">enumerate</span>(a_array):  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>  <span style="color:#000;font-weight:bold">for</span> j, b <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">enumerate</span>(b_array):  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    plt<span style="color:#000;font-weight:bold">.</span>plot(x, beta<span style="color:#000;font-weight:bold">.</span>pdf(x, a, b), lw<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, alpha<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0.6</span>, label<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;a=&#39;</span><span style="color:#000;font-weight:bold">+</span><span style="color:#0086b3">str</span>(a)<span style="color:#000;font-weight:bold">+</span><span style="color:#d14">&#39;,b=&#39;</span><span style="color:#000;font-weight:bold">+</span><span style="color:#0086b3">str</span>(b))  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="font-weight:bold">for</span> i, a <span style="font-weight:bold">in</span> <span style="color:#999">enumerate</span>(a_array):  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>  <span style="font-weight:bold">for</span> j, b <span style="font-weight:bold">in</span> <span style="color:#999">enumerate</span>(b_array):  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    plt<span style="font-weight:bold">.</span>plot(x, beta<span style="font-weight:bold">.</span>pdf(x, a, b), lw<span style="font-weight:bold">=</span><span style="color:#099">1</span>, alpha<span style="font-weight:bold">=</span><span style="color:#099">0.6</span>, label<span style="font-weight:bold">=</span><span style="color:#b84">&#39;a=&#39;</span><span style="font-weight:bold">+</span><span style="color:#999">str</span>(a)<span style="font-weight:bold">+</span><span style="color:#b84">&#39;,b=&#39;</span><span style="font-weight:bold">+</span><span style="color:#999">str</span>(b))  
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>plt<span style="color:#000;font-weight:bold">.</span>legend(frameon<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">False</span>)  
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>plt<span style="color:#000;font-weight:bold">.</span>show()  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>plt<span style="font-weight:bold">.</span>legend(frameon<span style="font-weight:bold">=</span><span style="font-weight:bold">False</span>)  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>plt<span style="font-weight:bold">.</span>show()  
 </span></span></code></pre></div><p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/6_llm.png" />   
     </p>
@@ -358,7 +358,7 @@ $$
 </li>
 </ol>
 <p><strong>代码实现：</strong></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>choice <span style="color:#000;font-weight:bold">=</span> numpy<span style="color:#000;font-weight:bold">.</span>argmax(pymc<span style="color:#000;font-weight:bold">.</span>rbeta(<span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>wins, <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>trials <span style="color:#000;font-weight:bold">-</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>wins))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>choice <span style="font-weight:bold">=</span> numpy<span style="font-weight:bold">.</span>argmax(pymc<span style="font-weight:bold">.</span>rbeta(<span style="color:#099">1</span> <span style="font-weight:bold">+</span> self<span style="font-weight:bold">.</span>wins, <span style="color:#099">1</span> <span style="font-weight:bold">+</span> self<span style="font-weight:bold">.</span>trials <span style="font-weight:bold">-</span> self<span style="font-weight:bold">.</span>wins))
 </span></span></code></pre></div>
         </div>
         
@@ -374,13 +374,12 @@ $$
       import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
 
       init({
-        el: '#waline',
-        lang: 'zh-CN',
-        serverURL: 'https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment',
-        lang: 'zh-CN',
-        placeholder: '说点什么吧...'
+        el: "#waline",
         
-
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
       });
     </script>
     
@@ -578,7 +577,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
     </li>
     
     <li>
@@ -662,9 +661,9 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
     
-    <a href="https://whiteding.fun/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">模型特征重要性</a>
-    
     <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">特征重要性</a>
     
 </div>
     </section>

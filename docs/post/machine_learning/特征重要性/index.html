@@ -167,6 +167,7 @@
         <li><a href="#单特征-auc">单特征 auc</a></li>
         <li><a href="#--lime">- LIME</a></li>
         <li><a href="#shap分析">SHAP分析</a></li>
+        <li><a href="#senet">SENet</a></li>
       </ul>
     </li>
   </ul>
@@ -262,49 +263,49 @@
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/lime.png" />   
     </p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">sklearn</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.linear_model</span> <span style="color:#000;font-weight:bold">import</span> LinearRegression
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.metrics.pairwise</span> <span style="color:#000;font-weight:bold">import</span> euclidean_distances
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="font-weight:bold">as</span> <span style="color:#555">np</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="font-weight:bold">import</span> <span style="color:#555">sklearn</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="font-weight:bold">from</span> <span style="color:#555">sklearn.linear_model</span> <span style="font-weight:bold">import</span> LinearRegression
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="font-weight:bold">from</span> <span style="color:#555">sklearn.metrics.pairwise</span> <span style="font-weight:bold">import</span> euclidean_distances
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span><span style="color:#998;font-style:italic"># 假设你有一个训练好的DNN模型</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">predict_fn</span>(X):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">predict_fn</span>(X):
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#998;font-style:italic"># 替换为实际的模型预测函数</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#000;font-weight:bold">return</span> model<span style="color:#000;font-weight:bold">.</span>predict(X)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="font-weight:bold">return</span> model<span style="font-weight:bold">.</span>predict(X)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#998;font-style:italic"># 生成邻域数据</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">generate_neighborhood_data</span>(instance, num_samples<span style="color:#000;font-weight:bold">=</span><span style="color:#099">5000</span>, scale<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0.1</span>):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    neighborhood_data <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>random<span style="color:#000;font-weight:bold">.</span>normal(loc<span style="color:#000;font-weight:bold">=</span>instance, scale<span style="color:#000;font-weight:bold">=</span>scale, size<span style="color:#000;font-weight:bold">=</span>(num_samples, instance<span style="color:#000;font-weight:bold">.</span>shape[<span style="color:#099">0</span>]))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#000;font-weight:bold">return</span> neighborhood_data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">generate_neighborhood_data</span>(instance, num_samples<span style="font-weight:bold">=</span><span style="color:#099">5000</span>, scale<span style="font-weight:bold">=</span><span style="color:#099">0.1</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    neighborhood_data <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>random<span style="font-weight:bold">.</span>normal(loc<span style="font-weight:bold">=</span>instance, scale<span style="font-weight:bold">=</span>scale, size<span style="font-weight:bold">=</span>(num_samples, instance<span style="font-weight:bold">.</span>shape[<span style="color:#099">0</span>]))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="font-weight:bold">return</span> neighborhood_data
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span><span style="color:#998;font-style:italic"># 计算权重</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">calculate_weights</span>(instance, neighborhood_data, kernel_width<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0.75</span>):
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    distances <span style="color:#000;font-weight:bold">=</span> euclidean_distances(neighborhood_data, instance<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#099">1</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>))<span style="color:#000;font-weight:bold">.</span>ravel()
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    weights <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>exp(<span style="color:#000;font-weight:bold">-</span>distances<span style="color:#000;font-weight:bold">**</span><span style="color:#099">2</span> <span style="color:#000;font-weight:bold">/</span> (<span style="color:#099">2</span> <span style="color:#000;font-weight:bold">*</span> kernel_width<span style="color:#000;font-weight:bold">**</span><span style="color:#099">2</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    <span style="color:#000;font-weight:bold">return</span> weights
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">calculate_weights</span>(instance, neighborhood_data, kernel_width<span style="font-weight:bold">=</span><span style="color:#099">0.75</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    distances <span style="font-weight:bold">=</span> euclidean_distances(neighborhood_data, instance<span style="font-weight:bold">.</span>reshape(<span style="color:#099">1</span>, <span style="font-weight:bold">-</span><span style="color:#099">1</span>))<span style="font-weight:bold">.</span>ravel()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    weights <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>exp(<span style="font-weight:bold">-</span>distances<span style="font-weight:bold">**</span><span style="color:#099">2</span> <span style="font-weight:bold">/</span> (<span style="color:#099">2</span> <span style="font-weight:bold">*</span> kernel_width<span style="font-weight:bold">**</span><span style="color:#099">2</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    <span style="font-weight:bold">return</span> weights
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span><span style="color:#998;font-style:italic"># 解释函数</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">lime_explanation</span>(instance, predict_fn, num_samples<span style="color:#000;font-weight:bold">=</span><span style="color:#099">5000</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">lime_explanation</span>(instance, predict_fn, num_samples<span style="font-weight:bold">=</span><span style="color:#099">5000</span>):
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    <span style="color:#998;font-style:italic"># 生成邻域数据</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    neighborhood_data <span style="color:#000;font-weight:bold">=</span> generate_neighborhood_data(instance, num_samples)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    neighborhood_data <span style="font-weight:bold">=</span> generate_neighborhood_data(instance, num_samples)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    <span style="color:#998;font-style:italic"># 获取邻域数据的预测结果</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    predictions <span style="color:#000;font-weight:bold">=</span> predict_fn(neighborhood_data)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    predictions <span style="font-weight:bold">=</span> predict_fn(neighborhood_data)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>    
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>    <span style="color:#998;font-style:italic"># 计算权重</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>    weights <span style="color:#000;font-weight:bold">=</span> calculate_weights(instance, neighborhood_data)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>    weights <span style="font-weight:bold">=</span> calculate_weights(instance, neighborhood_data)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>    
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>    <span style="color:#998;font-style:italic"># 拟合局部线性模型</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    model <span style="color:#000;font-weight:bold">=</span> LinearRegression()
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>    model<span style="color:#000;font-weight:bold">.</span>fit(neighborhood_data, predictions, sample_weight<span style="color:#000;font-weight:bold">=</span>weights)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    model <span style="font-weight:bold">=</span> LinearRegression()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>    model<span style="font-weight:bold">.</span>fit(neighborhood_data, predictions, sample_weight<span style="font-weight:bold">=</span>weights)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>    
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>    <span style="color:#998;font-style:italic"># 返回线性模型的系数作为特征重要度</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    <span style="color:#000;font-weight:bold">return</span> model<span style="color:#000;font-weight:bold">.</span>coef_
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    <span style="font-weight:bold">return</span> model<span style="font-weight:bold">.</span>coef_
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span><span style="color:#998;font-style:italic"># 示例使用</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>instance <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>array([<span style="color:#099">0.5</span>, <span style="color:#099">0.3</span>, <span style="color:#099">0.2</span>, <span style="color:#099">0.1</span>, <span style="color:#099">0.4</span>])  <span style="color:#998;font-style:italic"># 需要解释的实例</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>feature_importances <span style="color:#000;font-weight:bold">=</span> lime_explanation(instance, predict_fn)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span><span style="color:#0086b3">print</span>(<span style="color:#d14">&#34;Feature importances:&#34;</span>, feature_importances)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>instance <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>array([<span style="color:#099">0.5</span>, <span style="color:#099">0.3</span>, <span style="color:#099">0.2</span>, <span style="color:#099">0.1</span>, <span style="color:#099">0.4</span>])  <span style="color:#998;font-style:italic"># 需要解释的实例</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>feature_importances <span style="font-weight:bold">=</span> lime_explanation(instance, predict_fn)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span><span style="color:#999">print</span>(<span style="color:#b84">&#34;Feature importances:&#34;</span>, feature_importances)
 </span></span></code></pre></div><h3 id="shap分析">SHAP分析</h3>
 <p>SHAP 算法的原理步骤如下：</p>
 <ol>
@@ -317,7 +318,21 @@
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>x_5的Shapley值为：&lt;x_1, x_2, x_3, x_4&gt;特征集合的所有子集加上x_5所取得的边际增益的平均值
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>Shapley_value = avg([Model(x1, x5) - Model(x5)], [Model(x1, x2, x5) - Model(x1, x2)],  [Model(x1, x2, x3, x5) - Model(x1, x2, x3)],···)
-</span></span></code></pre></div>
+</span></span></code></pre></div><h3 id="senet">SENet</h3>
+<p><strong>为每一个特征(field)学习不同的权重。有利于模型的特征进行加权，无效特征进行降权.</strong></p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/senet1.png" />   
+    </p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/senet2.png" />   
+    </p>
+<p>关于计算权重最后的激活函数的说明：</p>
+<ul>
+<li>用sigmoid函数，每个权重限制在0～1之间，意味着好的特征不进行打压，维持现状(权重接近于1)，不好的特征进行抑制(权重接近于0)</li>
+<li>用2*sigmoid函数， 每个权重限制在0～2之间，意味着好的特征进行加权，(权重接&gt;1.0)，不好的特征进行抑制(权重接系小于1.0)</li>
+<li>用relu函数，每个权重限制在0～∞之间，意味着好的特征进行加权，(权重接&gt;1.0)，不好的特征进行drop(权重等于0)</li>
+</ul>
+
         </div>
         
     
@@ -332,13 +347,12 @@
       import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
 
       init({
-        el: '#waline',
-        lang: 'zh-CN',
-        serverURL: 'https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment',
-        lang: 'zh-CN',
-        placeholder: '说点什么吧...'
+        el: "#waline",
         
-
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
       });
     </script>
     
@@ -351,7 +365,7 @@
             
             <ul class="clearfix">
                 
-                <li><a href='/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7' target="_blank">模型特征重要性</a></li>
+                <li><a href='/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7' target="_blank">特征重要性</a></li>
                 
             </ul>
             
@@ -534,7 +548,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
     </li>
     
     <li>
@@ -618,9 +632,9 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
     
-    <a href="https://whiteding.fun/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">模型特征重要性</a>
-    
     <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">特征重要性</a>
     
 </div>
     </section>

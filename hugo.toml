@@ -136,7 +136,8 @@ summaryLength = 200
     lineNos = true
     lineNumbersInTable = false
     noClasses = true
-    style = "github"
+    # [murphy, monokailight, github, solarized-light, tango, pygments]
+    style = "trac"
     tabWidth = 4
 
   

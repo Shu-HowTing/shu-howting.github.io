@@ -26,32 +26,32 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class RecommenderModel(nn.Module):
-		def __init__(self, user_size, item_size, embedding_dim):
+    def __init__(self, user_size, item_size, embedding_dim):
         super(RecommenderModel, self).__init__()
         self.user_embedding = nn.Embedding(user_size, embedding_dim)
         self.item_embedding = nn.Embedding(item_size, embedding_dim)
 
-		def forward(self, user_ids, item_ids):
+        def forward(self, user_ids, item_ids):
         user_embeds = self.user_embedding(user_ids)
         item_embeds = self.item_embedding(item_ids)
         return user_embeds, item_embeds
 
-		def in_batch_negative_sampling_loss(user_embeds, item_embeds):
-		    batch_size = user_embeds.size(0)
-		    
-		    # 正样本得分 (batch_size,) 
-		    positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) 
-		    
-		    # 负样本得分 (batch_size, batch_size)
-		    negative_scores = torch.matmul(user_embeds, item_embeds.t())  
-		    
-		    # 创建标签  (batch_size, batch_size)
-		    labels = torch.eye(batch_size).to(user_embeds.device) 
-		    
-		    # 计算损失
-		    loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1))
-		    
-		    return loss
+    def in_batch_negative_sampling_loss(user_embeds, item_embeds):
+        batch_size = user_embeds.size(0)
+        
+        # 正样本得分 (batch_size,) 
+        positive_scores = torch.sum(user_embeds * item_embeds, dim=-1) 
+        
+        # 负样本得分 (batch_size, batch_size)
+        negative_scores = torch.matmul(user_embeds, item_embeds.t())  
+        
+        # 创建标签  (batch_size, batch_size)
+        labels = torch.eye(batch_size).to(user_embeds.device) 
+        
+        # 计算损失
+        loss = F.cross_entropy(negative_scores, labels.argmax(dim=-1))
+        
+        return loss
 
 # 示例数据
 batch_size = 4

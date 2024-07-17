@@ -257,15 +257,15 @@ $$</p>
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/mind3.png" />   
     </p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>interest_capsules <span style="color:#000;font-weight:bold">=</span> CapsuleLayer(input_units<span style="color:#000;font-weight:bold">=</span>user_seq_embedding<span style="color:#000;font-weight:bold">.</span>shape[<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>],
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>                               out_units<span style="color:#000;font-weight:bold">=</span>params[<span style="color:#d14">&#39;embedding_dim&#39;</span>], 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>                               max_len<span style="color:#000;font-weight:bold">=</span>params[<span style="color:#d14">&#39;max_seq_len&#39;</span>],
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>                               k_max<span style="color:#000;font-weight:bold">=</span>params[<span style="color:#d14">&#39;k_max&#39;</span>],
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>                               mode<span style="color:#000;font-weight:bold">=</span>mode)((user_seq_embedding, like_user_seq_len)) <span style="color:#998;font-style:italic"># [B, k_max, embedding_dim] </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>interest_capsules <span style="font-weight:bold">=</span> CapsuleLayer(input_units<span style="font-weight:bold">=</span>user_seq_embedding<span style="font-weight:bold">.</span>shape[<span style="font-weight:bold">-</span><span style="color:#099">1</span>],
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>                               out_units<span style="font-weight:bold">=</span>params[<span style="color:#b84">&#39;embedding_dim&#39;</span>], 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>                               max_len<span style="font-weight:bold">=</span>params[<span style="color:#b84">&#39;max_seq_len&#39;</span>],
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>                               k_max<span style="font-weight:bold">=</span>params[<span style="color:#b84">&#39;k_max&#39;</span>],
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>                               mode<span style="font-weight:bold">=</span>mode)((user_seq_embedding, like_user_seq_len)) <span style="color:#998;font-style:italic"># [B, k_max, embedding_dim] </span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>q_embedding_layer <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>tile(tf<span style="color:#000;font-weight:bold">.</span>expand_dims(q_embedding, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">2</span>), [<span style="color:#099">1</span>, params[<span style="color:#d14">&#39;k_max&#39;</span>], <span style="color:#099">1</span>]) <span style="color:#998;font-style:italic"># [B, k_max, 64] </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>q_embedding_layer <span style="font-weight:bold">=</span> tf<span style="font-weight:bold">.</span>tile(tf<span style="font-weight:bold">.</span>expand_dims(q_embedding, <span style="font-weight:bold">-</span><span style="color:#099">2</span>), [<span style="color:#099">1</span>, params[<span style="color:#b84">&#39;k_max&#39;</span>], <span style="color:#099">1</span>]) <span style="color:#998;font-style:italic"># [B, k_max, 64] </span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span> 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>q_deep_input <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>concat([q_embedding_layer, interest_capsules], axis<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>) <span style="color:#998;font-style:italic"># [B, k_max, embedding_dim+64] </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>q_deep_input <span style="font-weight:bold">=</span> tf<span style="font-weight:bold">.</span>concat([q_embedding_layer, interest_capsules], axis<span style="font-weight:bold">=-</span><span style="color:#099">1</span>) <span style="color:#998;font-style:italic"># [B, k_max, embedding_dim+64] </span>
 </span></span></code></pre></div><p>$Dynamic \ \ Routing$</p>
 <p>
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/dr.png" />   
@@ -313,13 +313,12 @@ $$</p>
       import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
 
       init({
-        el: '#waline',
-        lang: 'zh-CN',
-        serverURL: 'https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment',
-        lang: 'zh-CN',
-        placeholder: '说点什么吧...'
+        el: "#waline",
         
-
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
       });
     </script>
     
@@ -517,7 +516,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%9A%84%E6%96%B0%E8%8C%83%E5%BC%8F/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
     </li>
     
     <li>
@@ -601,9 +600,9 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
     
-    <a href="https://whiteding.fun/tags/%E6%A8%A1%E5%9E%8B%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">模型特征重要性</a>
-    
     <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">特征重要性</a>
     
 </div>
     </section>

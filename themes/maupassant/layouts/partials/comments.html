@@ -21,13 +21,12 @@
       import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
 
       init({
-        el: '#waline',
-        lang: 'zh-CN',
-        serverURL: '{{ .Site.Params.waline.serverURL }}',
-        lang: '{{ .Site.Params.waline.locale }}',
-        placeholder: '{{ .Site.Params.waline.placeholder }}'
+        el: "#waline",
+        // lang: 'zh-CN',
+        serverURL: "{{ .Site.Params.waline.serverURL }}",
+        lang: "{{ .Site.Params.waline.locale }}",
+        placeholder: "{{ .Site.Params.waline.placeholder }}"
         // dark: 'html[class="scroll-smooth dark"]'
-
       });
     </script>
     {{ end }}
