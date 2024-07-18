@@ -265,7 +265,7 @@
 </blockquote>
 <ul>
 <li>利用大模型结构强大的学习能力，直接替换现有推荐模型的结构，如利用transformer进行序列建模等</li>
-<li>利用大模型的表征能力，生成推荐物料的文本或图像的表征向量/token，作为现有推荐模型的输入</li>
+<li>利用大模型的表征能力，生成推荐物料(文本或图像)的表征向量 or $tag\ token$，作为现有推荐模型的输入</li>
 </ul>
 <p>
         <img class="mx-auto" alt="image.png" src="../img/2_llm.png" />   
@@ -324,14 +324,13 @@
 <li>有监督的category / topic预测</li>
 </ul>
 <p>一个完整的prompt case：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>Extract the note information in json format, compress it into one word for recommendation, and generate the category of the note.
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>{&#39;title&#39;: &#39;How to Train Your Dragon&#39;, &#39;topic&#39;: &#39;Movies&#39;, &#39;content&#39;: &#39;A young Viking forms a bond with a dragon.&#39;}
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>The compression word is:&#34;\[EMB\]&#34;.
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>The category is Fantasy.
-</span></span></code></pre></div><p>所以， loss为：</p>
+<blockquote>
+<p>Extract the note information in json format, compress it into one word for recommendation, and generate the category of the note. <br>
+{&rsquo;title&rsquo;: &lsquo;How to Train Your Dragon&rsquo;, &rsquo;topic&rsquo;: &lsquo;Movies&rsquo;, &lsquo;content&rsquo;: &lsquo;A young Viking forms a bond with a dragon.&rsquo;} <br>
+The compression word is:&quot;[EMB]&quot;. <br>
+The category is Fantasy.</p>
+</blockquote>
+<p>所以， loss为：</p>
 <p>$$L=\frac{L_{cl}+\alpha L_{gen}}{1+\alpha}$$</p>
 <p>其中：</p>
 <p>$$L_{cl}=-\frac{1}{2B}\sum_{i=1}^{2B}log\frac{e^{sim(\boldsymbol{n}_{i},\boldsymbol{n}_{i}^{+})\cdot e^{\tau}}}{\sum_{j\in[2B]\setminus{i}}e^{sim(\boldsymbol{n}_{i},\boldsymbol{n}_{j})\cdot e^{\tau}}}$$</p>
@@ -650,7 +649,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐模型的应用" target="_blank">动态权重在推荐模型的应用</a>
     </li>
     
     <li>
@@ -693,7 +692,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
     
     <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
     

@@ -89,7 +89,7 @@ print(f'Loss: {loss.item()}')
 
 ## sampled_softmax loss
 
-$$\mathcal{L}=-log{\left[\frac{exp(s_{i,i}-log(p_j))}{\sum_{k\neq i}exp(s_{i,k}-log(p_k))+exp(s_{i,i}-log(p_j))}\right]}$$
+$$\mathcal{L}=-log{\left[\frac{exp(s_{i,i}-log(p_j))}{\sum_{k\neq i}exp(s_{i,k}-log(p_k))+exp(s_{i,i} - log(p_i))}\right]}$$
 
 对每个item j，假设被采样的概率为$p_j$，那么$log Q$矫正就是在本来的内积上加上 $-log{p_j}$
 $$
@@ -114,7 +114,7 @@ batch_logits += logq  # batch_logits 是前面计算的logits
 $$
 \begin{aligned}
 \frac{\partial\mathcal{L}}{\partial {s_{i,j}}} \\\\
-&=\frac{\exp(s_{i,j}-log(p_j))}{\sum_{k\neq i}\exp(s_{i,k}-log(p_k))+\exp(s_{i,i}-log(p_i))} \\\\
+&=\frac{\exp(s_{i,j}-log(p_j))}{\sum_{j \neq i}\exp(s_{i,j}-log(p_j))+\exp(s_{i,i}-log(p_i))} \\\\
 &=\frac1{p_j}P_{i,j} 
 \end{aligned}
 $$

@@ -25,5 +25,14 @@
       <description>Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的行馆细节 Transformer Encoder Self-attention $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$ Transformer 中token的输入表示$a$由$Word\ Embedding$ 和位置 $Positional\ Encoding$ 相加得到。 Add &amp;amp; Norm Add &amp;amp; Norm 层由 Add 和 Norm 两部分组成，其计算公式如下： $$\textit{LayerNorm}\big(X+\text{MultiHeadAttention}(X)\big)$$ Feed Forward Feed Forward 层比较简单，是一个两层的全连接层，第一</description>
     </item>
     
+    <item>
+      <title>softmax中温度系数的作用</title>
+      <link>https://whiteding.fun/post/deep_learning/softmax%E4%B8%AD%E6%B8%A9%E5%BA%A6%E7%B3%BB%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8/</link>
+      <pubDate>Sat, 15 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/deep_learning/softmax%E4%B8%AD%E6%B8%A9%E5%BA%A6%E7%B3%BB%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8/</guid>
+      <description>对比损失（Contrastive Loss）中的参数$\tau$是一个神秘的参数，大部分论文都默认采用较小的值来进行自监督对比学习（例如 $\tau = 0.05$），但是很少有文章详细讲解参数$\tau$的作用，本文将详解对比损失中的超参数 ，并借此分析对比学习的核心机制。 首先总结下本文的发现： 对比损失是一个具备困难负样本自发现性质的损失函数，这一性质对于学习高质量的自监督表示是至关重要的。关注困难样本的作用是：</description>
+    </item>
+    
   </channel>
 </rss>

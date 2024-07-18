@@ -306,7 +306,7 @@
         <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/batch_sample2.png" />   
     </p>
 <h2 id="sampled_softmax-loss">sampled_softmax loss</h2>
-<p>$$\mathcal{L}=-log{\left[\frac{exp(s_{i,i}-log(p_j))}{\sum_{k\neq i}exp(s_{i,k}-log(p_k))+exp(s_{i,i}-log(p_j))}\right]}$$</p>
+<p>$$\mathcal{L}=-log{\left[\frac{exp(s_{i,i}-log(p_j))}{\sum_{k\neq i}exp(s_{i,k}-log(p_k))+exp(s_{i,i} - log(p_i))}\right]}$$</p>
 <p>对每个item j，假设被采样的概率为$p_j$，那么$log Q$矫正就是在本来的内积上加上 $-log{p_j}$
 $$
 s^c(x_i, y_j) = s(x_i, y_j) – \log {p_j}
@@ -326,7 +326,7 @@ $$</p>
 </span></span></code></pre></div><p>$$
 \begin{aligned}
 \frac{\partial\mathcal{L}}{\partial {s_{i,j}}} \\
-&amp;=\frac{\exp(s_{i,j}-log(p_j))}{\sum_{k\neq i}\exp(s_{i,k}-log(p_k))+\exp(s_{i,i}-log(p_i))} \\
+&amp;=\frac{\exp(s_{i,j}-log(p_j))}{\sum_{j \neq i}\exp(s_{i,j}-log(p_j))+\exp(s_{i,i}-log(p_i))} \\
 &amp;=\frac1{p_j}P_{i,j}
 \end{aligned}
 $$</p>
@@ -641,7 +641,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重：推荐算法的新范式" target="_blank">动态权重：推荐算法的新范式</a>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐模型的应用" target="_blank">动态权重在推荐模型的应用</a>
     </li>
     
     <li>
@@ -684,7 +684,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     
     <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (7)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (2)</a></li>
+    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
     
     <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
     
