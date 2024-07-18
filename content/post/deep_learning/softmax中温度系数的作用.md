@@ -1,5 +1,5 @@
 +++
-title = "softmax中温度系数的作用"
+title = "对比损失中温度系数的作用"
 date = "2021-05-15"
 description = "softmax"
 tags = [
@@ -59,3 +59,9 @@ $$\frac{\partial\mathcal{L}(x_i)}{\partial s_{i,i}}=-\frac1\tau\sum_{k\neq i}P_{
 
 对负样本的梯度:
 $$\frac{\partial\mathcal{L}(x_i)}{\partial s_{i,j}}=\frac1\tau P_{i,j}$$
+
+
+## Reference
+
+- [Contrastive Loss 中参数 τ 的理解](https://wmathor.com/index.php/archives/1581/)
+- [https://zhuanlan.zhihu.com/p/504323465](https://zhuanlan.zhihu.com/p/504323465)
