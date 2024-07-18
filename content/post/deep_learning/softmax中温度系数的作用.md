@@ -14,7 +14,7 @@ math = true
 mathjax = true
 +++
 
-
+## 温度系数
 对比损失（Contrastive Loss）中的参数$\tau$是一个神秘的参数，大部分论文都默认采用较小的值来进行自监督对比学习（例如 $\tau = 0.05$），但是很少有文章详细讲解参数$\tau$的作用，本文将详解对比损失中的超参数 
 ，并借此分析对比学习的核心机制。
 
@@ -64,4 +64,4 @@ $$\frac{\partial\mathcal{L}(x_i)}{\partial s_{i,j}}=\frac1\tau P_{i,j}$$
 ## Reference
 
 - [Contrastive Loss 中参数 τ 的理解](https://wmathor.com/index.php/archives/1581/)
-- [https://zhuanlan.zhihu.com/p/504323465](https://zhuanlan.zhihu.com/p/504323465)
+- [深度学习高温蒸馏：Softmax With Temperature](https://zhuanlan.zhihu.com/p/504323465)
