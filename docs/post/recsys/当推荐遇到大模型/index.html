@@ -249,7 +249,7 @@
         <img class="mx-auto" alt="image.png" src="../img/1_llm.png" />   
     </p>
 <h2 id="大模型应用范式">大模型应用范式</h2>
-<p>经典的推荐架构基本遵循以下范式：</p>
+<p>现阶段，经典推荐架构基本遵循以下范式：</p>
 <p>
         <img class="mx-auto" alt="image.png" src="../img/1_1_llm.jpg" />   
     </p>
@@ -318,11 +318,6 @@
 <p>
         <img class="mx-auto" alt="image.png" src="../img/9_llm.png" />   
     </p>
-<p>学习目标分为两部分:</p>
-<ul>
-<li>无监督的对比学习</li>
-<li>有监督的category / topic预测</li>
-</ul>
 <p>一个完整的prompt case：</p>
 <blockquote>
 <p>Extract the note information in json format, compress it into one word for recommendation, and generate the category of the note. <br>
@@ -330,6 +325,11 @@
 The compression word is:&quot;[EMB]&quot;. <br>
 The category is Fantasy.</p>
 </blockquote>
+<p>学习目标分为两部分:</p>
+<ul>
+<li>无监督的对比学习</li>
+<li>有监督的category / topic预测</li>
+</ul>
 <p>所以， loss为：</p>
 <p>$$L=\frac{L_{cl}+\alpha L_{gen}}{1+\alpha}$$</p>
 <p>其中：</p>
@@ -649,7 +649,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐模型的应用" target="_blank">动态权重在推荐模型的应用</a>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
     </li>
     
     <li>

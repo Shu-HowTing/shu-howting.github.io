@@ -141,16 +141,16 @@ $$
 $$
 
 ### 3. Feed Forward层参数
-\$Feed\ Forward$网络中的参数通常是对每个位置或每个token是**共享**的, 具体来说，在Transformer模型中，每个位置的\$Feed\ Forward$网络包含两层全连接层
+\$Feed\ Forward$网络中的参数通常是对每个位置或每个token是**共享**的, 具体来说，在Transformer模型中，每个位置的\$Feed\ Forward$网络包含两层全连接层。
 
-$Feed\ Forward$模块由2个线性层组成，一般地，第一个线性层是先将维度从$h$ 映射到 $4h$ ,第二个线性层再将维度从4$h$映射到$h$。第一个线性层的权重矩阵$W_1$ 的形状为 $[h,4h]$ ,偏置的形状为 $[4h]$ 。第二个线性层权重矩阵$W_2$的形状为$[4h,h]$ ,偏置形状为$[h]$ 。MLP块的参数量为$8h^2+5h$ 。
+一般地，第一个线性层是先将维度从$h$ 映射到 $4h$ ,第二个线性层再将维度从4$h$映射到$h$。第一个线性层的权重矩阵$W_1$ 的形状为 $[h,4h]$ ,偏置的形状为 $[4h]$ 。第二个线性层权重矩阵$W_2$的形状为$[4h,h]$ ,偏置形状为$[h]$ 。MLP块的参数量为$8h^2+5h$ 。
 
 
 ### 4. Decoder的输入
 
 在train模式下和在test模式下Decoder的输入是不同的，在train模式下Decoder的输入是$Ground\ Truth$，也就是不管输出是什么，会将正确答案当做输入，这种模式叫做$teacher-forcing$。
 
-但是在test模式下根本没有$Ground\ Truth$去teach，那只能将已经出现的词的输出（注意这里的输出是softmax预测的结果）当做下一次Decoder计算的输入，这也是论文中shifted right的意思，一直往右移。
+但是在test模式下根本没有$Ground\ Truth$去teach，那只能将已经出现的词的输出（注意这里的输出是softmax预测的结果）当做下一次Decoder计算的输入，这也是论文中$shifted\ right$的意思，一直往右移。
 
 
 ### 5. Decoder到底是不是并行计算的

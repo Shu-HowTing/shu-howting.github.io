@@ -36,9 +36,9 @@ $$
 - 加上温度系数之后的影响：
 ![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/tmp1.png)
 
-备注：最左边是我们随机生成的分布来模拟模型的输出,等价于$z$。中间五幅图是使用softmax得到的结果, 纵坐标等价于$q$。其中温度系数 $\tau = 1.0$时相当于原始的softmax。右侧对比了$argmax$得到的结果。
+备注：最左边是我们随机生成的分布，来模拟softmax的输入$\mathbf{z}\in\mathbb{R}^{10}\sim N(10,1)$。中间五幅图是使用softmax得到的结果, 纵坐标等价于$q$。其中温度系数 $\tau = 1.0$时相当于原始的softmax。右侧对比了$argmax$得到的结果。
 
-> 可以看到，在输入差距不大的情况下，原始的$softmax$并不能很好的区分不同输入之间的差距(输出接近)。但是加上温度系数之后, 原始微小的输入差距会被放大。
+> 可以看到，在输入差距不大的情况下，原始的$softmax(\tau = 1.0)$ 并不能很好的区分不同输入之间的差距(输出接近)。但是加上温度系数之后, 原始微小的输入差距会被放大。
 > 这就是为什么$\tau$越小，模型越关注于将那些与本样本最相似的负样本分开。
 
 - 原始$softmax$的梯度:
@@ -51,16 +51,24 @@ $$
 \end{equation}
 $$
 
-- 加了温度系数$\tau$之后对比损失的梯度:
+- 加了温度系数$\tau$之后$softmax$的梯度:
+$$
+\begin{equation}
+    \begin{aligned}
+        \frac{\partial L}{\partial z_{i}} &= \sum_j\frac{\partial L}{\partial q_j}\frac{\partial q_j}{\partial z_i} \\\\
+        &=\frac{1}{\tau}\left(\frac{\exp(z_i/\tau)}{\sum_j\exp(z_j/\tau)}-y_i\right)
+        \end{aligned}
+\end{equation}
+$$
 
-对正样本的梯度:
+**对比损失**对正样本的梯度:
 $$\frac{\partial\mathcal{L}(x_i)}{\partial s_{i,i}}=-\frac1\tau\sum_{k\neq i}P_{i,k}$$
 
 
 对负样本的梯度:
 $$\frac{\partial\mathcal{L}(x_i)}{\partial s_{i,j}}=\frac1\tau P_{i,j}$$
 
-
+其中：$P_{i,j}=\frac{\exp(s_{i,j/}\tau)}{\sum_{k\neq i}\exp(s_{i,k}/\tau)+\exp(s_{i,i}/\tau)}$
 ## Reference
 
 - [Contrastive Loss 中参数 τ 的理解](https://wmathor.com/index.php/archives/1581/)
