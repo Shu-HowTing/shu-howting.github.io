@@ -18,7 +18,8 @@ mathjax = true
 
 ### 生态：
 
-![image](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525538441121&di=4c7185e975d88da25bc66351011c4353&imgtype=0&src=http%3A%2F%2Fstatic.open-open.com%2Flib%2FuploadImg%2F20160107%2F20160107202010_658.png)
+![image](![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/spark.jpg)
+
 - Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的
 - Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。
 - Spark Streaming：对实时数据流进行处理和控制。Spark Streaming允许程序能够像普通RDD一样处理实时数据
@@ -27,7 +28,8 @@ mathjax = true
 
 
 ### 架构：
-![image](http://images2015.cnblogs.com/blog/1004194/201608/1004194-20160829174157699-296881431.png)
+![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/spark101.png)
+
 - Cluster Manager：在standalone模式中即为Master主节点，控制整个集群，监控worker。在YARN模式中为资源管理器
 - Worker节点：从节点，负责控制计算节点，启动Executor或者Driver。
 - Driver： 运行Application 的main()函数

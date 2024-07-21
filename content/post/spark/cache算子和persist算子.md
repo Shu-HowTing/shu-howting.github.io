@@ -123,6 +123,4 @@ def cacheQuery(
 
 - cache不是一个action，运行它的时候没有执行一个作业。
 
-- cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的（没有计算）
-  
-**unpersist是eager级别的。意味着unpersist如果定义在action算子之前，则cache失效**
+- cache缓存如何让它释放缓存：unpersist，它是立即执行的。persist是lazy级别的(不触发计算), unpersist是eager级别的。意味着unpersist如果定义在action算子之前，则cache失效

@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>多任务loss优化 | White</title>
+    <meta property="og:title" content="多任务loss优化 - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-08-05T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-08-05T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="MTL">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="https://whiteding.fun/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@v2/dist/waline.css">
+        
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://whiteding.fun/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#多任务学习">多任务学习</a></li>
+    <li><a href="#多任务loss优化">多任务loss优化</a>
+      <ul>
+        <li><a href="#uncertainty-weight-loss">Uncertainty Weight Loss</a></li>
+        <li><a href="#gradnorm">GradNorm</a></li>
+        <li><a href="#pcgrad">PCGrad</a></li>
+        <li><a href="#dwa">DWA</a></li>
+        <li><a href="#pareto">Pareto</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">多任务loss优化</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2022-08-05T00:00:00Z" class="post-meta meta-date dt-published">
+    2022-08-05
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_site_pv">&nbsp;|
+                
+                Total Views <span id="busuanzi_value_site_pv"></span> 
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <blockquote>
+<p>多任务学习是推荐系统中常见的技术实现. 在很多推荐与排序场景中，业务目标通常有多个，找到一种综合排序方法使得多个目标都达到整体最优，才能实现受益最大化。</p>
+</blockquote>
+<h2 id="多任务学习">多任务学习</h2>
+<p>多任务学习经常使用联合训练(Joint-train)的模式进行多任务优化学习，公式如下：</p>
+<p>$$
+L=\min_\theta \sum_{t=1}^T \alpha^t L^t\left(\theta^{s h}, \theta^t\right)
+$$</p>
+<p>公式$\theta^{t}$是任务$t$公式的独享参数，$\theta^{sh}$是所有任务的共享参数, $\alpha^t$是任务$t$对应的权重。
+总$Loss$公式是每个子任务对应$Loss$公式的加权求和。</p>
+<p>为了能够更好地『共享参数』，让同个模型中多个任务和谐共存、相辅相成，业界有两大优化方向，分别是：</p>
+<ul>
+<li>网络结构优化，设计更好的参数共享位置与方式</li>
+<li>优化策略提升，设计更好的优化策略以提升优化$Loss$公式过程中的多任务平衡.</li>
+</ul>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/mtl_loss1.png" />   
+    </p>
+<p>本文主要聚焦在讨论第二个方向。即在学习中如何平衡多任务中的多个$Loss$, 达到多个任务上的效果最优化。</p>
+<h2 id="多任务loss优化">多任务loss优化</h2>
+<blockquote>
+<p>多任务loss优化方法更多的考虑的是在已有结构下，更好地结合任务进行训练和参数优化，它从$Loss$与梯度的维度去思考不同任务之间的关系。在优化过程中缓解梯度冲突，参数撕扯，尽量达到多任务的平衡优化。
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/mtl_loss2.png" />   
+    </p>
+</blockquote>
+<p>目前各式各样的多任务优化方法策略，主要集中在3个问题：</p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/mtl_loss3.png" />   
+    </p>
+<ul>
+<li>$Magnitude$ (Loss量级)</li>
+</ul>
+<p>Loss 值有大有小，取值大的 Loss 可能会主导。典型的例子是二分类任务 + 回归任务的多任务优化，L2 Loss 和交叉熵损失的 Loss 大小与梯度大小的量级和幅度可能差异很大，如果不处理会对优化造成很大干扰。</p>
+<ul>
+<li>$Velocity$ (Loss学习速度)</li>
+</ul>
+<p>不同任务因为样本的稀疏性、学习的难度不一致，在训练和优化过程中，存在 Loss 学习速度不一致的情况。如果不加以调整，可能会出现某个任务接近收敛甚至过拟合的时候，其他任务还是欠拟合的状态。</p>
+<ul>
+<li>$Direction$ (Loss梯度冲突)</li>
+</ul>
+<p>不同任务的 Loss 对共享参数进行更新，梯度存在不同的大小和方向，相同参数被多个梯度同时更新的时候，可能会出现冲突，导致相互消耗抵消，进而出现跷跷板、甚至负迁移现象。 这也是核心需要处理的问题。</p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/mtl_loss4.png" />   
+    </p>
+<h3 id="uncertainty-weight-loss">Uncertainty Weight Loss</h3>
+<p>简单的多任务学习往往是把所有$Loss$进行联合优化，通常需要需要手动调节他们的$weight\ \alpha^t$。</p>
+<p>导致模型堆最后的$weight$非常敏感, 同时手工调节这些$weight$也是非常费时费力的工作。 UWL提出直接建模单个任务中的uncertainty，然后通过uncertainty来指导权重的调节。损失函数如下:</p>
+<p>$$
+\mathcal{L}\left(W, \sigma_1, \sigma_2\right) \approx \frac{1}{2 \sigma_1^2} \mathcal{L}_1(W)+\frac{1}{2 \sigma_2^2} \mathcal{L}_2(W)+\log \sigma_1+\log \sigma_2
+$$</p>
+<p>背后的含义是: Loss 大的任务，包含的uncertainty也应该多($\sigma$越大)，对应的权重就应该小一点。防止任务在不确定性比较大时，往错误的方向”大步迈“。 这样优化的结果就是往往 Loss 小（『相对简单』）的任务会有一个更大的权重。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">uncertainty_weight_loss</span>(loss_list):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    total_loss <span style="font-weight:bold">=</span> <span style="color:#099">0.0</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="font-weight:bold">for</span> idx, loss <span style="font-weight:bold">in</span> <span style="color:#999">enumerate</span>(loss_list):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>        sigma <span style="font-weight:bold">=</span> tf<span style="font-weight:bold">.</span>get_variable(shape<span style="font-weight:bold">=</span>[], dtype<span style="font-weight:bold">=</span>tf<span style="font-weight:bold">.</span>float32, name<span style="font-weight:bold">=</span><span style="color:#b84">&#39;loss_sigma_</span><span style="color:#b84">{}</span><span style="color:#b84">&#39;</span><span style="font-weight:bold">.</span>format(idx))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        factor <span style="font-weight:bold">=</span> <span style="color:#099">1.0</span> <span style="font-weight:bold">/</span> ( sigma <span style="font-weight:bold">*</span> sigma )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>        loss <span style="font-weight:bold">=</span> factor <span style="font-weight:bold">*</span> loss <span style="font-weight:bold">+</span> tf<span style="font-weight:bold">.</span>log(sigma)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>        total_loss <span style="font-weight:bold">=</span> total_loss <span style="font-weight:bold">+</span> loss
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>    <span style="font-weight:bold">return</span> total_loss
+</span></span></code></pre></div><h3 id="gradnorm">GradNorm</h3>
+<p>Gradient normalization方法的主要思想是：</p>
+<ul>
+<li>希望不同的任务的 Loss 量级是接近的</li>
+<li>希望不同的任务以相似的速度学习</li>
+</ul>
+<p>$GradNorm$使用了两种loss，一种是$label\ loss$，就是整个任务的loss;
+第二种是$gradient\ loss$，是通过梯度下降来更新权重w，来实现平衡任务训练速度的目的。
+值得注意的是，这两种loss<strong>独立优化不相加</strong>，文章的重点就是$gradient loss$的计算.</p>
+<p>算法流程:
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/GradNorm.png" />   
+    </p>
+<ul>
+<li><a href="https://github.com/brianlan/pytorch-grad-norm/tree/master">参考代码1</a></li>
+<li><a href="https://github.com/LucasBoTang/GradNorm">参考代码2</a></li>
+</ul>
+<h3 id="pcgrad">PCGrad</h3>
+<p>PCGrad是Google在NIPS 2020《Gradient surgery for multi-task learning》这篇paper里提出的方法，PCGrad指出MTL多目标优化存在3个问题：</p>
+<ul>
+<li>方向不一致，导致撕扯，需要解决</li>
+<li>量级不一致，导致大gradients主导，需要解决</li>
+<li>大曲率，导致容易过拟合，需要解决</li>
+</ul>
+<p>解决办法如下：</p>
+<ul>
+<li>先检测不同任务的梯度是否冲突(梯度向量的余弦相似度是否小于0, negative similarity)</li>
+<li>如果有冲突，就把冲突的分量 clip 掉(把其中一个任务的梯度投影到另一个任务梯度的正交方向上,只保留正交方向的梯度分量,丢弃有冲突的分量)
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/mtl_loss5.png" />   
+    </li>
+</ul>
+<blockquote>
+<p>其实就是将$g_i$关于$g_j$的方向做一个正交分解，减去与gj共线反向的一部分，剩下的就是在$g_j$的法向量上的投影了。</p>
+</blockquote>
+<p>算法流程:
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/PCGrad.png" />   
+    </p>
+<ul>
+<li><a href="https://github.com/tianheyu927/PCGrad">参考代码1(官方)</a></li>
+<li><a href="https://github.com/WeiChengTseng/Pytorch-PCGrad">参考代码2</a></li>
+</ul>
+<h3 id="dwa">DWA</h3>
+<p>Dynamic Weight Averaging：任务的训练速度越快，权重越小。</p>
+<p>$$
+\lambda_k(t):=\frac{K \exp \left(w_k(t-1) / T\right)}{\sum_i \exp \left(w_i(t-1) / T\right)}, w_k(t-1)=\frac{\mathcal{L}_k(t-1)}{\mathcal{L}_k(t-2)}
+$$</p>
+<ul>
+<li>$\lambda_k(t)$: 任务$k$在第$t$步的loss权重</li>
+<li>$L_k(t-1)$, $L_k(t-2)$:  任务$k$在第$t-1$步时第$t-2$步的Loss</li>
+<li>$w_k(t-1)$: 任务 $k$ 在第$t-1$步的训练速度 ($w_k(t-1)$越小, 任务训练越快, 下一轮分配的权重就小)</li>
+<li>T 是一个常数, $\mathrm{T}=1$ 时, w 等同于softmax的结果; T 足够大时, w趋近1, 各个任务的loss权重相同。</li>
+</ul>
+<p><a href="https://github.com/median-research-group/LibMTL/tree/main/LibMTL/weighting">代码</a>：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="font-weight:bold">import</span> <span style="color:#555">math</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>T <span style="font-weight:bold">=</span> <span style="color:#099">20</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">dynamic_weight_average</span>(loss_t_1, loss_t_2):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#b84">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="color:#b84">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span><span style="color:#b84">    :param loss_t_1: 每个task上一轮的loss列表, 长度为n, 任务数
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span><span style="color:#b84">    :param loss_t_2: 每个task上上一轮的loss列表, 长度为n, 任务数
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#b84">    :return:
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#b84">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    <span style="color:#998;font-style:italic"># 第1和2轮,w初设化为1,lambda也对应为1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    <span style="font-weight:bold">if</span> <span style="font-weight:bold">not</span> loss_t_1 <span style="font-weight:bold">or</span> <span style="font-weight:bold">not</span> loss_t_2:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        <span style="font-weight:bold">return</span> <span style="font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    <span style="font-weight:bold">assert</span> <span style="color:#999">len</span>(loss_t_1) <span style="font-weight:bold">==</span> <span style="color:#999">len</span>(loss_t_2)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    task_n <span style="font-weight:bold">=</span> <span style="color:#999">len</span>(loss_t_1)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    w <span style="font-weight:bold">=</span> [l_1 <span style="font-weight:bold">/</span> l_2 <span style="font-weight:bold">for</span> l_1, l_2 <span style="font-weight:bold">in</span> <span style="color:#999">zip</span>(loss_t_1, loss_t_2)]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    lamb <span style="font-weight:bold">=</span> [math<span style="font-weight:bold">.</span>exp(v <span style="font-weight:bold">/</span> T) <span style="font-weight:bold">for</span> v <span style="font-weight:bold">in</span> w]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    lamb_sum <span style="font-weight:bold">=</span> <span style="color:#999">sum</span>(lamb)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    <span style="font-weight:bold">return</span> [task_n <span style="font-weight:bold">*</span> l <span style="font-weight:bold">/</span> lamb_sum <span style="font-weight:bold">for</span> l <span style="font-weight:bold">in</span> lamb]
+</span></span></code></pre></div><h3 id="pareto">Pareto</h3>
+<p>帕累托最优：排除明显差的解，构建帕累托前沿，从前沿上取最优解。</p>
+<ul>
+<li>解A优于解B</li>
+</ul>
+<p>当解A的所有目标都优于解B，
+则称为解A优于解B。如下图的E点，它的函数f1和f2的值都小于C点（这里可以认为f是loss），那么可以说解E由于解C，同理也由于解D</p>
+<ul>
+<li>解A无差别于解B</li>
+</ul>
+<p>当解A的一个目标由于解B，另一个目标不如解B，则称为解A无差别于解B。如下图的A和B，A点的f1值小于B点，但A点的f2值大于B点。</p>
+<ul>
+<li><strong>帕累托前沿</strong></li>
+</ul>
+<p>如果我们找到一条曲线，上面的所有解两两之间都存在A无差别于B的关系，那么就说明找到了一条帕累托前沿(为什么E不在帕累托前沿上呢，因为在前沿上，一定存在一个点，f1和f2的值都小于E点)。</p>
+<blockquote>
+<p>具体需要使用哪个解，则因人而异。一般来说，通过定义一组参数下界，让模型知道每个任务的权重，至少要大于定义的下界，从而实现最优解的选择。
+帕累托前沿上的任何一个解都是一个可接受的解。</p>
+</blockquote>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/pe1.png" />   
+    </p>
+<p>帕累托在多目标上的应用:
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/pe2.png" />   
+    </p>
+<p>代码实现：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="font-weight:bold">as</span> <span style="color:#555">np</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="font-weight:bold">from</span> <span style="color:#555">scipy.optimize</span> <span style="font-weight:bold">import</span> minimize
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="font-weight:bold">from</span> <span style="color:#555">scipy.optimize</span> <span style="font-weight:bold">import</span> nnls
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">pareto_step</span>(w, c, G):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#b84">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span><span style="color:#b84">    使用pareto优化更新下一setp的w权重
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span><span style="color:#b84">    ref:http://ofey.me/papers/Pareto.pdf
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#b84">    K : the number of task
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#b84">    M : the dim of NN&#39;s params
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="color:#b84">    :param W: # (K,1)
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#b84">    :param C: # (K,1)
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="color:#b84">    :param G: # (K,M)
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span><span style="color:#b84">    :return:
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span><span style="color:#b84">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    GGT <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>matmul(G, np<span style="font-weight:bold">.</span>transpose(G))  <span style="color:#998;font-style:italic"># (K, K)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    e <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>mat(np<span style="font-weight:bold">.</span>ones(np<span style="font-weight:bold">.</span>shape(w)))  <span style="color:#998;font-style:italic"># (K, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    m_up <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>hstack((GGT, e))  <span style="color:#998;font-style:italic"># (K, K+1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    m_down <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>hstack((np<span style="font-weight:bold">.</span>transpose(e), np<span style="font-weight:bold">.</span>mat(np<span style="font-weight:bold">.</span>zeros((<span style="color:#099">1</span>, <span style="color:#099">1</span>)))))  <span style="color:#998;font-style:italic"># (1, K+1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    M <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>vstack((m_up, m_down))  <span style="color:#998;font-style:italic"># (K+1, K+1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>    z <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>vstack((<span style="font-weight:bold">-</span>np<span style="font-weight:bold">.</span>matmul(GGT, c), <span style="color:#099">1</span> <span style="font-weight:bold">-</span> np<span style="font-weight:bold">.</span>sum(c)))  <span style="color:#998;font-style:italic"># (K+1, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    hat_w <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>matmul(np<span style="font-weight:bold">.</span>matmul(np<span style="font-weight:bold">.</span>linalg<span style="font-weight:bold">.</span>inv(np<span style="font-weight:bold">.</span>matmul(np<span style="font-weight:bold">.</span>transpose(M), M)), M), z)  <span style="color:#998;font-style:italic"># (K+1, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    hat_w <span style="font-weight:bold">=</span> hat_w[:<span style="font-weight:bold">-</span><span style="color:#099">1</span>]  <span style="color:#998;font-style:italic"># (K, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    hat_w <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>reshape(np<span style="font-weight:bold">.</span>array(hat_w), (hat_w<span style="font-weight:bold">.</span>shape[<span style="color:#099">0</span>],))  <span style="color:#998;font-style:italic"># (K,)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    c <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>reshape(np<span style="font-weight:bold">.</span>array(c), (c<span style="font-weight:bold">.</span>shape[<span style="color:#099">0</span>],))  <span style="color:#998;font-style:italic"># (K,)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    new_w <span style="font-weight:bold">=</span> ASM(hat_w, c)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    <span style="font-weight:bold">return</span> new_w
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">ASM</span>(hat_w, c):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>    <span style="color:#b84">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span><span style="color:#b84">    保证w_i的值满足一定条件，比如 sum(w_i) = 1, w_i&gt;=c for all w_i
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span><span style="color:#b84">    ref:
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span><span style="color:#b84">    http://ofey.me/papers/Pareto.pdf,
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span><span style="color:#b84">    https://stackoverflow.com/questions/33385898/how-to-include-constraint-to-scipy-nnls-function-solution-so-that-it-sums-to-1
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span><span style="color:#b84">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span><span style="color:#b84">    :param hat_w: # (K,)
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span><span style="color:#b84">    :param c: # (K,)
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span><span style="color:#b84">    :return:
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span><span style="color:#b84">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>    A <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>array([[<span style="color:#099">0</span> <span style="font-weight:bold">if</span> i <span style="font-weight:bold">!=</span> j <span style="font-weight:bold">else</span> <span style="color:#099">1</span> <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#999">len</span>(c))] <span style="font-weight:bold">for</span> j <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#999">len</span>(c))])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>    b <span style="font-weight:bold">=</span> hat_w
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>    x0, _ <span style="font-weight:bold">=</span> nnls(A, b)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>    <span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">_fn</span>(x, A, b):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>        <span style="font-weight:bold">return</span> np<span style="font-weight:bold">.</span>linalg<span style="font-weight:bold">.</span>norm(A<span style="font-weight:bold">.</span>dot(x) <span style="font-weight:bold">-</span> b)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>    cons <span style="font-weight:bold">=</span> {<span style="color:#b84">&#39;type&#39;</span>: <span style="color:#b84">&#39;eq&#39;</span>, <span style="color:#b84">&#39;fun&#39;</span>: <span style="font-weight:bold">lambda</span> x: np<span style="font-weight:bold">.</span>sum(x) <span style="font-weight:bold">+</span> np<span style="font-weight:bold">.</span>sum(c) <span style="font-weight:bold">-</span> <span style="color:#099">1</span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>    bounds <span style="font-weight:bold">=</span> [[<span style="color:#099">0.</span>, <span style="font-weight:bold">None</span>] <span style="font-weight:bold">for</span> _ <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#999">len</span>(hat_w))]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>    min_out <span style="font-weight:bold">=</span> minimize(_fn, x0, args<span style="font-weight:bold">=</span>(A, b), method<span style="font-weight:bold">=</span><span style="color:#b84">&#39;SLSQP&#39;</span>, bounds<span style="font-weight:bold">=</span>bounds, constraints<span style="font-weight:bold">=</span>cons)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>    new_w <span style="font-weight:bold">=</span> min_out<span style="font-weight:bold">.</span>x <span style="font-weight:bold">+</span> c
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span>    <span style="font-weight:bold">return</span> new_w
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span>use_pareto <span style="font-weight:bold">=</span> <span style="font-weight:bold">True</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>w_a, w_b <span style="font-weight:bold">=</span> <span style="color:#099">0.5</span>, <span style="color:#099">0.5</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>c_a, c_b <span style="font-weight:bold">=</span> <span style="color:#099">0.4</span>, <span style="color:#099">0.2</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span><span style="font-weight:bold">for</span> step <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#099">0</span>, <span style="color:#099">100</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>    res <span style="font-weight:bold">=</span> sess<span style="font-weight:bold">.</span>run([a_gradients, b_gradients, train, loss, loss_a, loss_b],
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span>                   feed_dict<span style="font-weight:bold">=</span>{weight_a: w_a, weight_b: w_b})
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span>    <span style="font-weight:bold">if</span> use_pareto:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>        s <span style="font-weight:bold">=</span> time<span style="font-weight:bold">.</span>time()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span>        weights <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>mat([[w_a], [w_b]])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66</span><span>        paras <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>hstack((res[<span style="color:#099">0</span>], res[<span style="color:#099">1</span>]))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67</span><span>        paras <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>transpose(paras)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68</span><span>        w_a, w_b <span style="font-weight:bold">=</span> pareto_step(weights, np<span style="font-weight:bold">.</span>mat([[c_a], [c_b]]), paras)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span>        <span style="color:#999">print</span>(<span style="color:#b84">&#34;pareto cost: </span><span style="color:#b84">{}</span><span style="color:#b84">&#34;</span><span style="font-weight:bold">.</span>format(time<span style="font-weight:bold">.</span>time() <span style="font-weight:bold">-</span> s))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span>    l, l_a, l_b <span style="font-weight:bold">=</span> res[<span style="color:#099">3</span>:]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72</span><span>    <span style="color:#999">print</span>(<span style="color:#b84">&#34;step:</span><span style="color:#b84">{:0&gt;2d}</span><span style="color:#b84"> w_a:</span><span style="color:#b84">{:4f}</span><span style="color:#b84"> w_b:</span><span style="color:#b84">{:4f}</span><span style="color:#b84"> loss:</span><span style="color:#b84">{:4f}</span><span style="color:#b84"> loss_a:</span><span style="color:#b84">{:4f}</span><span style="color:#b84"> loss_b:</span><span style="color:#b84">{:4f}</span><span style="color:#b84"> r:</span><span style="color:#b84">{:4f}</span><span style="color:#b84">&#34;</span><span style="font-weight:bold">.</span>format(step, w_a, w_b, l, l_a, l_b, l_a <span style="font-weight:bold">/</span> l_b))
+</span></span></code></pre></div><h2 id="reference">Reference</h2>
+<ol>
+<li><a href="https://zhuanlan.zhihu.com/p/709760563">https://zhuanlan.zhihu.com/p/709760563</a></li>
+<li><a href="https://www.showmeai.tech/article-detail/60">https://www.showmeai.tech/article-detail/60</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/269492239">https://zhuanlan.zhihu.com/p/269492239</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/650920833">https://zhuanlan.zhihu.com/p/650920833</a></li>
+<li><a href="https://github.com/QunBB/DeepLearning/tree/main/multitasklearning">multitask_learning_loss</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/54691447">多目标优化之帕累托最优</a></li>
+</ol>
+
+        </div>
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/multi-task' target="_blank">multi-task </a></li>
+                
+            </ul>
+            
+        </div>
+
+        <style>
+            hr {
+                opacity: 0.5;  
+                border: none;  
+                height: 1px;  
+                background-color: rgba(101, 91, 91, 0.422);  
+            }
+        </style>
+
+        <hr>
+
+
+        
+    
+
+    
+    
+    
+    
+    
+    <div id="waline"></div>
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: "#waline",
+        
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
+      });
+    </script>
+    
+        
+        
+        
+        
+
+
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://whiteding.fun/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+    <script src="https://unpkg.com/@waline/client@v2/dist/waline.mjs"></script>
+
+                </div>
+
+                <div id="secondary">
+    
+    
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%BD%93%E6%8E%A8%E8%8D%90%E9%81%87%E5%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/" title="多兴趣召回推荐" target="_blank">多兴趣召回推荐</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/" title="多任务loss优化" target="_blank">多任务loss优化</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征处理" target="_blank">推荐算法中的序列特征处理</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://whiteding.fun/categories/deep-learning/">Deep Learning (3)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/flink/">Flink (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/kafka/">Kafka (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/machine-learning/">Machine Learning (3)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">Spark (12)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="https://whiteding.fun/tags/flink/">Flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">Kafka</a>
+    
+    <a href="https://whiteding.fun/tags/multi-task/">Multi-Task</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">Rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">Softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">Spark</a>
+    
+    <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
+    
+    <a href="https://whiteding.fun/tags/transformer/">Transformer</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">Xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">特征重要性</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

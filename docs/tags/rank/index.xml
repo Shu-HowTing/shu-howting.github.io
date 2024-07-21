@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>rank on White</title>
+    <title>Rank on White</title>
     <link>https://whiteding.fun/tags/rank/</link>
-    <description>Recent content in rank on White</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Rank on White</description>
+    <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 17 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/rank/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/tags/rank/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>动态权重在推荐中的应用</title>
       <link>https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/</link>
       <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/</guid>
       <description>动态权重 1. 从LHUC说起 语音识别领域2016年一项开创性工作提出了LHUC(Learning Hidden Unit Contribution)算法, 在DNN网络中为每个speaker学习对应的hidden unit contribution， 然后与common hidden layer相结合，以此提升不同speaker的语音识别准确率。这项工作属于domain adaptation领域，LHUC方法相比之前工作最重要的改进点是模型实现doma</description>
     </item>
-    
   </channel>
 </rss>
