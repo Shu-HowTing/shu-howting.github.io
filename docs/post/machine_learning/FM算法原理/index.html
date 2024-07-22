@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>FM算法原理 | White</title>
+    <meta property="og:title" content="FM算法原理 - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-07-15T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-07-15T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="FM的算法原理">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@v2/dist/waline.css">
+        
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://whiteding.fun/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#fm的提出">FM的提出</a>
+      <ul>
+        <li><a href="#问题">问题</a></li>
+        <li><a href="#解决方案">解决方案</a></li>
+        <li><a href="#运算简化">运算简化</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">FM算法原理</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-07-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-07-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        
+        
+        <div class="post-content">
+            <h2 id="fm的提出">FM的提出</h2>
+<p>LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。</p>
+<p>$$
+y=\omega_0+\sum_{i=1}^n \omega_i x_i
+$$</p>
+<p>FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉:</p>
+<p>$$
+y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j
+$$</p>
+<p>其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。</p>
+<h3 id="问题">问题</h3>
+<p>参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ <strong>都非0时参数才会得到更新</strong>。
+但是经过 one-hot 处理的数据非常稀疏，能够保证两者都非 0 的组合较少，导致大部分参数$w_{i j}$难以得到充分训练。</p>
+<h3 id="解决方案">解决方案</h3>
+<p>对每个特征分量 $x_i$ 引入 $k$ 维 $($k &lt;&lt; n$)$ 辅助向量 $v_i=\left(v_{i 1}, v_{i 2}, \ldots, v_{i k}\right)$, 每个特征对应一个$k$维的emb,总共 $n$ 个emb, 然后利用向量内积的结果 $&lt;v_i, v_j&gt;$ 来表示原来的组合参数 $w_{i j}$.</p>
+<p>于是，原式变成了如下形式：(尖括号表示内积)
+$$
+\hat{y}(\mathbf{x}):=w_0+\sum_{i=1}^n w_i x_i+\sum_{i=1}^n \sum_{j=i+1}^n\left\langle\mathbf{v}_i, \mathbf{v}_j\right\rangle x_i x_j
+$$</p>
+<p>这样要学习的参数从$n(n-1)/2$个$w_{ij}$系数变成了元素个数为$n\times k$的$V$矩阵，因为$k&lt;&lt;n$,所以降低了训练复杂度。</p>
+<p>$$
+\mathbf{V}=\left(\begin{array}{cccc}
+v_{11} &amp; v_{12} &amp; \cdots &amp; v_{1 k} \\
+v_{21} &amp; v_{22} &amp; \cdots &amp; v_{2 k} \\
+\vdots &amp; \vdots &amp; &amp; \vdots \\
+v_{n 1} &amp; v_{n 2} &amp; \cdots &amp; v_{n k}
+\end{array}\right)_{n \times k}
+=\left(\begin{array}{c}
+\mathbf{v}_1 \\
+\mathbf{v}_2 \\
+\vdots \\
+\mathbf{v}_{n}
+\end{array}\right)
+$$</p>
+<blockquote>
+<p>此外，引入辅助向量削弱了参数间的独立性，因为对于$x_i$的隐向量$v_i$ ,任何包含$x_i$的特征组合， 只要$x_i$本身不为0，都可对$v_i$进行更新，同理每个隐向量都能得到充分的学习，这样就解决了数据稀疏带来的难以训练问题。</p>
+</blockquote>
+<h3 id="运算简化">运算简化</h3>
+<p>\begin{equation}
+\begin{aligned}
+\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}&lt;v_{i},v_{j}&gt;x_{i}x_{j}&amp; =\frac12\sum_{i=1}^{n}\sum_{j=1}^{n}&lt;v_{i},v_{j}&gt;x_{i}x_{j}-\frac12\sum_{i=1}^{n}&lt;v_{i},v_{i}&gt;x_{i}x_{i} \\
+&amp;=\frac{1}{2}\left(\sum_{i=1}^{n}\sum_{j=1}^{n}\sum_{f=1}^{k}v_{i,f}v_{j,f}x_{i}x_{j}-\sum_{i=1}^{n}\sum_{f=1}^{k}v_{i,f}v_{i,f}x_{i}x_{i}\right) \\
+&amp;=\frac12\sum_{f=1}^k\left[\left(\sum_{i=1}^nv_{i,f}x_i\right)\cdot\left(\sum_{j=1}^nv_{j,f}x_j\right)-\sum_{i=1}^nv_{i,f}^2x_i^2\right] \\
+&amp;=\frac12\sum_{f=1}^k\left[\left(\sum_{i=1}^nv_{i,f}x_i\right)^2-\sum_{i=1}^nv_{i,f}^2x_i^2\right]
+\end{aligned}
+\end{equation}</p>
+<blockquote>
+<p>参考: $ab+ac+bc=\frac{1}{2}\left[(a+b+c)^2-(a^2+b^2+c^2)\right]$</p>
+</blockquote>
+<p>对需要训练的参数$\theta$求梯度得：</p>
+<p>$$
+\begin{equation}
+\frac{\partial\hat{y}(x)}{\partial\theta}=\begin{cases} 1,&amp;if~\theta~is~\omega_0 \\
+x_i,&amp;if~\theta~is~\omega_i\\
+x_i\sum_{j=1}^nv_{j,f}x_j-v_{i,f}x_i^2 &amp;if~\theta~is~v_{i,f}\end{cases}
+\end{equation}
+$$
+重点关注$v_{if}$的梯度，$v_{if}$表示$x_i$的隐向量，因为梯度项$\sum_{j=1}^{n} v_{j,f}x_j$中不包含$i$ ,只与$f$有关，因此只要一次性求出所有的$f$的$\sum_{j=1}^nv_{j,f}x_j$的值 (复杂度$O(nk))$,在求每个参数的梯度时都可复用该值。</p>
+<p>当已知$\sum_{j=1}^nv_{j,f}x_j$ 时计算每个参数梯度的复杂度都是 $O(1)$ ,因此训练 FM 模型的复杂度也是$O(nk)$。</p>
+<p>参考代码:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="font-weight:bold">import</span> <span style="color:#555">tensorflow</span> <span style="font-weight:bold">as</span> <span style="color:#555">tf</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="font-weight:bold">import</span> <span style="color:#555">tensorflow.keras.backend</span> <span style="font-weight:bold">as</span> <span style="color:#555">K</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">FM_layer</span>(tf<span style="font-weight:bold">.</span>keras<span style="font-weight:bold">.</span>layers<span style="font-weight:bold">.</span>Layer):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="font-weight:bold">def</span> __init__(self, k, w_reg, v_reg):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        <span style="color:#999">super</span>(FM_layer, self)<span style="font-weight:bold">.</span>__init__()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        self<span style="font-weight:bold">.</span>k <span style="font-weight:bold">=</span> k   <span style="color:#998;font-style:italic"># 隐向量vi的维度</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        self<span style="font-weight:bold">.</span>w_reg <span style="font-weight:bold">=</span> w_reg  <span style="color:#998;font-style:italic"># 权重w的正则项系数</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        self<span style="font-weight:bold">.</span>v_reg <span style="font-weight:bold">=</span> v_reg  <span style="color:#998;font-style:italic"># 权重v的正则项系数</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">build</span>(self, input_shape): <span style="color:#998;font-style:italic"># 需要根据input来定义shape的变量，可在build里定义)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        self<span style="font-weight:bold">.</span>w0 <span style="font-weight:bold">=</span> self<span style="font-weight:bold">.</span>add_weight(name<span style="font-weight:bold">=</span><span style="color:#b84">&#39;w0&#39;</span>, shape<span style="font-weight:bold">=</span>(<span style="color:#099">1</span>,), <span style="color:#998;font-style:italic"># shape:(1,)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>                                 initializer<span style="font-weight:bold">=</span>tf<span style="font-weight:bold">.</span>zeros_initializer(),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>                                 trainable<span style="font-weight:bold">=</span><span style="font-weight:bold">True</span>,)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        self<span style="font-weight:bold">.</span>w <span style="font-weight:bold">=</span> self<span style="font-weight:bold">.</span>add_weight(name<span style="font-weight:bold">=</span><span style="color:#b84">&#39;w&#39;</span>, shape<span style="font-weight:bold">=</span>(input_shape[<span style="font-weight:bold">-</span><span style="color:#099">1</span>], <span style="color:#099">1</span>), <span style="color:#998;font-style:italic"># shape:(n, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>                                 initializer<span style="font-weight:bold">=</span>tf<span style="font-weight:bold">.</span>random_normal_initializer(), <span style="color:#998;font-style:italic"># 初始化方法</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>                                 trainable<span style="font-weight:bold">=</span><span style="font-weight:bold">True</span>, <span style="color:#998;font-style:italic"># 参数可训练</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>                                 regularizer<span style="font-weight:bold">=</span>tf<span style="font-weight:bold">.</span>keras<span style="font-weight:bold">.</span>regularizers<span style="font-weight:bold">.</span>l2(self<span style="font-weight:bold">.</span>w_reg)) <span style="color:#998;font-style:italic"># 正则化方法</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>        self<span style="font-weight:bold">.</span>v <span style="font-weight:bold">=</span> self<span style="font-weight:bold">.</span>add_weight(name<span style="font-weight:bold">=</span><span style="color:#b84">&#39;v&#39;</span>, shape<span style="font-weight:bold">=</span>(input_shape[<span style="font-weight:bold">-</span><span style="color:#099">1</span>], self<span style="font-weight:bold">.</span>k), <span style="color:#998;font-style:italic"># shape:(n, k)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>                                 initializer<span style="font-weight:bold">=</span>tf<span style="font-weight:bold">.</span>random_normal_initializer(),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>                                 trainable<span style="font-weight:bold">=</span><span style="font-weight:bold">True</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>                                 regularizer<span style="font-weight:bold">=</span>tf<span style="font-weight:bold">.</span>keras<span style="font-weight:bold">.</span>regularizers<span style="font-weight:bold">.</span>l2(self<span style="font-weight:bold">.</span>v_reg))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    <span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">call</span>(self, inputs, <span style="font-weight:bold">**</span>kwargs):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>        <span style="color:#998;font-style:italic"># inputs维度判断，不符合则抛出异常</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        <span style="font-weight:bold">if</span> K<span style="font-weight:bold">.</span>ndim(inputs) <span style="font-weight:bold">!=</span> <span style="color:#099">2</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>            <span style="font-weight:bold">raise</span> <span style="color:#900;font-weight:bold">ValueError</span>(<span style="color:#b84">&#34;Unexpected inputs dimensions </span><span style="color:#b84">%d</span><span style="color:#b84">, expect to be 2 dimensions&#34;</span> <span style="font-weight:bold">%</span> (K<span style="font-weight:bold">.</span>ndim(inputs)))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>        <span style="color:#998;font-style:italic"># 线性部分，相当于逻辑回归</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>        linear_part <span style="font-weight:bold">=</span> tf<span style="font-weight:bold">.</span>matmul(inputs, self<span style="font-weight:bold">.</span>w) <span style="font-weight:bold">+</span> self<span style="font-weight:bold">.</span>w0   <span style="color:#998;font-style:italic">#shape:(batchsize, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>        <span style="color:#998;font-style:italic"># 交叉部分——第一项</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>        inter_part1 <span style="font-weight:bold">=</span> tf<span style="font-weight:bold">.</span>pow(tf<span style="font-weight:bold">.</span>matmul(inputs, self<span style="font-weight:bold">.</span>v), <span style="color:#099">2</span>)  <span style="color:#998;font-style:italic">#shape:(batchsize, self.k)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>        <span style="color:#998;font-style:italic"># 交叉部分——第二项</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>        inter_part2 <span style="font-weight:bold">=</span> tf<span style="font-weight:bold">.</span>matmul(tf<span style="font-weight:bold">.</span>pow(inputs, <span style="color:#099">2</span>), tf<span style="font-weight:bold">.</span>pow(self<span style="font-weight:bold">.</span>v, <span style="color:#099">2</span>)) <span style="color:#998;font-style:italic">#shape:(batchsize, k)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>        <span style="color:#998;font-style:italic"># 交叉结果</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>        inter_part <span style="font-weight:bold">=</span> <span style="color:#099">0.5</span><span style="font-weight:bold">*</span>tf<span style="font-weight:bold">.</span>reduce_sum(inter_part1 <span style="font-weight:bold">-</span> inter_part2, axis<span style="font-weight:bold">=-</span><span style="color:#099">1</span>, keepdims<span style="font-weight:bold">=</span><span style="font-weight:bold">True</span>) <span style="color:#998;font-style:italic">#shape:(batchsize, 1)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>        <span style="color:#998;font-style:italic"># 最终结果</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>        output <span style="font-weight:bold">=</span> linear_part <span style="font-weight:bold">+</span> inter_part
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>        <span style="font-weight:bold">return</span> tf<span style="font-weight:bold">.</span>nn<span style="font-weight:bold">.</span>sigmoid(output) <span style="color:#998;font-style:italic">#shape:(batchsize, 1)</span>
+</span></span></code></pre></div>
+        </div>
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/FM' target="_blank">FM </a></li>
+                
+            </ul>
+            
+        </div>
+
+        <style>
+            hr {
+                opacity: 0.5;  
+                border: none;  
+                height: 1px;  
+                background-color: rgba(101, 91, 91, 0.422);  
+            }
+        </style>
+
+        <hr>
+
+
+        
+    
+
+    
+    
+    
+    
+    
+    <div id="waline"></div>
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: "#waline",
+        
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
+      });
+    </script>
+    
+        
+        
+        
+        
+
+
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://whiteding.fun/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+    <script src="https://unpkg.com/@waline/client@v2/dist/waline.mjs"></script>
+
+                </div>
+
+                <div id="secondary">
+    
+    
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%BD%93%E6%8E%A8%E8%8D%90%E9%81%87%E5%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/" title="多兴趣召回推荐" target="_blank">多兴趣召回推荐</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/" title="多任务loss优化" target="_blank">多任务loss优化</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征处理" target="_blank">推荐算法中的序列特征处理</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (4)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="https://whiteding.fun/tags/FM/">FM</a>
+    
+    <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
+    
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/multi-task/">multi-task</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/transformer/">transformer</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">特征重要性</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

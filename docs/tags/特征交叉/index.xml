@@ -4,16 +4,17 @@
     <title>特征交叉 on White</title>
     <link>https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/</link>
     <description>Recent content in 特征交叉 on White</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 15 Nov 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>推荐中的特征交叉技术</title>
       <link>https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/</link>
       <pubDate>Wed, 15 Nov 2023 00:00:00 +0000</pubDate>
+      
       <guid>https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/</guid>
       <description>特征交叉范式 特征交叉指的是通过组合两个（或多个）特征来学习特征间非线性的组合高阶表达，其收益则是来自通过挖掘特征之间的共现组合，拓展了特征输入的表达，从而使得模型能更容易学习到共现组合提供的信息。 业界实现方案可以主要分为非参数化方案和参数化方案。 非参数化方案：显式的表达特征交叉ID，例如特征求交，笛卡尔积特征等。 参数化方案：主要通过模型参数隐式拟合的形式去捕捉特征的非线性组合能力，而参数化方案在D</description>
     </item>
+    
   </channel>
 </rss>

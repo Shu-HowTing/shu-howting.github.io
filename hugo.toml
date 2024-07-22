@@ -26,7 +26,7 @@ summaryLength = 200
   keywords = "DS, DeepLearning"
   description = ""
   avatar_img = "/img/avatar3.png"
-  busuanzi = true #启用不算子网页统计
+  busuanzi = false #启用不算子网页统计
   googleAd = ""  #ca-pub-xxxxxxxxxxxxxx
   localSearch = true # 启用本地搜索
 

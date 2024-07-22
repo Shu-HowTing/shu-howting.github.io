@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="referrer" content="no-referrer-when-downgrade">
-    
 
     <title>Posts | White</title>
     <meta property="og:title" content="Posts - White">
@@ -88,6 +86,36 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" title="Spark map字段处理" target="_blank">Spark map字段处理</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2020-04-12T00:00:00Z" class="post-meta meta-date dt-published">
+    2020-04-12
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/spark' target="_blank">spark</a>
+  
+</div>
+
+
+        <div class="post-content">
+            $PySpark$ 在遇到$map$类型的列的一些处理 在$spark$中，有时会遇到$column$的类型是$array$和$map$类型的，这时候需要将它们转换为多行数据 $Explode\ array\ and\ map\ columns\ to\ rows$ 1import pyspark 2from pyspark.sql import SparkSession 3 4spark = SparkSession.builder.appName(&#39;pyspark-by-examples&#39;).getOrCreate() 5 6arrayData = [ 7 (&#39;James&#39;,[&#39;Java&#39;,&#39;Scala&#39;],{&#39;hair&#39;:&#39;black&#39;,&#39;eye&#39;:&#39;brown&#39;}), 8 (&#39;Michael&#39;,[&#39;Spark&#39;,&#39;Java&#39;,None],{&#39;hair&#39;:&#39;brown&#39;,&#39;eye&#39;:None}), 9 (&#39;Robert&#39;,[&#39;CSharp&#39;,&#39;&#39;],{&#39;hair&#39;:&#39;red&#39;,&#39;eye&#39;:&#39;&#39;}), 10 (&#39;Washington&#39;,None,None), 11 (&#39;Jefferson&#39;,[&#39;1&#39;,&#39;2&#39;],{}) ] 12 13df = spark.createDataFrame(data=arrayData, schema = [&#39;name&#39;,&#39;knownLanguages&#39;,&#39;properties&#39;]) 14df.printSchema() 15df.show() 1root 2 |-- name: string (nullable = true) 3 |-- knownLanguages: array (nullable = true) 4 | |-- element: string (containsNull = true) 5 |-- properties: map (nullable = true) 6 | |-- key: string 7 | |-- value: string (valueContainsNull = true) 8 9+----------+--------------+--------------------+ 10| name|knownLanguages| properties| 11+----------+--------------+--------------------+ 12| James| [Java, Scala]|[eye -&gt; brown, ha...| 13| Michael|[Spark, Java,]|[eye -&gt;, hair -&gt; ...| 14| Robert| [CSharp, ]|[eye -&gt; , hair -&gt;...| 15|Washington| null| null| 16| Jefferson| [1, 2]| []| 17+----------+--------------+--------------------+ $explode –……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/spark/PySpark-%E5%9C%A8%E9%81%87%E5%88%B0map%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A4%84%E7%90%86/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
     
     
     <article class="post">
@@ -417,9 +445,6 @@
 
 
 
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
 
 
     <script src='/js/douban.js'></script>
@@ -522,17 +547,17 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/deep-learning/">Deep Learning (3)</a></li>
-    
-    <li><a href="https://whiteding.fun/categories/flink/">Flink (1)</a></li>
-    
-    <li><a href="https://whiteding.fun/categories/kafka/">Kafka (1)</a></li>
-    
-    <li><a href="https://whiteding.fun/categories/machine-learning/">Machine Learning (3)</a></li>
-    
     <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/spark/">Spark (12)</a></li>
+    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (4)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
     
     <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
     
@@ -545,23 +570,25 @@
     
     <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
     
-    <a href="https://whiteding.fun/tags/flink/">Flink</a>
-    
-    <a href="https://whiteding.fun/tags/kafka/">Kafka</a>
-    
-    <a href="https://whiteding.fun/tags/multi-task/">Multi-Task</a>
-    
-    <a href="https://whiteding.fun/tags/rank/">Rank</a>
-    
-    <a href="https://whiteding.fun/tags/softmax/">Softmax</a>
-    
-    <a href="https://whiteding.fun/tags/spark/">Spark</a>
+    <a href="https://whiteding.fun/tags/FM/">FM</a>
     
     <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
     
-    <a href="https://whiteding.fun/tags/transformer/">Transformer</a>
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
     
-    <a href="https://whiteding.fun/tags/xgb/">Xgb</a>
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/multi-task/">multi-task</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/transformer/">transformer</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
