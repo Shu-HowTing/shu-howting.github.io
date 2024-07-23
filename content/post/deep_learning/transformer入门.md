@@ -16,7 +16,7 @@ mathjax = true
 
 ![](https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/202407171131481.png)
 
-> Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的行馆细节
+> Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的实现细节
 
 ## Transformer
 

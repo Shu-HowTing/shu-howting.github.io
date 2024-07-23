@@ -141,7 +141,7 @@
 
 
         <div class="post-content">
-            Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的行馆细节 Transformer Encoder Self-attention $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$ Transformer 中token的输入表示$a$由$Word\ Embedding$ 和位置 $Positional\ Encoding$ 相加得到。 Add &amp; Norm Add &amp; Norm 层由 Add 和 Norm 两部分组成，其计算公式如下： $$\textit{LayerNorm}\big(X+\text{MultiHeadAttention}(X)\big)$$ Feed Forward Feed Forward 层比较简单，是一个两层的全连接层，第一……
+            Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的实现细节 Transformer Encoder Self-attention $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$ Transformer 中token的输入表示$a$由$Word\ Embedding$ 和位置 $Positional\ Encoding$ 相加得到。 Add &amp; Norm Add &amp; Norm 层由 Add 和 Norm 两部分组成，其计算公式如下： $$\textit{LayerNorm}\big(X+\text{MultiHeadAttention}(X)\big)$$ Feed Forward Feed Forward 层比较简单，是一个两层的全连接层，第一……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
