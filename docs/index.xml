@@ -26,6 +26,15 @@
     </item>
     
     <item>
+      <title>POSO冷启动</title>
+      <link>https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/</link>
+      <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/</guid>
+      <description>POSO POSO: Personalized Cold Start Modules for Large-scale Recommender Systems 是快手发表的一篇关于如何解决新老用户分群的文章。与传统的做法从样本上做文章不同，论文直接从模型结构上入手，希望模型能够区分两部分人群，达到一个新用户冷的效果。 Motivation 文章先分析了新用户和普通用户行为的存在差异性，然后设计实验可视化了新用户特征被淹没的现象，再提出了可嵌入到主流网络结构中的方法POSO。 按照常规的做法，一个模型想要hold住两种不一样的分布(新用户 &amp;amp;&amp;amp; 老用户)，至少得有一</description>
+    </item>
+    
+    <item>
       <title>动态权重在推荐中的应用</title>
       <link>https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/</link>
       <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
@@ -116,21 +125,21 @@
     </item>
     
     <item>
-      <title>FM算法原理</title>
-      <link>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</link>
-      <pubDate>Thu, 15 Jul 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</guid>
-      <description>FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得</description>
-    </item>
-    
-    <item>
       <title>模型特征重要性的计算</title>
       <link>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
       <pubDate>Thu, 15 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</guid>
       <description>深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。</description>
+    </item>
+    
+    <item>
+      <title>FM算法原理</title>
+      <link>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</guid>
+      <description>FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得</description>
     </item>
     
     <item>

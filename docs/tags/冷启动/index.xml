@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>冷启动 on White</title>
+    <link>https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/</link>
+    <description>Recent content in 冷启动 on White</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 17 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>POSO冷启动</title>
+      <link>https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/</link>
+      <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/</guid>
+      <description>POSO POSO: Personalized Cold Start Modules for Large-scale Recommender Systems 是快手发表的一篇关于如何解决新老用户分群的文章。与传统的做法从样本上做文章不同，论文直接从模型结构上入手，希望模型能够区分两部分人群，达到一个新用户冷的效果。 Motivation 文章先分析了新用户和普通用户行为的存在差异性，然后设计实验可视化了新用户特征被淹没的现象，再提出了可嵌入到主流网络结构中的方法POSO。 按照常规的做法，一个模型想要hold住两种不一样的分布(新用户 &amp;amp;&amp;amp; 老用户)，至少得有一</description>
+    </item>
+    
+  </channel>
+</rss>

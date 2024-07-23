@@ -90,6 +90,36 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-12-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-12-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            softmax上溢和下溢问题 解决这个问题的方法就是利用softmax的冗余性。我们可以看到对于任意一个数$a$, $x-a$和$x$在$softmax$中的结果都是一样的。 $$ \frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}=\frac{\exp ^{(x)} \exp ^{(-a)}}{\exp ^{(-a)} \sum_{i=1}^k \exp _i^{(x)}}=\frac{\exp ^{(x)}}{\sum_{i=1}^k \exp_i^{(x)}} $$ 对于一组输入，我们可以让a=max(x). 这样就可以保证x-a的最大值等于0，也就不会产生上溢的问题。同时，因为$x-a=0$, 所以$exp(0)=1$,分母就不可能为0。 $$ \begin{array}{l} \log \left(\frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}\right) &amp;=\log \left(e^{(x-a)}\right)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \\ &amp;=(x-a)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \end{array} $$……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/" title="Transformer模型理解" target="_blank">Transformer模型理解</a>
             </h1>
         </header>
@@ -150,36 +180,6 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" title="FM算法原理" target="_blank">FM算法原理</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-07-15T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-07-15
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/machine-learning' target="_blank">machine learning</a>
-  
-</div>
-
-
-        <div class="post-content">
-            FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" title="模型特征重要性的计算" target="_blank">模型特征重要性的计算</a>
             </h1>
         </header>
@@ -203,6 +203,36 @@
             深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" title="FM算法原理" target="_blank">FM算法原理</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-06-14T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-06-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -357,36 +387,6 @@
     
     
     
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2020-04-23T00:00:00Z" class="post-meta meta-date dt-published">
-    2020-04-23
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。 数据准备 1# Sample Data Frame 2jstr1 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12345,&#34;foo&#34;:&#34;bar&#34;},&#34;body&#34;:{&#34;id&#34;:111000,&#34;name&#34;:&#34;foobar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:54321,&#34;sub_sub_json&#34;:{&#34;col1&#34;:20,&#34;col2&#34;:&#34;somethong&#34;}}}}&#39; 3jstr2 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12346,&#34;foo&#34;:&#34;baz&#34;},&#34;body&#34;:{&#34;id&#34;:111002,&#34;name&#34;:&#34;barfoo&#34;,&#34;sub_json&#34;:{&#34;id&#34;:23456,&#34;sub_sub_json&#34;:{&#34;col1&#34;:30,&#34;col2&#34;:&#34;something else&#34;}}}}&#39; 4jstr3 = u&#39;{&#34;header&#34;:{&#34;id&#34;:43256,&#34;foo&#34;:&#34;foobaz&#34;},&#34;body&#34;:{&#34;id&#34;:20192,&#34;name&#34;:&#34;bazbar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:39283,&#34;sub_sub_json&#34;:{&#34;col1&#34;:50,&#34;col2&#34;:&#34;another thing&#34;}}}}&#39; 5df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)]) 1+--------------------+ 2| json| 3+--------------------+ 4|{&#34;header&#34;:{&#34;id&#34;:1...| 5|{&#34;header&#34;:{&#34;id&#34;:1...| 6|{&#34;header&#34;:{&#34;id&#34;:4...| 7+--------------------+ 如上所示，我们模拟一个DataFrame，其中只有一列，列名为json，类型为string。可以看到，json中的值为j……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
 
 
 
@@ -408,6 +408,10 @@
     
     <li >
         <a href="https://whiteding.fun/page/3/">3</a>
+    </li>
+    
+    <li >
+        <a href="https://whiteding.fun/page/4/">4</a>
     </li>
     
 
@@ -509,6 +513,10 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
     </li>
     
@@ -536,10 +544,6 @@
         <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
     </li>
     
-    <li>
-        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -550,7 +554,7 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (9)</a></li>
     
     <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
     
@@ -592,6 +596,8 @@
     <a href="https://whiteding.fun/tags/transformer/">transformer</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/">冷启动</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     

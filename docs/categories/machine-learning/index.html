@@ -154,34 +154,6 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" target="_blank">FM算法原理</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-07-15T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-07-15
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/machine-learning' target="_blank">machine learning</a>
-  
-</div>
-
-
-        <div class="post-content">
-            FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得……
-            <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-        </div>
-    </article>
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" target="_blank">模型特征重要性的计算</a>
             </h1>
         </header>
@@ -204,6 +176,34 @@
         <div class="post-content">
             深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。……
             <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" target="_blank">FM算法原理</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-06-14T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-06-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得……
+            <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
         </div>
     </article>
     
@@ -303,6 +303,10 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
     </li>
     
@@ -330,10 +334,6 @@
         <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
     </li>
     
-    <li>
-        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -344,7 +344,7 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (9)</a></li>
     
     <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
     
@@ -386,6 +386,8 @@
     <a href="https://whiteding.fun/tags/transformer/">transformer</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/">冷启动</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     

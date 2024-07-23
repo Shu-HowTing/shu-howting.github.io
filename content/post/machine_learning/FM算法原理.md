@@ -1,6 +1,6 @@
 +++
 title = "FM算法原理"
-date = "2021-07-15"
+date = "2021-06-14"
 description = "FM的算法原理"
 tags = [
   "FM"
@@ -100,15 +100,18 @@ class FM_layer(tf.keras.layers.Layer):
         self.w_reg = w_reg  # 权重w的正则项系数
         self.v_reg = v_reg  # 权重v的正则项系数
 
-    def build(self, input_shape): # 需要根据input来定义shape的变量，可在build里定义)
-        self.w0 = self.add_weight(name='w0', shape=(1,), # shape:(1,)
+    def build(self, input_shape): 
+		# shape:(1,)
+        self.w0 = self.add_weight(name='w0', shape=(1,), 
                                  initializer=tf.zeros_initializer(),
-                                 trainable=True,)
-        self.w = self.add_weight(name='w', shape=(input_shape[-1], 1), # shape:(n, 1)
-                                 initializer=tf.random_normal_initializer(), # 初始化方法
-                                 trainable=True, # 参数可训练
-                                 regularizer=tf.keras.regularizers.l2(self.w_reg)) # 正则化方法
-        self.v = self.add_weight(name='v', shape=(input_shape[-1], self.k), # shape:(n, k)
+                                 trainable=True)
+		# shape:(n, 1)
+        self.w = self.add_weight(name='w', shape=(input_shape[-1], 1), 
+                                 initializer=tf.random_normal_initializer(), 
+                                 trainable=True, 
+                                 regularizer=tf.keras.regularizers.l2(self.w_reg)) 
+        # shape:(n, k)
+        self.v = self.add_weight(name='v', shape=(input_shape[-1], self.k),
                                  initializer=tf.random_normal_initializer(),
                                  trainable=True,
                                  regularizer=tf.keras.regularizers.l2(self.v_reg))
@@ -118,15 +121,15 @@ class FM_layer(tf.keras.layers.Layer):
         if K.ndim(inputs) != 2:
             raise ValueError("Unexpected inputs dimensions %d, expect to be 2 dimensions" % (K.ndim(inputs)))
 
-        # 线性部分，相当于逻辑回归
-        linear_part = tf.matmul(inputs, self.w) + self.w0   #shape:(batchsize, 1)
-        # 交叉部分——第一项
-        inter_part1 = tf.pow(tf.matmul(inputs, self.v), 2)  #shape:(batchsize, self.k)
-        # 交叉部分——第二项
-        inter_part2 = tf.matmul(tf.pow(inputs, 2), tf.pow(self.v, 2)) #shape:(batchsize, k)
-        # 交叉结果
-        inter_part = 0.5*tf.reduce_sum(inter_part1 - inter_part2, axis=-1, keepdims=True) #shape:(batchsize, 1)
-        # 最终结果
+        # 线性部分，相当于逻辑回归  (B, 1)
+        linear_part = tf.matmul(inputs, self.w) + self.w0   
+        # 交叉部分——第一项  (B, k)
+        inter_part1 = tf.pow(tf.matmul(inputs, self.v), 2)  
+        # 交叉部分——第二项 (B, k)
+        inter_part2 = tf.matmul(tf.pow(inputs, 2), tf.pow(self.v, 2)) 
+        # 交叉结果 (B, 1)
+        inter_part = 0.5*tf.reduce_sum(inter_part1 - inter_part2, axis=-1, keepdims=True) 
+
         output = linear_part + inter_part
-        return tf.nn.sigmoid(output) #shape:(batchsize, 1)
+        return tf.nn.sigmoid(output) 
 ```

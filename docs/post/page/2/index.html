@@ -91,6 +91,36 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2021-12-01T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-12-01
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            softmax上溢和下溢问题 解决这个问题的方法就是利用softmax的冗余性。我们可以看到对于任意一个数$a$, $x-a$和$x$在$softmax$中的结果都是一样的。 $$ \frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}=\frac{\exp ^{(x)} \exp ^{(-a)}}{\exp ^{(-a)} \sum_{i=1}^k \exp _i^{(x)}}=\frac{\exp ^{(x)}}{\sum_{i=1}^k \exp_i^{(x)}} $$ 对于一组输入，我们可以让a=max(x). 这样就可以保证x-a的最大值等于0，也就不会产生上溢的问题。同时，因为$x-a=0$, 所以$exp(0)=1$,分母就不可能为0。 $$ \begin{array}{l} \log \left(\frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}\right) &amp;=\log \left(e^{(x-a)}\right)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \\ &amp;=(x-a)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \end{array} $$……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/" title="Transformer模型理解" target="_blank">Transformer模型理解</a>
             </h1>
         </header>
@@ -186,8 +216,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-07-15T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-07-15
+  <time datetime="2021-06-14T00:00:00Z" class="post-meta meta-date dt-published">
+    2021-06-14
   </time>
 
 
@@ -358,36 +388,6 @@
     
     
     
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" title="Spark解析DataFrame中的json字段" target="_blank">Spark解析DataFrame中的json字段</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2020-04-23T00:00:00Z" class="post-meta meta-date dt-published">
-    2020-04-23
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            How to parse a column of json string in Pyspark 在用$spark.sql(\ )$从Table读入数据时，DataFrame的列有时是这样一种类型：json形式的string。此时，我们通常需要去解析这个json string，从而提取我们想要的数据。 数据准备 1# Sample Data Frame 2jstr1 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12345,&#34;foo&#34;:&#34;bar&#34;},&#34;body&#34;:{&#34;id&#34;:111000,&#34;name&#34;:&#34;foobar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:54321,&#34;sub_sub_json&#34;:{&#34;col1&#34;:20,&#34;col2&#34;:&#34;somethong&#34;}}}}&#39; 3jstr2 = u&#39;{&#34;header&#34;:{&#34;id&#34;:12346,&#34;foo&#34;:&#34;baz&#34;},&#34;body&#34;:{&#34;id&#34;:111002,&#34;name&#34;:&#34;barfoo&#34;,&#34;sub_json&#34;:{&#34;id&#34;:23456,&#34;sub_sub_json&#34;:{&#34;col1&#34;:30,&#34;col2&#34;:&#34;something else&#34;}}}}&#39; 4jstr3 = u&#39;{&#34;header&#34;:{&#34;id&#34;:43256,&#34;foo&#34;:&#34;foobaz&#34;},&#34;body&#34;:{&#34;id&#34;:20192,&#34;name&#34;:&#34;bazbar&#34;,&#34;sub_json&#34;:{&#34;id&#34;:39283,&#34;sub_sub_json&#34;:{&#34;col1&#34;:50,&#34;col2&#34;:&#34;another thing&#34;}}}}&#39; 5df = spark.createDataFrame([Row(json=jstr1),Row(json=jstr2),Row(json=jstr3)]) 1+--------------------+ 2| json| 3+--------------------+ 4|{&#34;header&#34;:{&#34;id&#34;:1...| 5|{&#34;header&#34;:{&#34;id&#34;:1...| 6|{&#34;header&#34;:{&#34;id&#34;:4...| 7+--------------------+ 如上所示，我们模拟一个DataFrame，其中只有一列，列名为json，类型为string。可以看到，json中的值为j……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/Spark%E8%A7%A3%E6%9E%90DataFrame%E4%B8%AD%E7%9A%84json%E5%AD%97%E6%AE%B5/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
 
 
 
@@ -409,6 +409,10 @@
     
     <li >
         <a href="https://whiteding.fun/post/page/3/">3</a>
+    </li>
+    
+    <li >
+        <a href="https://whiteding.fun/post/page/4/">4</a>
     </li>
     
 
@@ -510,6 +514,10 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
     </li>
     
@@ -537,10 +545,6 @@
         <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
     </li>
     
-    <li>
-        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -551,7 +555,7 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (9)</a></li>
     
     <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
     
@@ -593,6 +597,8 @@
     <a href="https://whiteding.fun/tags/transformer/">transformer</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/">冷启动</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     

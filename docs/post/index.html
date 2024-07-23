@@ -181,6 +181,36 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-12-17T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-12-17
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
+  
+</div>
+
+
+        <div class="post-content">
+            POSO POSO: Personalized Cold Start Modules for Large-scale Recommender Systems 是快手发表的一篇关于如何解决新老用户分群的文章。与传统的做法从样本上做文章不同，论文直接从模型结构上入手，希望模型能够区分两部分人群，达到一个新用户冷的效果。 Motivation 文章先分析了新用户和普通用户行为的存在差异性，然后设计实验可视化了新用户特征被淹没的现象，再提出了可嵌入到主流网络结构中的方法POSO。 按照常规的做法，一个模型想要hold住两种不一样的分布(新用户 &amp;&amp; 老用户)，至少得有一……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
             </h1>
         </header>
@@ -358,36 +388,6 @@
     
     
     
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-12-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-12-01
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/machine-learning' target="_blank">machine learning</a>
-  
-</div>
-
-
-        <div class="post-content">
-            softmax上溢和下溢问题 解决这个问题的方法就是利用softmax的冗余性。我们可以看到对于任意一个数$a$, $x-a$和$x$在$softmax$中的结果都是一样的。 $$ \frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}=\frac{\exp ^{(x)} \exp ^{(-a)}}{\exp ^{(-a)} \sum_{i=1}^k \exp _i^{(x)}}=\frac{\exp ^{(x)}}{\sum_{i=1}^k \exp_i^{(x)}} $$ 对于一组输入，我们可以让a=max(x). 这样就可以保证x-a的最大值等于0，也就不会产生上溢的问题。同时，因为$x-a=0$, 所以$exp(0)=1$,分母就不可能为0。 $$ \begin{array}{l} \log \left(\frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}\right) &amp;=\log \left(e^{(x-a)}\right)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \\ &amp;=(x-a)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \end{array} $$……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
 
 
 
@@ -405,6 +405,10 @@
     
     <li >
         <a href="https://whiteding.fun/post/page/3/">3</a>
+    </li>
+    
+    <li >
+        <a href="https://whiteding.fun/post/page/4/">4</a>
     </li>
     
 
@@ -506,6 +510,10 @@
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
     </li>
     
@@ -533,10 +541,6 @@
         <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
     </li>
     
-    <li>
-        <a href="https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/" title="softmax计算优化" target="_blank">softmax计算优化</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -547,7 +551,7 @@
         <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (8)</a></li>
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (9)</a></li>
     
     <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
     
@@ -589,6 +593,8 @@
     <a href="https://whiteding.fun/tags/transformer/">transformer</a>
     
     <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/">冷启动</a>
     
     <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
     
