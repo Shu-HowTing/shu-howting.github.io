@@ -13,7 +13,7 @@
       <link>https://whiteding.fun/post/machine_learning/ordinal_regression/</link>
       <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
       <guid>https://whiteding.fun/post/machine_learning/ordinal_regression/</guid>
-      <description>像分类的回归 考虑一个场景：豆瓣电影评分预测。一共5个档位，从1星到5星。label_set = [1, 2, 3, 4, 5]。很自然的，我们可以把它当作一个经典的多分类问题，模型最后一层通过$softmax$网络输出 每一类的概率。然后用$CE\ loss$训练。但是，如果当作分类问题，似乎，我们忽略了一点，打分之间是有可比性的：5&amp;gt;4&amp;gt;3&amp;gt;2&amp;gt;1。如果当作分类问题，经过$one-hot$编码之后</description>
+      <description>像分类的回归 考虑一个场景：豆瓣电影评分预测。一共5个档位，从1星到5星。label_set = [1, 2, 3, 4, 5]。很自然的，我们可以把它当作一个经典的多分类问题，模型最后一层通过$softmax$函数输出每一类的概率。然后用$ce\ loss$训练。但是，如果当作分类问题，我们忽略了一点，打分之间是有可比性的：5&amp;gt;4&amp;gt;3&amp;gt;2&amp;gt;1。而如果当作分类问题，经过$one-hot$编码之后，每</description>
     </item>
     <item>
       <title>softmax计算优化</title>
