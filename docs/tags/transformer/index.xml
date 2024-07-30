@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>transformer on White</title>
+    <title>Transformer on White</title>
     <link>https://whiteding.fun/tags/transformer/</link>
-    <description>Recent content in transformer on White</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Transformer on White</description>
+    <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 10 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/transformer/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/tags/transformer/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Transformer的细节</title>
       <link>https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</link>
       <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</guid>
       <description>Transformer中的几个细节讨论 1. 为什么self-attention中需要$/\sqrt{d}$ 在自注意力（self-attention）机制中，将查询（Query, Q）与键（Key, K）相乘之后除以($\sqrt{d}$)，其中d是键向量的维度，这是为了稳定梯度和防止数值不稳定。 具体原因如下： 避免数值过大：在没有缩放的情况下，Q和K的点积结果会随着维度$d$的增加而变得很大。点积的结果会随</description>
     </item>
-    
     <item>
       <title>Transformer模型理解</title>
       <link>https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</link>
       <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</guid>
       <description>Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的实现细节 Transformer Encoder Self-attention $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$ Transformer 中token的输入表示$a$由$Word\ Embedding$ 和位置 $Positional\ Encoding$ 相加得到。 Add &amp;amp; Norm Add &amp;amp; Norm 层由 Add 和 Norm 两部分组成，其计算公式如下： $$\textit{LayerNorm}\big(X+\text{MultiHeadAttention}(X)\big)$$ Feed Forward Feed Forward 层比较简单，是一个两层的全连接层，第一</description>
     </item>
-    
   </channel>
 </rss>

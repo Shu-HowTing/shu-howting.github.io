@@ -4,17 +4,16 @@
     <title>特征重要性 on White</title>
     <link>https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
     <description>Recent content in 特征重要性 on White</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 15 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Jul 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>模型特征重要性的计算</title>
       <link>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
       <pubDate>Thu, 15 Jul 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</guid>
       <description>深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。</description>
     </item>
-    
   </channel>
 </rss>

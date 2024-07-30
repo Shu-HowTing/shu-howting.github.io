@@ -4,71 +4,58 @@
     <title>Categories on White</title>
     <link>https://whiteding.fun/categories/</link>
     <description>Recent content in Categories on White</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 05 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RecSys</title>
       <link>https://whiteding.fun/categories/RecSys/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/categories/RecSys/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>machine learning</title>
+      <title>Machine Learning</title>
       <link>https://whiteding.fun/categories/machine-learning/</link>
       <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/categories/machine-learning/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>deep learning</title>
+      <title>Deep Learning</title>
       <link>https://whiteding.fun/categories/deep-learning/</link>
       <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/categories/deep-learning/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>统计学</title>
       <link>https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</link>
-      <pubDate>Sat, 06 Mar 2021 00:00:00 +0000</pubDate>
-      
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
       <guid>https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>kafka</title>
+      <title>Kafka</title>
       <link>https://whiteding.fun/categories/kafka/</link>
       <pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/categories/kafka/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>flink</title>
+      <title>Flink</title>
       <link>https://whiteding.fun/categories/flink/</link>
       <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/categories/flink/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>spark</title>
+      <title>Spark</title>
       <link>https://whiteding.fun/categories/spark/</link>
       <pubDate>Fri, 12 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/categories/spark/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

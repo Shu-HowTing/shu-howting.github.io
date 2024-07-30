@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CUPED on White</title>
+    <link>https://whiteding.fun/tags/CUPED/</link>
+    <description>Recent content in CUPED on White</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/tags/CUPED/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CUPED方差缩减</title>
+      <link>https://whiteding.fun/post/statistics/CUPED%E6%96%B9%E5%B7%AE%E7%BC%A9%E5%87%8F/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      <guid>https://whiteding.fun/post/statistics/CUPED%E6%96%B9%E5%B7%AE%E7%BC%A9%E5%87%8F/</guid>
+      <description>对于成熟的产品来说，大多数的改动带来的提升可能都是微小的， 通常情况下，为提升AB实验的灵敏度，提升AB的显著性，有两种常见做法： 增加流量 增长实验时间 本质上，无论是延长实验时间还是增加流量一方面都是为了增加样本量，因为样本越多，方差越小，p值越显著，越容易检测出一些微小的改进。 如果能合理的通过统计方法降低方差，就可能更快，更少的样本的检测到微小的效果提升! 微软2013年发表过一篇论文，介绍了一种利用</description>
+    </item>
+  </channel>
+</rss>

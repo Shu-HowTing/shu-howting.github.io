@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>machine learning on White</title>
+    <title>Machine Learning on White</title>
     <link>https://whiteding.fun/categories/machine-learning/</link>
-    <description>Recent content in machine learning on White</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Machine Learning on White</description>
+    <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 15 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://whiteding.fun/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ordinal Regression</title>
       <link>https://whiteding.fun/post/machine_learning/ordinal_regression/</link>
       <pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/machine_learning/ordinal_regression/</guid>
       <description>像分类的回归 考虑一个场景：豆瓣电影评分预测。一共5个档位，从1星到5星。label_set = [1, 2, 3, 4, 5]。很自然的，我们可以把它当作一个经典的多分类问题，模型最后一层通过$softmax$网络输出 每一类的概率。然后用$CE\ loss$训练。但是，如果当作分类问题，似乎，我们忽略了一点，打分之间是有可比性的：5&amp;gt;4&amp;gt;3&amp;gt;2&amp;gt;1。如果当作分类问题，经过$one-hot$编码之后</description>
     </item>
-    
     <item>
       <title>softmax计算优化</title>
       <link>https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/</link>
       <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/machine_learning/softmax%E8%AE%A1%E7%AE%97%E4%BC%98%E5%8C%96/</guid>
       <description>softmax上溢和下溢问题 解决这个问题的方法就是利用softmax的冗余性。我们可以看到对于任意一个数$a$, $x-a$和$x$在$softmax$中的结果都是一样的。 $$ \frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}=\frac{\exp ^{(x)} \exp ^{(-a)}}{\exp ^{(-a)} \sum_{i=1}^k \exp _i^{(x)}}=\frac{\exp ^{(x)}}{\sum_{i=1}^k \exp_i^{(x)}} $$ 对于一组输入，我们可以让a=max(x). 这样就可以保证x-a的最大值等于0，也就不会产生上溢的问题。同时，因为$x-a=0$, 所以$exp(0)=1$,分母就不可能为0。 $$ \begin{array}{l} \log \left(\frac{\exp^{(x-a)}}{\sum_{i=1}^k \exp_i^{(x-a)}}\right) &amp;amp;=\log \left(e^{(x-a)}\right)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \\ &amp;amp;=(x-a)-\log \left(\sum_{i=1}^k \exp_i^{(x-a)}\right) \end{array} $$</description>
     </item>
-    
     <item>
       <title>XGBoost的原理分析以及实践</title>
       <link>https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/machine_learning/XGBoost%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</guid>
       <description>XGBoost算法 原理 任何机器学习的问题都可以从目标函数(objective function)出发，目标函数的主要由两部分组成 $损失函数+正则项$： $$ Obj(\Theta)=L(\Theta)+\Omega(\Theta) $$ 在这里，当选择树模型为基学习器时，需要正则的对象，或者说需要控制复杂度的对象就是这K颗树,通常树的参数有树的深度，叶子节点的个数，叶子节点值的取值(xgboost里称为权重weight)。 所以，我们的目标函数形式如下： $$ \mathcal{L}=\sum_{i} l\left(\hat{y_i}, y_{i}\right)+\sum_{k} \Omega\left(f_{k}\right) $$ 这里前一半代表预</description>
     </item>
-    
     <item>
       <title>模型特征重要性的计算</title>
       <link>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
       <pubDate>Thu, 15 Jul 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/machine_learning/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</guid>
       <description>深度学习的兴起，使得各种复杂的NN网络应用变得流行。但是，对于这些黑盒的模型，我们一般很难知晓哪些特征对模型的学习比较重要, 即对缺乏特征重要性的解释。这里,我们会介绍一些主流的方法，来计算模型特征的重要性。 Tree_base 树模型的解释性一般要优于NN模型，因为书模型的学习是可解释的，大多数Tree模型也都带有查看特征重要性的接口，以xgboost为例: xgboost如何用于特征选择: 缺点: 无法迁移到NN模型上。</description>
     </item>
-    
     <item>
       <title>FM算法原理</title>
       <link>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</link>
       <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</guid>
       <description>FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得</description>
     </item>
-    
   </channel>
 </rss>
