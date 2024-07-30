@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FM on White</title>
-    <link>https://whiteding.fun/tags/FM/</link>
+    <link>http://localhost:1313/tags/FM/</link>
     <description>Recent content in FM on White</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 14 Jun 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://whiteding.fun/tags/FM/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/FM/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FM算法原理</title>
-      <link>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</link>
+      <link>http://localhost:1313/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</link>
       <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
-      <guid>https://whiteding.fun/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</guid>
+      <guid>http://localhost:1313/post/machine_learning/FM%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/</guid>
       <description>FM的提出 LR为普通的线性模型，优点是复杂度低、方便求解，但缺点也很明显，没有考虑特征之间的交叉，表达能力有限。 $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i $$ FM在线性模型的基础上添加了一个多项式，用于描述特征之间的二阶交叉: $$ y=\omega_0+\sum_{i=1}^n \omega_i x_i+\sum_{i=1}^{n-1} \sum_{j=i+1}^n \omega_{i j} x_i x_j $$ 其中，$n$代表样本的特征数量，$x_i$是第$i$个特征的值， $w_0, w_i, w_{ij}$是模型参数。 问题 参数 $w_{i j}$ 学习困难, 因为对 $w_{i j}$ 进行更新时, 求得的梯度对应为 $x_i x_j$, 当且仅当 $x_i$ 与 $x_j$ 都非0时参数才会得</description>
     </item>
   </channel>

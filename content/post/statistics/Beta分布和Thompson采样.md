@@ -8,7 +8,7 @@ tags = [
   "Beta分布"
 ]
 categories = [
-  "统计学"
+  "statistics"
 ]
 draft = false
 math = true

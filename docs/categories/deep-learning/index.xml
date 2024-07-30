@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Deep Learning on White</title>
-    <link>https://whiteding.fun/categories/deep-learning/</link>
+    <link>http://localhost:1313/categories/deep-learning/</link>
     <description>Recent content in Deep Learning on White</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <lastBuildDate>Fri, 10 Dec 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://whiteding.fun/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Transformer的细节</title>
-      <link>https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</link>
+      <link>http://localhost:1313/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</link>
       <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
-      <guid>https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</guid>
+      <guid>http://localhost:1313/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/</guid>
       <description>Transformer中的几个细节讨论 1. 为什么self-attention中需要$/\sqrt{d}$ 在自注意力（self-attention）机制中，将查询（Query, Q）与键（Key, K）相乘之后除以($\sqrt{d}$)，其中d是键向量的维度，这是为了稳定梯度和防止数值不稳定。 具体原因如下： 避免数值过大：在没有缩放的情况下，Q和K的点积结果会随着维度$d$的增加而变得很大。点积的结果会随</description>
     </item>
     <item>
       <title>Transformer模型理解</title>
-      <link>https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</link>
+      <link>http://localhost:1313/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</link>
       <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
-      <guid>https://whiteding.fun/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</guid>
+      <guid>http://localhost:1313/post/deep_learning/transformer%E5%85%A5%E9%97%A8/</guid>
       <description>Transformer模型在2017年被google提出，直接基于Self-Attention结构，并且迅速取代了之前NLP任务中常用的RNN神经网络结构，成为主流。本文将探讨关于transformer模型的实现细节 Transformer Encoder Self-attention $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$ Transformer 中token的输入表示$a$由$Word\ Embedding$ 和位置 $Positional\ Encoding$ 相加得到。 Add &amp;amp; Norm Add &amp;amp; Norm 层由 Add 和 Norm 两部分组成，其计算公式如下： $$\textit{LayerNorm}\big(X+\text{MultiHeadAttention}(X)\big)$$ Feed Forward Feed Forward 层比较简单，是一个两层的全连接层，第一</description>
     </item>
     <item>
       <title>对比损失中温度系数的作用</title>
-      <link>https://whiteding.fun/post/deep_learning/softmax%E4%B8%AD%E6%B8%A9%E5%BA%A6%E7%B3%BB%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8/</link>
+      <link>http://localhost:1313/post/deep_learning/softmax%E4%B8%AD%E6%B8%A9%E5%BA%A6%E7%B3%BB%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8/</link>
       <pubDate>Sat, 15 May 2021 00:00:00 +0000</pubDate>
-      <guid>https://whiteding.fun/post/deep_learning/softmax%E4%B8%AD%E6%B8%A9%E5%BA%A6%E7%B3%BB%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8/</guid>
+      <guid>http://localhost:1313/post/deep_learning/softmax%E4%B8%AD%E6%B8%A9%E5%BA%A6%E7%B3%BB%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8/</guid>
       <description>温度系数 对比损失（Contrastive Loss）中的参数$\tau$是一个神秘的参数，大部分论文都默认采用较小的值来进行自监督对比学习（例如 $\tau = 0.05$），但是很少有文章详细讲解参数$\tau$的作用，本文将详解对比损失中的超参数 ，并借此分析对比学习的核心机制。 首先总结下本文的发现： 对比损失是一个具备困难负样本自发现性质的损失函数，这一性质对于学习高质量的自监督表示是至关重要的。关注困难样本的</description>
     </item>
   </channel>

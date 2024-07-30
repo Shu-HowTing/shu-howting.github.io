@@ -7,7 +7,7 @@ tags = [
   "CUPED"
 ]
 categories = [
-  "统计学"
+  "statistics"
 ]
 draft = false
 math = true
