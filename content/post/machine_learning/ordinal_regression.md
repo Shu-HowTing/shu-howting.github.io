@@ -87,7 +87,6 @@ $$
 #!/usr/bin/env python
 #coding=utf-8
 
-# @Time       : 2024/07/05
 # @Author     : whiteding
 # @FileName   : ordinal_regression_demo.py
 # @Reference  : https://github.com/EthanRosenthal/spacecutter 
