@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>Ordinal Regression | White</title>
+    <meta property="og:title" content="Ordinal Regression - White">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-10-15T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-10-15T00:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="DS, DeepLearning">
+    <meta name="description" content="Ordinal Regression Model">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="https://whiteding.fun/post/machine_learning/ordinal_regression/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+
+    
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@v2/dist/waline.css">
+        
+    
+
+
+</head>
+
+<body>
+    
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://whiteding.fun/">
+                        White
+                    </a>
+                
+                <p class="description">Stay foolish, Stay hungry!</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    
+                    <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
+                    
+                    
+                    <a  href="/tags/" title="&lt;i class=&#39;fas fa-tag&#39;&gt;&lt;/i&gt; 标签" > <i class='fas fa-tag'></i> 标签</a>
+                    
+                    
+                    <a  href="/archives/" title="&lt;i class=&#39;fas fa-archive&#39;&gt;&lt;/i&gt; 归档" > <i class='fas fa-archive'></i> 归档</a>
+                    
+                    
+                    <a  href="/about/" title="&lt;i class=&#39;fas fa-user&#39;&gt;&lt;/i&gt; 关于" > <i class='fas fa-user'></i> 关于</a>
+                    
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#像分类的回归">像分类的回归</a></li>
+    <li><a href="#ordinal-regression">Ordinal Regression</a></li>
+    <li><a href="#referrence">Referrence</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Ordinal Regression</h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-10-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-10-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        
+        
+        <div class="post-content">
+            <h2 id="像分类的回归">像分类的回归</h2>
+<blockquote>
+<p>考虑一个场景：豆瓣电影评分预测。一共5个档位，从1星到5星。label_set = [1, 2, 3, 4, 5]。很自然的，我们可以把它当作一个经典的多分类问题，模型最后一层通过$softmax$网络输出
+每一类的概率。然后用$CE\ loss$训练。但是，如果当作分类问题，似乎，我们忽略了一点，打分之间是有可比性的：5&gt;4&gt;3&gt;2&gt;1。如果当作分类问题，经过$one-hot$编码之后，每一个类别是无差别的。
+从这个角度看，似乎我们也可以把它当作一个线性回归问题去解决，输出一个连续的打分值，用$mse\ loss$去学习。
+那么，到底应该如何选择</p>
+</blockquote>
+<p>对于这种情况，Ordinal Regression算法似乎更适合些。</p>
+<h2 id="ordinal-regression">Ordinal Regression</h2>
+<p>说是序数“回归”，它认为本质上是一个考虑了类别间关系的分类算法。如图所示是一个概率函数的分布图。有一个分割点为$c1$,如果我们想求随机变量X小于$c1$的概率$p1=P(X&lt;=c1)$，怎么办？</p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/202407291922703.png" />   
+    </p>
+<p>很自然的我们会求该$PDF$的累积分布$CDF$, 有:
+$$
+p1=P(X&lt;=c1)= \Pi(c_{1}) - \Pi(c_{0}) = \Pi(c_{1}) - 0 = \Pi(c_{1})
+$$
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/202407291928903.png" />   
+    </p>
+<p>假设我要处理一个5档的分类问题，而上面说的随机变量就是模型的输出，那么问题可以转化为找
+到四个切分点$\theta_1,\theta_2,\theta_3,\theta_4$, 并用$P(f(x)&lt;\theta_1),P(\theta_1&lt;f(x)&lt;\theta_2),P(\theta_2&lt;f(x)&lt;\theta_3)$,
+$P(\theta_3&lt;f(x)&lt;\theta_4),P(\theta_4&lt;f(x)&lt;+\infty)$这五个概率来表示$f(x)$分别属于五个等级的概率。
+进一步结合上面的CDF的方法，可以把五个概率转化为:
+$\Pi(\theta_1-f(x))$, $\Pi(\theta_2-f(x))-\Pi(\theta_1-f(x)), \Pi(\theta_3-f(x))-\Pi(\theta_2-f(x)), \Pi(\theta_4-f(x))-\Pi(\theta_3-f(x)), 1-\Pi(\theta_4-f(x))$</p>
+<p>
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/202407241703712.png" />   
+    </p>
+<p>那么，问题来了，$f(x)$该如何表示呢？如何将它与线性模型联系起来呢？让我们先回忆一下线性回归的表达式：</p>
+<p>$$
+y^*=\mathbf{w}\cdot\mathbf{x}+\varepsilon
+$$</p>
+<p>我们根据$y^{*}$的值所处的区间来预测$y$的类别。如下：</p>
+<p>$$
+\begin{equation}
+y=\begin{cases}1 &amp; \mathrm{if~}y^{*}\leq\theta_{1}, \\
+2 &amp; \mathrm{if~}\theta_{1} &lt; y^{*} \leq \theta_{2}, \\
+3 &amp; \mathrm{if~}\theta_{2} &lt; y^{*} \leq \theta_{3}, \\
+\vdots \\
+K &amp; \mathrm{if~}\theta_{K-1}&lt;y^{*}.
+\end{cases}
+\end{equation}
+$$
+备注：
+定义 $\theta_0=-\infty\mathrm{~and~}\theta_K=\infty,y=k\text{ 当且仅当 }\theta_{k-1}&lt;y^*\leq\theta_k.$</p>
+<p>写成概率表达，如下：</p>
+<p>$$\begin{aligned}
+P(y=k\mid\mathbf{x})&amp; =P(\theta_{k-1}&lt;y^{*}\leq\theta_k\mid\mathbf{x}) \\
+&amp;=P(\theta_{k-1}&lt;\mathbf{w}\cdot\mathbf{x}+\varepsilon\leq\theta_k) \\
+&amp;=P(\theta_{k-1} - \mathbf{w}\cdot\mathbf{x} &lt; \varepsilon  \leq \theta_k - \mathbf{w}\cdot\mathbf{x})
+% &amp;=\Phi(\theta_k-\mathbf{w}\cdot\mathbf{x})-\Phi(\theta_{k-1}-\mathbf{w}\cdot\mathbf{x})
+\end{aligned}
+$$</p>
+<p>那么，如果已知$\varepsilon$的PDF，我们就可以从$\varepsilon$的CDF公式进行以上概率的计算。</p>
+<p>一般的，我们认为$\varepsilon$服从$logistic$分布,那么$\varepsilon$的CDF便是我们熟悉的$sigmoid$公式：
+$$\begin{aligned}
+P(y=k\mid\mathbf{x}) &amp;=P(\theta_{k-1} - \mathbf{w}\cdot\mathbf{x} &lt; \varepsilon  \leq \theta_k - \mathbf{w}\cdot\mathbf{x})  \\
+&amp;= \sigma(\theta_{k-1} - \mathbf{w}\cdot\mathbf{x}) - \sigma(\theta_{k} - \mathbf{w}\cdot\mathbf{x})
+\end{aligned}
+$$</p>
+<p>参考代码：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#998;font-style:italic">#!/usr/bin/env python</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#998;font-style:italic">#coding=utf-8</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="color:#998;font-style:italic"># @Time       : 2024/07/05</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="color:#998;font-style:italic"># @Author     : whiteding</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span><span style="color:#998;font-style:italic"># @FileName   : ordinal_regression_demo.py</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="color:#998;font-style:italic"># @Reference  : https://github.com/EthanRosenthal/spacecutter </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="font-weight:bold">import</span> <span style="color:#555">torch</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="font-weight:bold">import</span> <span style="color:#555">torch.nn</span> <span style="font-weight:bold">as</span> <span style="color:#555">nn</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="font-weight:bold">import</span> <span style="color:#555">torch.optim</span> <span style="font-weight:bold">as</span> <span style="color:#555">optim</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OrdinalRegressionModel</span>(nn<span style="font-weight:bold">.</span>Module):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="font-weight:bold">def</span> __init__(self, input_dim, num_classes, scale<span style="font-weight:bold">=</span><span style="color:#099">20.0</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        <span style="color:#999">super</span>(OrdinalRegressionModel, self)<span style="font-weight:bold">.</span>__init__()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>        self<span style="font-weight:bold">.</span>fc1 <span style="font-weight:bold">=</span> nn<span style="font-weight:bold">.</span>Linear(input_dim, <span style="color:#099">64</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>        self<span style="font-weight:bold">.</span>fc2 <span style="font-weight:bold">=</span> nn<span style="font-weight:bold">.</span>Linear(<span style="color:#099">64</span>, <span style="color:#099">32</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>        self<span style="font-weight:bold">.</span>fc3 <span style="font-weight:bold">=</span> nn<span style="font-weight:bold">.</span>Linear(<span style="color:#099">32</span>, <span style="color:#099">1</span>)  <span style="color:#998;font-style:italic"># 不管多少类, 输出1个scalar, 类似线性回归</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>        self<span style="font-weight:bold">.</span>num_classes <span style="font-weight:bold">=</span> num_classes
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>        num_cutpoints <span style="font-weight:bold">=</span> self<span style="font-weight:bold">.</span>num_classes <span style="font-weight:bold">-</span> <span style="color:#099">1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>        <span style="color:#998;font-style:italic"># 初始化num_cutpoints个分割点</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>        self<span style="font-weight:bold">.</span>cutpoints <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>arange(num_cutpoints)<span style="font-weight:bold">.</span>float()<span style="font-weight:bold">*</span> scale <span style="font-weight:bold">/</span> (num_classes<span style="font-weight:bold">-</span><span style="color:#099">2</span>) <span style="font-weight:bold">-</span> scale <span style="font-weight:bold">/</span> <span style="color:#099">2</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>        self<span style="font-weight:bold">.</span>cutpoints <span style="font-weight:bold">=</span> nn<span style="font-weight:bold">.</span>Parameter(self<span style="font-weight:bold">.</span>cutpoints)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    <span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">forward</span>(self, x):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>        x <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>relu(self<span style="font-weight:bold">.</span>fc1(x))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>        x <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>relu(self<span style="font-weight:bold">.</span>fc2(x))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>        x <span style="font-weight:bold">=</span> self<span style="font-weight:bold">.</span>fc3(x)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>        <span style="color:#998;font-style:italic"># [batch_size, num_classes-1]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>        y_pred <span style="font-weight:bold">=</span> self<span style="font-weight:bold">.</span>cutpoints <span style="font-weight:bold">-</span> x
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>        <span style="font-weight:bold">return</span> y_pred
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span><span style="color:#998;font-style:italic"># 损失函数</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">cumulative_logit_loss</span>(y_true, y_pred):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>    num_classes <span style="font-weight:bold">=</span> y_pred<span style="font-weight:bold">.</span>size(<span style="color:#099">1</span>) <span style="font-weight:bold">+</span> <span style="color:#099">1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    y_true <span style="font-weight:bold">=</span> y_true<span style="font-weight:bold">.</span>long()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>    <span style="color:#998;font-style:italic"># 注意, 不是softmax, 是sigmoid</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>    cumulative_probs <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>sigmoid(y_pred)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>    <span style="color:#998;font-style:italic"># [batch_size, num_classes]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>    cumulative_probs <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>cat([torch<span style="font-weight:bold">.</span>zeros_like(cumulative_probs[:, :<span style="color:#099">1</span>]), 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>                                  cumulative_probs, 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>                                  torch<span style="font-weight:bold">.</span>ones_like(cumulative_probs[:, :<span style="color:#099">1</span>])], dim<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>    probs <span style="font-weight:bold">=</span> cumulative_probs[:, <span style="color:#099">1</span>:] <span style="font-weight:bold">-</span> cumulative_probs[:, :<span style="font-weight:bold">-</span><span style="color:#099">1</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>    y_true_one_hot <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>eye(num_classes)[y_true]<span style="font-weight:bold">.</span>to(y_pred<span style="font-weight:bold">.</span>device)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>    log_probs <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>log(probs <span style="font-weight:bold">+</span> <span style="color:#099">1e-10</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span>    loss <span style="font-weight:bold">=</span> <span style="font-weight:bold">-</span>torch<span style="font-weight:bold">.</span>sum(y_true_one_hot <span style="font-weight:bold">*</span> log_probs, dim<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>    <span style="font-weight:bold">return</span> loss<span style="font-weight:bold">.</span>mean()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span><span style="color:#998;font-style:italic"># 创建模型</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>input_dim <span style="font-weight:bold">=</span> <span style="color:#099">10</span>  <span style="color:#998;font-style:italic"># 假设输入特征维度为10</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>num_classes <span style="font-weight:bold">=</span> <span style="color:#099">5</span> <span style="color:#998;font-style:italic"># 五个评分等级[0,1,2,3,4]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span>model <span style="font-weight:bold">=</span> OrdinalRegressionModel(input_dim, num_classes)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span><span style="color:#998;font-style:italic"># 训练模型</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>optimizer <span style="font-weight:bold">=</span> optim<span style="font-weight:bold">.</span>Adam(model<span style="font-weight:bold">.</span>parameters(), lr<span style="font-weight:bold">=</span><span style="color:#099">0.001</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span>criterion <span style="font-weight:bold">=</span> cumulative_logit_loss
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span><span style="color:#998;font-style:italic"># 生成训练数据</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66</span><span>X_train <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>rand(<span style="color:#099">100</span>, input_dim)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67</span><span>y_train <span style="font-weight:bold">=</span> torch<span style="font-weight:bold">.</span>randint(<span style="color:#099">0</span>, num_classes, (<span style="color:#099">100</span>,))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span><span style="color:#998;font-style:italic"># 训练循环</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span><span style="font-weight:bold">for</span> epoch <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#099">10</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span>    model<span style="font-weight:bold">.</span>train()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72</span><span>    optimizer<span style="font-weight:bold">.</span>zero_grad()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74</span><span>    outputs <span style="font-weight:bold">=</span> model(X_train)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75</span><span>    loss <span style="font-weight:bold">=</span> criterion(y_train, outputs)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77</span><span>    loss<span style="font-weight:bold">.</span>backward()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78</span><span>    optimizer<span style="font-weight:bold">.</span>step()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80</span><span>    <span style="color:#999">print</span>(<span style="color:#b84">f</span><span style="color:#b84">&#39;Epoch [</span><span style="color:#b84">{</span>epoch<span style="font-weight:bold">+</span><span style="color:#099">1</span><span style="color:#b84">}</span><span style="color:#b84">/10], Loss: </span><span style="color:#b84">{</span>loss<span style="font-weight:bold">.</span>item()<span style="color:#b84">:</span><span style="color:#b84">.4f</span><span style="color:#b84">}</span><span style="color:#b84">&#39;</span>)
+</span></span></code></pre></div><h2 id="referrence">Referrence</h2>
+<ol>
+<li><a href="https://betanalpha.github.io/assets/case_studies/ordinal_regression.html">Ordinal Regression</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ordinal_regression">Ordinal Regression</a></li>
+</ol>
+
+        </div>
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/Regression' target="_blank">Regression </a></li>
+                
+            </ul>
+            
+        </div>
+
+        <style>
+            hr {
+                opacity: 0.5;  
+                border: none;  
+                height: 1px;  
+                background-color: rgba(101, 91, 91, 0.422);  
+            }
+        </style>
+
+        <hr>
+
+
+        
+    
+
+    
+    
+    
+    
+    
+    <div id="waline"></div>
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: "#waline",
+        
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
+      });
+    </script>
+    
+        
+        
+        
+        
+
+
+    </article>
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://whiteding.fun/">White By whiteding</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+
+
+
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+
+
+
+    <script src="https://unpkg.com/@waline/client@v2/dist/waline.mjs"></script>
+
+                </div>
+
+                <div id="secondary">
+    
+    
+
+    <section class="widget">
+        
+<div class="avatar-widget">
+    <img src="/img/avatar3.png" alt="Avatar" class="avatar-image">
+
+    <p class="avatar-slogan">What's past is prologue.</p>
+    <div class="widget-list" style="display: flex" >
+        
+        <li>
+            <a class="info-icon" href="mailto:white_ding@163.com" title="email" target="_blank" style="margin-inline:5px">
+                <i class="fa fa-envelope-square fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://www.linkedin.com/in/white-ding-7b5151a7/" title="linkedin" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-linkedin fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+        <li>
+            <a class="info-icon" href="https://github.com/Shu-HowTing" title="github" target="_blank" style="margin-inline:5px">
+                <i class="fab fa-github fa-lg" style="margin-inline:8px"></i>
+            </a>
+        </li>
+        
+    </div>
+</div>
+
+
+
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"> <i class="far fa-file"></i> Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%BD%93%E6%8E%A8%E8%8D%90%E9%81%87%E5%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="当推荐遇到大模型" target="_blank">当推荐遇到大模型</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/Batch%E8%B4%9F%E9%87%87%E6%A0%B7/" title="Batch内负采样" target="_blank">Batch内负采样</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/ordinal_regression/" title="Ordinal Regression" target="_blank">Ordinal Regression</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%8F%AC%E5%9B%9E%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0/" title="召回模型的评估" target="_blank">召回模型的评估</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E5%85%B4%E8%B6%A3%E5%8F%AC%E5%9B%9E%E6%8E%A8%E8%8D%90/" title="多兴趣召回推荐" target="_blank">多兴趣召回推荐</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/" title="多任务loss优化" target="_blank">多任务loss优化</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征处理" target="_blank">推荐算法中的序列特征处理</a>
+    </li>
+    
+</ul>
+    </section>
+
+     
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'> <i class="far fa-folder"></i> Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://whiteding.fun/categories/RecSys/">RecSys (9)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/deep-learning/">deep learning (3)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/flink/">flink (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (5)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
+    
+    <li><a href="https://whiteding.fun/categories/%E7%BB%9F%E8%AE%A1%E5%AD%A6/">统计学 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'> <i class="fas fa-tag"></i> Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
+    
+    <a href="https://whiteding.fun/tags/FM/">FM</a>
+    
+    <a href="https://whiteding.fun/tags/Regression/">Regression</a>
+    
+    <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
+    
+    <a href="https://whiteding.fun/tags/flink/">flink</a>
+    
+    <a href="https://whiteding.fun/tags/kafka/">kafka</a>
+    
+    <a href="https://whiteding.fun/tags/multi-task/">multi-task</a>
+    
+    <a href="https://whiteding.fun/tags/rank/">rank</a>
+    
+    <a href="https://whiteding.fun/tags/softmax/">softmax</a>
+    
+    <a href="https://whiteding.fun/tags/spark/">spark</a>
+    
+    <a href="https://whiteding.fun/tags/transformer/">transformer</a>
+    
+    <a href="https://whiteding.fun/tags/xgb/">xgb</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%86%B7%E5%90%AF%E5%8A%A8/">冷启动</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%8F%AC%E5%9B%9E/">召回</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>
+    
+    <a href="https://whiteding.fun/tags/%E5%BA%8F%E5%88%97%E7%89%B9%E5%BE%81/">序列特征</a>
+    
+    <a href="https://whiteding.fun/tags/%E6%8E%A8%E8%8D%90/">推荐</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/">特征交叉</a>
+    
+    <a href="https://whiteding.fun/tags/%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/">特征重要性</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title"> <i class="fas fa-external-link-alt"></i> Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.instagram.com/whiteding94/" title="instagram"> <i class="fab fa-instagram fa-lg"></i> Instagram</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ding-shu-hao" title="blog"> <i class="far fa-comment fa-lg"></i> 知乎</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+
+</html>

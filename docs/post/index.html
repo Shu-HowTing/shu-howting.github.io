@@ -186,8 +186,8 @@
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2023-12-17T00:00:00Z" class="post-meta meta-date dt-published">
-    2023-12-17
+  <time datetime="2023-11-20T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-11-20
   </time>
 
 
@@ -234,6 +234,36 @@
             特征交叉范式 特征交叉指的是通过组合两个（或多个）特征来学习特征间非线性的组合高阶表达，其收益则是来自通过挖掘特征之间的共现组合，拓展了特征输入的表达，从而使得模型能更容易学习到共现组合提供的信息。 业界实现方案可以主要分为非参数化方案和参数化方案。 非参数化方案：显式的表达特征交叉ID，例如特征求交，笛卡尔积特征等。 参数化方案：主要通过模型参数隐式拟合的形式去捕捉特征的非线性组合能力，而参数化方案在D……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://whiteding.fun/post/machine_learning/ordinal_regression/" title="Ordinal Regression" target="_blank">Ordinal Regression</a>
+            </h1>
+        </header>
+        
+  <i class="far fa-calendar-alt fa-sm"></i> 
+  <time datetime="2023-10-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-10-15
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <i class="far fa-folder fa-sm"></i> 
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
+  
+</div>
+
+
+        <div class="post-content">
+            像分类的回归 考虑一个场景：豆瓣电影评分预测。一共5个档位，从1星到5星。label_set = [1, 2, 3, 4, 5]。很自然的，我们可以把它当作一个经典的多分类问题，模型最后一层通过$softmax$网络输出 每一类的概率。然后用$CE\ loss$训练。但是，如果当作分类问题，似乎，我们忽略了一点，打分之间是有可比性的：5&gt;4&gt;3&gt;2&gt;1。如果当作分类问题，经过$one-hot$编码之后……
+        </div>
+        <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/ordinal_regression/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -354,36 +384,6 @@
             在推荐领域中，行为序列特征是一种极为重要的特征。近年来，出现了很多有关行为序列特征建模的论文，研究如何将行为序列特征应用到推荐场景中，以更好挖掘用户的历史兴趣。本文将带大家梳理介绍这些论文中提出的方法。 序列特征 序列特征通常表现为时间上的跨度，具有很强的时间先后关系。如何在行为序列中挖掘用户兴趣的多样性以及实效性，是序列特模型研究的重点。 序列特征处理方法 本文将聚焦于$Pooling、attentio……
         </div>
         <p class="readmore"><a href="https://whiteding.fun/post/recsys/seq_feat/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-12-10T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-12-10
-  </time>
-
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/deep-learning' target="_blank">deep learning</a>
-  
-</div>
-
-
-        <div class="post-content">
-            Transformer中的几个细节讨论 1. 为什么self-attention中需要$/\sqrt{d}$ 在自注意力（self-attention）机制中，将查询（Query, Q）与键（Key, K）相乘之后除以($\sqrt{d}$)，其中d是键向量的维度，这是为了稳定梯度和防止数值不稳定。 具体原因如下： 避免数值过大：在没有缩放的情况下，Q和K的点积结果会随着维度$d$的增加而变得很大。点积的结果会随……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" target="_blank"> 阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
     
@@ -510,15 +510,19 @@
     </li>
     
     <li>
-        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
-    </li>
-    
-    <li>
         <a href="https://whiteding.fun/post/recsys/%E5%8A%A8%E6%80%81%E6%9D%83%E9%87%8D/" title="动态权重在推荐中的应用" target="_blank">动态权重在推荐中的应用</a>
     </li>
     
     <li>
+        <a href="https://whiteding.fun/post/recsys/POSO%E5%86%B7%E5%90%AF%E5%8A%A8/" title="POSO冷启动" target="_blank">POSO冷启动</a>
+    </li>
+    
+    <li>
         <a href="https://whiteding.fun/post/recsys/%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89/" title="推荐中的特征交叉技术" target="_blank">推荐中的特征交叉技术</a>
+    </li>
+    
+    <li>
+        <a href="https://whiteding.fun/post/machine_learning/ordinal_regression/" title="Ordinal Regression" target="_blank">Ordinal Regression</a>
     </li>
     
     <li>
@@ -535,10 +539,6 @@
     
     <li>
         <a href="https://whiteding.fun/post/recsys/seq_feat/" title="推荐算法中的序列特征处理" target="_blank">推荐算法中的序列特征处理</a>
-    </li>
-    
-    <li>
-        <a href="https://whiteding.fun/post/deep_learning/transformer%E7%9A%84%E7%BB%86%E8%8A%82%E7%90%86%E8%A7%A3/" title="Transformer的细节" target="_blank">Transformer的细节</a>
     </li>
     
 </ul>
@@ -559,7 +559,7 @@
     
     <li><a href="https://whiteding.fun/categories/kafka/">kafka (1)</a></li>
     
-    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (4)</a></li>
+    <li><a href="https://whiteding.fun/categories/machine-learning/">machine learning (5)</a></li>
     
     <li><a href="https://whiteding.fun/categories/spark/">spark (12)</a></li>
     
@@ -575,6 +575,8 @@
     <a href="https://whiteding.fun/tags/Beta%E5%88%86%E5%B8%83/">Beta分布</a>
     
     <a href="https://whiteding.fun/tags/FM/">FM</a>
+    
+    <a href="https://whiteding.fun/tags/Regression/">Regression</a>
     
     <a href="https://whiteding.fun/tags/Thompson/">Thompson</a>
     

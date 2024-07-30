@@ -1,24 +1,27 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-	<meta name="generator" content="Hugo 0.114.0">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>White | Stay foolish, Stay hungry!</title>
-    <meta property="og:title" content="White | Stay foolish, Stay hungry!">
-    <meta property="og:type" content="website">
+    <title>Regression | White</title>
+    <meta property="og:title" content="Regression - White">
+    <meta property="og:type" content="article">
+        
+        
     <meta name="Keywords" content="DS, DeepLearning">
-    <meta name="description" content="">
-    <meta property="og:url" content="https://whiteding.fun/">
+    <meta name="description" content="Regression">
+        
+    <meta name="author" content="whiteding">
+    <meta property="og:url" content="https://whiteding.fun/tags/Regression/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/index.xml" title="White" />
+    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/tags/Regression/index.xml" title="White" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -48,17 +51,15 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <h1>
-                        <a id="logo" href="https://whiteding.fun/">
-                            White
-                        </a>
-                    </h1>
+                    <a id="logo" href="https://whiteding.fun/">
+                        White
+                    </a>
                 
                 <p class="description">Stay foolish, Stay hungry!</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    <a class="" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
                     
                     <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
                     
@@ -86,17 +87,24 @@
                     
 <div class="res-cons">
     
+    <h3 class="archive-title">
+        包含标签
+        <span class="keyword">Regression</span>
+        articles
+    </h3>
+    
+
     
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/" title="Spark入门" target="_blank">Spark入门</a>
+                <a href="https://whiteding.fun/post/machine_learning/ordinal_regression/" target="_blank">Ordinal Regression</a>
             </h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2019-08-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2019-08-01
+  <time datetime="2023-10-15T00:00:00Z" class="post-meta meta-date dt-published">
+    2023-10-15
   </time>
 
 
@@ -104,79 +112,21 @@
   <span>&nbsp;|</span>
   
     <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
+    <a href='/categories/machine-learning' target="_blank">machine learning</a>
   
 </div>
 
 
         <div class="post-content">
-            生态： ![image]( Spark Core：包含Spark的基本功能；尤其是定义RDD的API、操作以及这两者上的动作。其他Spark的库都是构建在RDD和Spark Core之上的 Spark SQL：提供通过Apache Hive的SQL变体Hive查询语言（HiveQL）与Spark进行交互的API。每个数据库表被当做一个RDD，Spark SQL查询被转换为Spark操作。 Spark Streaming：对实时数据流进行处理和控制。Spar……
+            像分类的回归 考虑一个场景：豆瓣电影评分预测。一共5个档位，从1星到5星。label_set = [1, 2, 3, 4, 5]。很自然的，我们可以把它当作一个经典的多分类问题，模型最后一层通过$softmax$网络输出 每一类的概率。然后用$CE\ loss$训练。但是，如果当作分类问题，似乎，我们忽略了一点，打分之间是有可比性的：5&gt;4&gt;3&gt;2&gt;1。如果当作分类问题，经过$one-hot$编码之后……
+            <p class="readmore"><a href="https://whiteding.fun/post/machine_learning/ordinal_regression/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
         </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/spark%E5%85%A5%E9%97%A8/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
     </article>
     
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/spark/MapReduce/" title="MapReduce原理解析" target="_blank">MapReduce原理解析</a>
-            </h1>
-        </header>
-        
-  <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2019-06-01T00:00:00Z" class="post-meta meta-date dt-published">
-    2019-06-01
-  </time>
 
-
-<div class="post-meta meta-category">
-  <span>&nbsp;|</span>
-  
-    <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/spark' target="_blank">spark</a>
-  
-</div>
-
-
-        <div class="post-content">
-            Hadoop简介 Hadoop就是一个实现了Google云计算系统的开源系统，包括并行计算模型Map/Reduce，分布式文件系统HDFS，以及分布式数据库Hbase，同时Hadoop的相关项目也很丰富，包括ZooKeeper，Pig，Chukwa，Hive，Hbase，Mahout，flume等. 这里详细分解这里面的概念让大家通过这篇文章了解到底是什么hadoop： Map/Reduce： MapRe……
-        </div>
-        <p class="readmore"><a href="https://whiteding.fun/post/spark/MapReduce/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
-    </article>
-    
-    
     
 
 
-
-<ol class="page-navigator">
-    
-    <li class="prev">
-        <a href="https://whiteding.fun/page/3/">Previous</a>
-    </li>
-    
-
-    
-    <li >
-        <a href="https://whiteding.fun/">1</a>
-    </li>
-    
-    <li >
-        <a href="https://whiteding.fun/page/2/">2</a>
-    </li>
-    
-    <li >
-        <a href="https://whiteding.fun/page/3/">3</a>
-    </li>
-    
-    <li  class="current">
-        <a href="https://whiteding.fun/page/4/">4</a>
-    </li>
-    
-
-    
-</ol>
 
 
 
