@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Multi-Task on White</title>
-    <link>http://localhost:1313/tags/multi-task/</link>
-    <description>Recent content in Multi-Task on White</description>
-    <generator>Hugo</generator>
+    <title>multi-task on White</title>
+    <link>https://whiteding.fun/tags/multi-task/</link>
+    <description>Recent content in multi-task on White</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 05 Aug 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/multi-task/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteding.fun/tags/multi-task/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>多任务loss优化</title>
-      <link>http://localhost:1313/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/</link>
+      <link>https://whiteding.fun/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/</link>
       <pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/</guid>
+      
+      <guid>https://whiteding.fun/post/recsys/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%8D%9F%E5%A4%B1%E4%BC%98%E5%8C%96/</guid>
       <description>多任务学习是推荐系统中常见的技术实现. 在很多推荐与排序场景中，业务目标通常有多个，找到一种综合排序方法使得多个目标都达到整体最优，才能实现受益最大化。 多任务学习 多任务学习经常使用联合训练(Joint-train)的模式进行多任务优化学习，公式如下： $$ L=\min_\theta \sum_{t=1}^T \alpha^t L^t\left(\theta^{s h}, \theta^t\right) $$ 公式$\theta^{t}$是任务$t$公式的独享参数，$\theta^{sh}$是所有任务的共享参数, $\alpha^t$是任务$t$</description>
     </item>
+    
   </channel>
 </rss>

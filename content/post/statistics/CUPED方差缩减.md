@@ -48,13 +48,13 @@ Covariate适用于连续变量。需要寻找和实验核心指标(Y)存在高�
 $$
 \begin{aligned}
     Y\_{i}^{cov}& =Y_i-\theta(X_i-E(X)) \\\\
-    \theta& =cov(X,Y)/cov(X) \\\\
+    \theta& =cov(X,Y)/var(X) \\\\
 \end{aligned}
 $$
 
 原始方差和缩减之后的方差关系:
 $$
-Var(\hat{Y}\_{cov}) =Var(\hat{Y})*(1-\rho^2) \\\\
+Var(Y\_{cov}) =Var(Y)*(1-\rho^2) \\\\
 $$
 > $where\~\rho = cor(Y, X)\~is\~the\~correlation\~between\~Y\~and\~X$
 
