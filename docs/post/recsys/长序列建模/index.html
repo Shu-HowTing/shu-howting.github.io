@@ -7,21 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>Thompson | White</title>
-    <meta property="og:title" content="Thompson - White">
+    <title>长序列建模 | White</title>
+    <meta property="og:title" content="长序列建模 - White">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content='2024-09-02T00:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2024-09-02T00:00:00&#43;08:00'>
         
     <meta name="Keywords" content="DS, DeepLearning">
-    <meta name="description" content="Thompson">
+    <meta name="description" content="推荐中的长序列建模">
         
     <meta name="author" content="whiteding">
-    <meta property="og:url" content="https://whiteding.fun/tags/Thompson/">
+    <meta property="og:url" content="https://whiteding.fun/post/recsys/%E9%95%BF%E5%BA%8F%E5%88%97%E5%BB%BA%E6%A8%A1/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://whiteding.fun/tags/Thompson/index.xml" title="White" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -59,7 +62,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
+                    <a class=" current" href="https://whiteding.fun/"> <i class="fas fa-home"></i> Home</a>
                     
                     <a  href="/categories/" title="&lt;i class=&#39;fas fa-layer-group&#39;&gt;&lt;/i&gt; 分类" > <i class='fas fa-layer-group'></i> 分类</a>
                     
@@ -86,25 +89,129 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
-    
-    <h3 class="archive-title">
-        包含标签
-        <span class="keyword">Thompson</span>
-        articles
-    </h3>
-    
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -250px;
+        padding: 5px 8px;
+         
+        font-family: serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 
-    
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 10 auto;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 14px;
+         
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 10px;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+         
+        margin: 0.5em;
+        line-height: 1.8em;
+        color: rgb(116, 69, 47);
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 220px;">
+    <h2 class="post-toc-title"> <i class="fas fa-folder-open"></i> Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#长序列建模">长序列建模</a>
+      <ul>
+        <li><a href="#sim">SIM</a>
+          <ul>
+            <li><a href="#gsu">GSU</a></li>
+            <li><a href="#esu">ESU</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
     <article class="post">
         <header>
-            <h1 class="post-title">
-                <a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" target="_blank">Beta分布和Thompson采样</a>
-            </h1>
+            <h1 class="post-title">长序列建模</h1>
         </header>
         
   <i class="far fa-calendar-alt fa-sm"></i> 
-  <time datetime="2021-03-06T00:00:00Z" class="post-meta meta-date dt-published">
-    2021-03-06
+  <time datetime="2024-09-02T00:00:00Z" class="post-meta meta-date dt-published">
+    2024-09-02
   </time>
 
 
@@ -112,24 +219,92 @@
   <span>&nbsp;|</span>
   
     <i class="far fa-folder fa-sm"></i> 
-    <a href='/categories/statistics' target="_blank">statistics</a>
+    <a href='/categories/RecSys' target="_blank">RecSys</a>
   
 </div>
 
 
+        
+        
         <div class="post-content">
-            $Beta$分布 $Beta$分布是一个定义在[0,1]区间上的连续概率分布族，它有两个正值参数，称为形状参数，一般用$\alpha$和$\beta$表示 $Beta$分布的概率密度为： $$ f(x ; \alpha, \beta)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\int_{0}^{1} u^{\alpha-1}(1-u)^{\beta-1} d u}=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha-1}(1-x)^{\beta-1}=\frac{1}{B(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1} $$ 随机变量$X$服从参数为$\alpha, \beta$的$beta$分布，一般记作： $$ X \sim \operatorname {Beta} (\alpha, \beta) $$ $Beta$分布的期望： $$ \frac{\alpha}{\alpha + \beta} $$ $Beta$分布的方差： $$ \frac{\alpha \beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)} $$ $Beta$分布的概率密度图……
-            <p class="readmore"><a href="https://whiteding.fun/post/statistics/Beta%E5%88%86%E5%B8%83%E5%92%8CThompson%E9%87%87%E6%A0%B7/" target="_blank">阅读全文 <i class="fas fa-chevron-right fa-sm"></i> </a></p>
+            <blockquote>
+<p>推荐模型中，序列建模是一个重要话题。如$DIN$、$BST$等都已经成为经典模型。但是这些模型都是聚焦在用户的短期（实时）兴趣，对于用户的长期兴趣无法精确捕捉。这个时候，就需要对用户的长期行为序列进行建模。</p>
+</blockquote>
+<h2 id="长序列建模">长序列建模</h2>
+<p>长序列一般是指规模在千或者万级别的行为序列。对于这种级别的序列进行建模的难点在于，计算时间复杂度高，开销大，对线上服务的计算延迟提出了很大的挑战。所以研究的重点大多集中在如何降低模型的复杂度，以满足线上服务的延时要求。</p>
+<p>业内一般是使用两阶段(泛搜索+精准排序)建模方案, 首先先从用户长序列中检索出与目标Item相近的$top-k$个行为, 再用这$top-k$个行为组成序列与目标Item做Target Attention。两阶段建模需要考虑检索效率以及两阶段的一致性, 比较有代表性的工作有阿里的SIM和ETA, 美团的SDIM,以及快手的TWIN, 下面分别介绍这些方法。</p>
+<h3 id="sim">SIM</h3>
+<p>SIM是一种级联的两阶段建模方案, 第1阶段使用泛搜索单元(General Search Unit, 简称GSU)从用户行为长序列中检索出$top-k$个行为组成序列,第2阶段使用抽取搜索单元(Exact Search Unit, 简称ESU)进行精细化用户兴趣建模, 其整体框架如下图所示:
+
+        <img class="mx-auto" alt="" src="https://markdown-1258220306.cos.ap-shenzhen-fsi.myqcloud.com/img/202409111618947.png" />   
+    </p>
+<h4 id="gsu">GSU</h4>
+<p>SIM给出了两种从长序列中搜索$top-k$行为的实现方式: $Hard Search$和$Soft Search$。通常来说, $Hard Search实$现简单, 线上性能更强, 而$Soft Search$上限更高, 对工程基建会有一定的要求。论文里, 尽管Soft Search的离线效果稍微好一些, 但权衡收益和资源消耗, 淘宝最终使用Hard Search部署SIM, 下面分别介绍两种实现方法。</p>
+<ul>
+<li>
+<p>$Hard Search$</p>
+</li>
+<li>
+<p>$Soft Search$</p>
+</li>
+</ul>
+<h4 id="esu">ESU</h4>
+
         </div>
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E6%8E%A8%E8%8D%90' target="_blank">推荐 </a></li>
+                
+                <li><a href='/tags/%E9%95%BF%E5%BA%8F%E5%88%97' target="_blank">长序列 </a></li>
+                
+            </ul>
+            
+        </div>
+
+        <style>
+            hr {
+                opacity: 0.5;  
+                border: none;  
+                height: 1px;  
+                background-color: rgba(101, 91, 91, 0.422);  
+            }
+        </style>
+
+        <hr>
+
+
+        
+    
+
+    
+    
+    
+    
+    
+    <div id="waline"></div>
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: "#waline",
+        
+        serverURL: "https:\/\/white-waline.netlify.app\/.netlify\/functions\/comment",
+        lang: "zh-CN",
+        placeholder: "说点什么吧..."
+        
+      });
+    </script>
+    
+        
+        
+        
+        
+
+
     </article>
-    
-
-    
-
-
-
-
-
 </div>
 
                     <footer id="footer">
@@ -150,11 +325,96 @@
 </footer>
 
 
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 
 
 
 
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
 
 
 
